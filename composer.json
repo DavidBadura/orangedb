@@ -1,0 +1,21 @@
+{
+    "name": "davidbadura/orangedb",
+    "description": "Readonly Filesystem Database | Object-File Mapping",
+    "keywords": ["database", "yaml", "json", "database"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [{
+        "name" : "David Badura",
+        "email" : "d.badura@gmx.de"
+    }],
+    "require": {
+        "symfony/yaml": "^3.0",
+        "ocramius/generated-hydrator": "^1.2",
+        "doctrine/instantiator": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "DavidBadura\\OrangeDb\\": "src"
+        }
+    }
+}
