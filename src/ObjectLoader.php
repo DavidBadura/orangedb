@@ -5,6 +5,7 @@ namespace DavidBadura\OrangeDb;
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
 use Doctrine\Instantiator\Instantiator;
 use GeneratedHydrator\Configuration;
+use Zend\Hydrator\HydratorInterface;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
@@ -20,6 +21,11 @@ class ObjectLoader
      * @var Instantiator
      */
     private $instantiator;
+
+    /**
+     * @var HydratorInterface[]
+     */
+    private $hydratorInstances = [];
 
     /**
      * @param AdapterInterface $adapter
@@ -54,13 +60,19 @@ class ObjectLoader
 
     /**
      * @param string $class
-     * @return object
+     * @return HydratorInterface
      */
     private function createHydrator($class)
     {
+        if (isset($this->hydratorInstances[$class])) {
+            return $this->hydratorInstances[$class];
+        }
+
         $config = new Configuration($class);
         $hydratorClass = $config->createFactory()->getHydratorClass();
 
-        return new $hydratorClass();
+        $this->hydratorInstances[$class] = new $hydratorClass();
+
+        return $this->hydratorInstances[$class];
     }
 }
