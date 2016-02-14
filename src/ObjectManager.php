@@ -1,6 +1,7 @@
 <?php
 
 namespace DavidBadura\OrangeDb;
+
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
 
 /**
