@@ -2,6 +2,8 @@
 
 namespace DavidBadura\OrangeDb\Adapter;
 
+use Webmozart\PathUtil\Path;
+
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
@@ -31,7 +33,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function findFile($type, $identifier, $extension)
     {
-        $file = $this->directory . '/' . strtolower($type) . '/' . $identifier . '.' . $extension;
+        $file = Path::join($this->directory, strtolower($type), $identifier . '.' . $extension);
 
         if (!file_exists($file)) {
             throw new \Exception();

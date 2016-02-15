@@ -2,12 +2,30 @@
 
 namespace DavidBadura\OrangeDb\Adapter;
 
+use Webmozart\Json\JsonDecoder;
+
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
 class JsonAdapter extends AbstractAdapter
 {
+    /**
+     * @var JsonDecoder
+     */
+    private $decoder;
+
+    /**
+     * @param string $directory
+     */
+    public function __construct($directory)
+    {
+        parent::__construct($directory);
+
+        $this->decoder = new JsonDecoder();
+        $this->decoder->setObjectDecoding(JsonDecoder::ASSOC_ARRAY);
+    }
+
     /**
      * @param string $type
      * @param string $identifier
@@ -16,6 +34,6 @@ class JsonAdapter extends AbstractAdapter
      */
     public function load($type, $identifier)
     {
-        return json_decode(file_get_contents($this->findFile($type, $identifier, 'json')), true);
+        return $this->decoder->decodeFile($this->findFile($type, $identifier, 'json'));
     }
 }
