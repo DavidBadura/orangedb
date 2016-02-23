@@ -53,7 +53,7 @@ class ObjectLoader
 
         /** @var PropertyMetadata $property */
         foreach ($metadata->propertyMetadata as $property) {
-            $value = $array[$property->name];
+            $value = isset($array[$property->name]) ? $array[$property->name] : null;
 
             if ($property->type) {
                 $type = $this->manager->getTypeRegisty()->get($property->type);
