@@ -9,10 +9,10 @@ namespace DavidBadura\OrangeDb\Adapter;
 interface AdapterInterface
 {
     /**
-     * @param string $type
+     * @param string $collection
      * @param string $identifier
      *
      * @return array
      */
-    public function load($type, $identifier);
+    public function load($collection, $identifier);
 }

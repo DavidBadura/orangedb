@@ -5,7 +5,7 @@ namespace Model;
 use DavidBadura\OrangeDb\Annotation as DB;
 
 /**
- * @DB\Entity(package="building")
+ * @DB\Document(collection="building")
  */
 class Building
 {

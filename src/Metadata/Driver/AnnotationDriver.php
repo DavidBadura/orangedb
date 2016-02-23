@@ -2,9 +2,9 @@
 
 namespace DavidBadura\OrangeDb\Metadata\Driver;
 
+use DavidBadura\OrangeDb\Annotation\Document;
 use DavidBadura\OrangeDb\Annotation\EmbedMany;
 use DavidBadura\OrangeDb\Annotation\EmbedOne;
-use DavidBadura\OrangeDb\Annotation\Entity;
 use DavidBadura\OrangeDb\Annotation\Id;
 use DavidBadura\OrangeDb\Annotation\ReferenceKey;
 use DavidBadura\OrangeDb\Annotation\ReferenceMany;
@@ -50,8 +50,8 @@ class AnnotationDriver implements DriverInterface
         $classAnnotations = $this->reader->getClassAnnotations($class);
 
         foreach ($classAnnotations as $annotation) {
-            if ($annotation instanceof Entity) {
-                $classMetadata->package = $annotation->package;
+            if ($annotation instanceof Document) {
+                $classMetadata->collection = $annotation->collection ?: $class->getShortName();
                 $classMetadata->repository = $annotation->repository;
             }
         }

@@ -12,7 +12,7 @@ class ClassMetadata extends MergeableClassMetadata
     /**
      * @var string
      */
-    public $package;
+    public $collection;
 
     /**
      * @var string

@@ -23,7 +23,7 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * @param string $type
+     * @param string $collection
      * @param string $identifier
      * @param string $extension
      *
@@ -31,9 +31,9 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @throws \Exception
      */
-    public function findFile($type, $identifier, $extension)
+    public function findFile($collection, $identifier, $extension)
     {
-        $file = Path::join($this->directory, strtolower($type), $identifier . '.' . $extension);
+        $file = Path::join($this->directory, strtolower($collection), $identifier . '.' . $extension);
 
         if (!file_exists($file)) {
             throw new \Exception();

@@ -7,12 +7,12 @@ namespace DavidBadura\OrangeDb\Annotation;
  *
  * @Annotation
  */
-class Entity
+class Document
 {
     /**
      * @var string
      */
-    public $package;
+    public $collection;
 
     /**
      * @var string

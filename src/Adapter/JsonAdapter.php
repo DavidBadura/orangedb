@@ -27,13 +27,13 @@ class JsonAdapter extends AbstractAdapter
     }
 
     /**
-     * @param string $type
+     * @param string $collection
      * @param string $identifier
      *
      * @return array
      */
-    public function load($type, $identifier)
+    public function load($collection, $identifier)
     {
-        return $this->decoder->decodeFile($this->findFile($type, $identifier, 'json'));
+        return $this->decoder->decodeFile($this->findFile($collection, $identifier, 'json'));
     }
 }

@@ -23,13 +23,15 @@ class CallbackAdapter implements AdapterInterface
 
     /**
      *
-     * @param string $type
+     * @param string $collection
      * @param string $identifier
      *
      * @return array
      */
-    public function load($type, $identifier)
+    public function load($collection, $identifier)
     {
-        return $this->callback($type, $identifier);
+        $callback = $this->callback;
+
+        return $callback($collection, $identifier);
     }
 }

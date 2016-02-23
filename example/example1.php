@@ -4,27 +4,26 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use DavidBadura\OrangeDb\Adapter\YamlAdapter;
 use DavidBadura\OrangeDb\Annotation as DB;
-use DavidBadura\OrangeDb\ObjectManager;
+use DavidBadura\OrangeDb\DocumentManager;
 
 
-
-class UserRepository extends \DavidBadura\OrangeDb\Repository\ObjectRepository
+class UserRepository extends \DavidBadura\OrangeDb\Repository\DocumentRepository
 {
 
 }
 
-$objectManager = new ObjectManager(new YamlAdapter(__DIR__ . '/data'));
-$user = $objectManager->getRepository(User::class)->find('john');
+$manager = new DocumentManager(new YamlAdapter(__DIR__ . '/data'));
+$user = $manager->getRepository(User::class)->find('john');
 
 
 dump($user);
-dump($objectManager->getRepository(User::class));
+dump($manager->getRepository(User::class));
 
 
 
 
 /**
- * @DB\Entity(repository="UserRepository")
+ * @DB\Document(repository="UserRepository")
  */
 class User
 {

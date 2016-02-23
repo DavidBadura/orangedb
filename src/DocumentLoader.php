@@ -10,10 +10,10 @@ use Doctrine\Instantiator\Instantiator;
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
-class ObjectLoader
+class DocumentLoader
 {
     /**
-     * @var ObjectManager
+     * @var DocumentManager
      */
     private $manager;
 
@@ -28,10 +28,10 @@ class ObjectLoader
     private $instantiator;
 
     /**
-     * @param ObjectManager $manager
+     * @param DocumentManager $manager
      * @param AdapterInterface $adapter
      */
-    public function __construct(ObjectManager $manager, AdapterInterface $adapter)
+    public function __construct(DocumentManager $manager, AdapterInterface $adapter)
     {
         $this->manager = $manager;
         $this->adapter = $adapter;
@@ -48,7 +48,7 @@ class ObjectLoader
     {
         $metadata = $this->manager->getMetadataFor($class);
 
-        $data = $this->adapter->load($metadata->package, $identifier);
+        $data = $this->adapter->load($metadata->collection, $identifier);
 
         if ($metadata->identifier) {
             $data[$metadata->identifier] = $identifier;

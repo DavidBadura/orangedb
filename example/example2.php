@@ -6,13 +6,13 @@ require_once __DIR__ . '/Material.php';
 require_once __DIR__ . '/Building.php';
 
 use DavidBadura\OrangeDb\Adapter\YamlAdapter;
-use DavidBadura\OrangeDb\ObjectManager;
+use DavidBadura\OrangeDb\DocumentManager;
 use Model\Building;
 
-$objectManager = new ObjectManager(new YamlAdapter(__DIR__ . '/data'));
+$manager = new DocumentManager(new YamlAdapter(__DIR__ . '/data'));
 
 /** @var Building $house */
-$house = $objectManager->getRepository(Building::class)->find('house');
+$house = $manager->getRepository(Building::class)->find('house');
 
 dump($house);
 

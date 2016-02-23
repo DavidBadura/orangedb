@@ -12,7 +12,7 @@ use Metadata\MetadataFactory;
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
-class ObjectManager
+class DocumentManager
 {
     /**
      * @var IdentityMap
@@ -20,7 +20,7 @@ class ObjectManager
     private $identityMap;
 
     /**
-     * @var ObjectLoader
+     * @var DocumentLoader
      */
     private $loader;
 
@@ -45,7 +45,7 @@ class ObjectManager
     public function __construct(AdapterInterface $adapter)
     {
         $this->identityMap = new IdentityMap();
-        $this->loader = new ObjectLoader($this, $adapter);
+        $this->loader = new DocumentLoader($this, $adapter);
         $this->typeRegistry = new TypeRegistry();
         $this->metadataFactory = new MetadataFactory(new AnnotationDriver());
         $this->repositoryFactory = new RepositoryFactory();
@@ -72,7 +72,7 @@ class ObjectManager
 
     /**
      * @param string $class
-     * @return Repository\ObjectRepository
+     * @return Repository\DocumentRepository
      */
     public function getRepository($class)
     {

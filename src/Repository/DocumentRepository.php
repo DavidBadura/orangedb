@@ -2,16 +2,16 @@
 
 namespace DavidBadura\OrangeDb\Repository;
 
+use DavidBadura\OrangeDb\DocumentManager;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
-use DavidBadura\OrangeDb\ObjectManager;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
-class ObjectRepository
+class DocumentRepository
 {
     /**
-     * @var ObjectManager
+     * @var DocumentManager
      */
     protected $manager;
 
@@ -21,10 +21,10 @@ class ObjectRepository
     private $metadata;
 
     /**
-     * @param ObjectManager $manager
+     * @param DocumentManager $manager
      * @param ClassMetadata $metadata
      */
-    public function __construct(ObjectManager $manager, ClassMetadata $metadata)
+    public function __construct(DocumentManager $manager, ClassMetadata $metadata)
     {
         $this->manager = $manager;
         $this->metadata = $metadata;
