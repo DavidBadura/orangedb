@@ -9,7 +9,7 @@ use DavidBadura\OrangeDb\ObjectManager;
 $objectManager = new ObjectManager(new YamlAdapter(__DIR__ . '/data'));
 $user = $objectManager->find(User::class, 'john');
 
-var_dump($user);
+dump($user);
 
 class User
 {

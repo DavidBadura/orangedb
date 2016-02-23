@@ -1,7 +1,7 @@
 {
     "name": "davidbadura/orangedb",
     "description": "Readonly Filesystem Database | Object-File Mapping",
-    "keywords": ["database", "yaml", "json", "database"],
+    "keywords": ["database", "filesystem", "yaml", "json", "annotation"],
     "type": "library",
     "license": "MIT",
     "authors": [{
@@ -20,5 +20,8 @@
         "psr-4": {
             "DavidBadura\\OrangeDb\\": "src"
         }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^3.0"
     }
 }
