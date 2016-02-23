@@ -13,4 +13,9 @@ class ClassMetadata extends MergeableClassMetadata
      * @var string
      */
     public $identifier;
+
+    /**
+     * @var string
+     */
+    public $repository;
 }

@@ -4,6 +4,7 @@ namespace DavidBadura\OrangeDb\Metadata\Driver;
 
 use DavidBadura\OrangeDb\Annotation\EmbedMany;
 use DavidBadura\OrangeDb\Annotation\EmbedOne;
+use DavidBadura\OrangeDb\Annotation\Entity;
 use DavidBadura\OrangeDb\Annotation\Id;
 use DavidBadura\OrangeDb\Annotation\ReferenceMany;
 use DavidBadura\OrangeDb\Annotation\ReferenceOne;
@@ -46,6 +47,12 @@ class AnnotationDriver implements DriverInterface
         $classMetadata = new ClassMetadata($class->getName());
 
         $classAnnotations = $this->reader->getClassAnnotations($class);
+
+        foreach ($classAnnotations as $annotation) {
+            if ($annotation instanceof Entity) {
+                $classMetadata->repository = $annotation->repository;
+            }
+        }
 
         $classMetadata->identifier = $this->findIdentifer($class);
 

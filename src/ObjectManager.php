@@ -5,9 +5,9 @@ namespace DavidBadura\OrangeDb;
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
 use DavidBadura\OrangeDb\Metadata\Driver\AnnotationDriver;
+use DavidBadura\OrangeDb\Repository\RepositoryFactory;
 use DavidBadura\OrangeDb\Type\TypeRegistry;
 use Metadata\MetadataFactory;
-use Metadata\MetadataFactoryInterface;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
@@ -30,9 +30,14 @@ class ObjectManager
     private $typeRegistry;
 
     /**
-     * @var MetadataFactoryInterface
+     * @var MetadataFactory
      */
     private $metadataFactory;
+
+    /**
+     * @var RepositoryFactory
+     */
+    private $repositoryFactory;
 
     /**
      * @param AdapterInterface $adapter
@@ -43,6 +48,7 @@ class ObjectManager
         $this->loader = new ObjectLoader($this, $adapter);
         $this->typeRegistry = new TypeRegistry();
         $this->metadataFactory = new MetadataFactory(new AnnotationDriver());
+        $this->repositoryFactory = new RepositoryFactory();
     }
 
     /**
@@ -62,6 +68,15 @@ class ObjectManager
         $this->identityMap->add($className, $identifier, $object);
 
         return $object;
+    }
+
+    /**
+     * @param string $class
+     * @return Repository\ObjectRepository
+     */
+    public function getRepository($class)
+    {
+        return $this->repositoryFactory->getRepository($this, $class);
     }
 
     /**

@@ -6,11 +6,26 @@ use DavidBadura\OrangeDb\Adapter\YamlAdapter;
 use DavidBadura\OrangeDb\Annotation as DB;
 use DavidBadura\OrangeDb\ObjectManager;
 
+
+
+class UserRepository extends \DavidBadura\OrangeDb\Repository\ObjectRepository
+{
+
+}
+
 $objectManager = new ObjectManager(new YamlAdapter(__DIR__ . '/data'));
-$user = $objectManager->find(User::class, 'john');
+$user = $objectManager->getRepository(User::class)->find('john');
+
 
 dump($user);
+dump($objectManager->getRepository(User::class));
 
+
+
+
+/**
+ * @DB\Entity(repository="UserRepository")
+ */
 class User
 {
     /**
