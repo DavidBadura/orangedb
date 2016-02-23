@@ -16,7 +16,7 @@ $house = $objectManager->getRepository(Building::class)->find('house');
 
 dump($house);
 
-foreach ($house->getConstructionCosts() as $key => $material) {
+foreach ($house->getConstructionCosts() as $material => $value) {
     dump($material);
-    dump($house->getConstructionCosts()[$material]);
+    dump($value);
 }

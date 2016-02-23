@@ -3,6 +3,7 @@
 namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
+use DavidBadura\OrangeDb\Collection\ObjectCollection;
 use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
 use Doctrine\Instantiator\Instantiator;
 
@@ -98,7 +99,7 @@ class ObjectLoader
             if ($property->reference == PropertyMetadata::REFERENCE_KEY) {
                 if ($value) {
 
-                    $result = new \SplObjectStorage();
+                    $result = new ObjectCollection();
                     $type = $this->manager->getTypeRegisty()->get($property->value['name']);
 
                     foreach ($value as $k => $v) {
