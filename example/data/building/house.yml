@@ -2,4 +2,4 @@ name: "House"
 constructionRounds: 5
 constructionCosts:
   wood: 5
-  forest: 10
+  stone: 10

@@ -7,10 +7,15 @@ namespace DavidBadura\OrangeDb\Annotation;
  *
  * @Annotation
  */
-class Type
+class ReferenceKey
 {
     /**
      * @var string
      */
-    public $name;
+    public $target;
+
+    /**
+     * @var \DavidBadura\OrangeDb\Annotation\Type
+     */
+    public $value;
 }

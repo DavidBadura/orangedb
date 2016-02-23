@@ -32,7 +32,7 @@ class Building
 
     /**
      * @var array
-     * @DB\Type(name="array")
+     * @DB\ReferenceKey(target="Model\Material", value=@DB\Type(name="int"))
      */
     protected $constructionCosts;
 

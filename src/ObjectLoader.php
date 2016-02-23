@@ -95,6 +95,21 @@ class ObjectLoader
                 }
             }
 
+            if ($property->reference == PropertyMetadata::REFERENCE_KEY) {
+                if ($value) {
+
+                    $result = new \SplObjectStorage();
+                    $type = $this->manager->getTypeRegisty()->get($property->value['name']);
+
+                    foreach ($value as $k => $v) {
+                        $result[$this->manager->find($property->target, $k)] = $type->transformToPhp($v);
+                    }
+
+                    $property->setValue($object, $result);
+                }
+            }
+
+
             if ($property->embed == PropertyMetadata::EMBED_ONE) {
                 if ($value) {
 
@@ -133,7 +148,8 @@ class ObjectLoader
      * @param array $map
      * @return array
      */
-    private function mapping($data, $map) {
+    private function mapping($data, $map)
+    {
         $result = [];
 
         foreach ($map as $i => $key) {

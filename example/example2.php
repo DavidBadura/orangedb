@@ -10,6 +10,13 @@ use DavidBadura\OrangeDb\ObjectManager;
 use Model\Building;
 
 $objectManager = new ObjectManager(new YamlAdapter(__DIR__ . '/data'));
+
+/** @var Building $house */
 $house = $objectManager->getRepository(Building::class)->find('house');
 
 dump($house);
+
+foreach ($house->getConstructionCosts() as $key => $material) {
+    dump($material);
+    dump($house->getConstructionCosts()[$material]);
+}

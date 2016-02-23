@@ -6,6 +6,7 @@ use DavidBadura\OrangeDb\Annotation\EmbedMany;
 use DavidBadura\OrangeDb\Annotation\EmbedOne;
 use DavidBadura\OrangeDb\Annotation\Entity;
 use DavidBadura\OrangeDb\Annotation\Id;
+use DavidBadura\OrangeDb\Annotation\ReferenceKey;
 use DavidBadura\OrangeDb\Annotation\ReferenceMany;
 use DavidBadura\OrangeDb\Annotation\ReferenceOne;
 use DavidBadura\OrangeDb\Annotation\Type;
@@ -103,6 +104,18 @@ class AnnotationDriver implements DriverInterface
             if ($propertyAnnotation instanceof ReferenceMany) {
                 $propertyMetadata->reference = PropertyMetadata::REFERENCE_MANY;
                 $propertyMetadata->target = $propertyAnnotation->target;
+            }
+
+            if ($propertyAnnotation instanceof ReferenceKey) {
+                $propertyMetadata->reference = PropertyMetadata::REFERENCE_KEY;
+                $propertyMetadata->target = $propertyAnnotation->target;
+
+                if ($propertyAnnotation->value instanceof Type) {
+                    $propertyMetadata->value = [
+                        'type' => 'type',
+                        'name' => $propertyAnnotation->value->name
+                    ];
+                }
             }
 
             if ($propertyAnnotation instanceof EmbedOne) {

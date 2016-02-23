@@ -4,27 +4,30 @@ namespace Model;
 
 use DavidBadura\OrangeDb\Annotation as DB;
 
+/**
+ * @DB\Entity(package="material")
+ */
 class Material
 {
     /**
      * @var int
      *
      * @DB\Id()
-     * @DB\Type(type="int")
+     * @DB\Type(name="int")
      */
     protected $id;
 
     /**
      * @var string
      *
-     * @ORM\Type(type="string")
+     * @DB\Type(name="string")
      */
     protected $name;
 
     /**
      * @var bool
      *
-     * @ORM\Type(type="bool")
+     * @DB\Type(name="bool")
      */
     protected $food;
 
