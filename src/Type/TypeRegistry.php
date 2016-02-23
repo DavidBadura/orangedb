@@ -19,6 +19,8 @@ class TypeRegistry
     {
         $this->addType(new StringType());
         $this->addType(new IntegerType());
+        $this->addType(new BooleanType());
+        $this->addType(new ArrayType());
         $this->addType(new DateTimeType());
     }
 

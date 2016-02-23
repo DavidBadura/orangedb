@@ -12,6 +12,11 @@ class ClassMetadata extends MergeableClassMetadata
     /**
      * @var string
      */
+    public $package;
+
+    /**
+     * @var string
+     */
     public $identifier;
 
     /**

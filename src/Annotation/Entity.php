@@ -9,5 +9,13 @@ namespace DavidBadura\OrangeDb\Annotation;
  */
 class Entity
 {
+    /**
+     * @var string
+     */
+    public $package;
+
+    /**
+     * @var string
+     */
     public $repository;
 }

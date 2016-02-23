@@ -50,6 +50,7 @@ class AnnotationDriver implements DriverInterface
 
         foreach ($classAnnotations as $annotation) {
             if ($annotation instanceof Entity) {
+                $classMetadata->package = $annotation->package;
                 $classMetadata->repository = $annotation->repository;
             }
         }

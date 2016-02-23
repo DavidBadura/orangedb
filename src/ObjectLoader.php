@@ -45,9 +45,9 @@ class ObjectLoader
      */
     public function load($class, $identifier)
     {
-        $data = $this->adapter->load($class, $identifier);
-
         $metadata = $this->manager->getMetadataFor($class);
+
+        $data = $this->adapter->load($metadata->package, $identifier);
 
         if ($metadata->identifier) {
             $data[$metadata->identifier] = $identifier;
