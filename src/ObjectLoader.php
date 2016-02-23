@@ -53,8 +53,31 @@ class ObjectLoader
 
         /** @var PropertyMetadata $property */
         foreach ($metadata->propertyMetadata as $property) {
-            $type = $this->manager->getTypeRegisty()->get($property->type);
-            $property->setValue($object, $type->transformToPhp($array[$property->name]));
+            $value = $array[$property->name];
+
+            if ($property->type) {
+                $type = $this->manager->getTypeRegisty()->get($property->type);
+                $property->setValue($object, $type->transformToPhp($value));
+            }
+
+            if ($property->reference == PropertyMetadata::REFERENCE_ONE) {
+                if ($value) {
+                    $property->setValue($object, $this->manager->find($property->target, $value));
+                }
+            }
+
+            if ($property->reference == PropertyMetadata::REFERENCE_MANY) {
+                if ($value) {
+
+                    $result = [];
+
+                    foreach ($value as $k => $v) {
+                        $result[] = $this->manager->find($property->target, $v);
+                    }
+
+                    $property->setValue($object, $result);
+                }
+            }
         }
 
         return $object;

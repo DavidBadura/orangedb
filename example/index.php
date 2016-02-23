@@ -41,6 +41,20 @@ class User
     private $birthdate;
 
     /**
+     * @var User
+     *
+     * @DB\ReferenceOne(target="User")
+     */
+    private $parent;
+
+    /**
+     * @var User[]
+     *
+     * @DB\ReferenceMany(target="User")
+     */
+    private $children = [];
+
+    /**
      * @return int
      */
     public function getId()
@@ -70,5 +84,21 @@ class User
     public function getBirthdate()
     {
         return $this->birthdate;
+    }
+
+    /**
+     * @return User
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @return User[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 }

@@ -1,3 +1,8 @@
 name: John
 age: 30
 birthdate: "1989-01-08"
+parent: foo
+children:
+  - foo
+  - bar
+  - baz

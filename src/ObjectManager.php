@@ -73,11 +73,6 @@ class ObjectManager
         return $this->metadataFactory->getMetadataForClass($class);
     }
 
-    public function getReference($className, $id)
-    {
-
-    }
-
     /**
      * @return TypeRegistry
      */

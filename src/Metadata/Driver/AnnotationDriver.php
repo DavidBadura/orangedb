@@ -3,6 +3,8 @@
 namespace DavidBadura\OrangeDb\Metadata\Driver;
 
 use DavidBadura\OrangeDb\Annotation\Id;
+use DavidBadura\OrangeDb\Annotation\ReferenceMany;
+use DavidBadura\OrangeDb\Annotation\ReferenceOne;
 use DavidBadura\OrangeDb\Annotation\Type;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
 use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
@@ -81,6 +83,16 @@ class AnnotationDriver implements DriverInterface
         foreach ($this->reader->getPropertyAnnotations($property) as $propertyAnnotation) {
             if ($propertyAnnotation instanceof Type) {
                 $propertyMetadata->type = $propertyAnnotation->name;
+            }
+
+            if ($propertyAnnotation instanceof ReferenceOne) {
+                $propertyMetadata->reference = PropertyMetadata::REFERENCE_ONE;
+                $propertyMetadata->target = $propertyAnnotation->target;
+            }
+
+            if ($propertyAnnotation instanceof ReferenceMany) {
+                $propertyMetadata->reference = PropertyMetadata::REFERENCE_MANY;
+                $propertyMetadata->target = $propertyAnnotation->target;
             }
         }
 

@@ -3,7 +3,7 @@
 namespace DavidBadura\OrangeDb\Annotation;
 
 /**
- * @author David Badura <david.badura@i22.de>
+ * @author David Badura <d.a.badura@gmail.com>
  *
  * @Annotation
  */
