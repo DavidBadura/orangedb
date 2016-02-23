@@ -3,6 +3,7 @@
 namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
+use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
 use Doctrine\Instantiator\Instantiator;
 
 /**
@@ -34,7 +35,6 @@ class ObjectLoader
         $this->manager = $manager;
         $this->adapter = $adapter;
         $this->instantiator = new Instantiator();
-        $this->hydrator = new Hydrator();
     }
 
     /**
@@ -45,18 +45,17 @@ class ObjectLoader
      */
     public function load($class, $identifier)
     {
-        $type = $class;
-        $array = $this->adapter->load($type, $identifier);
-
-        // todo metadata
-        $dateTimeType = $this->manager->getTypeRegisty()->get('datetime');
-        $array['birthdate'] = $dateTimeType->transformToPhp($array['birthdate']);
-
+        $array = $this->adapter->load($class, $identifier);
         $object = $this->instantiator->instantiate($class);
-        $this->hydrator->hydrate(
-            $array,
-            $object
-        );
+        $metadata = $this->manager->getMetadataFor($class);
+
+        $array[$metadata->identifier] = $identifier;
+
+        /** @var PropertyMetadata $property */
+        foreach ($metadata->propertyMetadata as $property) {
+            $type = $this->manager->getTypeRegisty()->get($property->type);
+            $property->setValue($object, $type->transformToPhp($array[$property->name]));
+        }
 
         return $object;
     }

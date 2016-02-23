@@ -2,8 +2,9 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use DavidBadura\OrangeDb\ObjectManager;
 use DavidBadura\OrangeDb\Adapter\YamlAdapter;
+use DavidBadura\OrangeDb\Annotation as DB;
+use DavidBadura\OrangeDb\ObjectManager;
 
 $objectManager = new ObjectManager(new YamlAdapter(__DIR__ . '/data'));
 $user = $objectManager->find(User::class, 'john');
@@ -14,18 +15,38 @@ class User
 {
     /**
      * @var string
+     *
+     * @DB\Id
+     * @DB\Type(name="string")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @DB\Type(name="string")
      */
     private $name;
 
     /**
      * @var int
+     *
+     * @DB\Type(name="int")
      */
     private $age;
 
     /**
-     * @var \DateTime
+     * @DB\Type(name="datetime")
      */
     private $birthdate;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return string
