@@ -11,6 +11,11 @@ use Doctrine\Instantiator\Instantiator;
 class ObjectLoader
 {
     /**
+     * @var ObjectManager
+     */
+    private $manager;
+
+    /**
      * @var AdapterInterface
      */
     private $adapter;
@@ -21,10 +26,12 @@ class ObjectLoader
     private $instantiator;
 
     /**
+     * @param ObjectManager $manager
      * @param AdapterInterface $adapter
      */
-    public function __construct(AdapterInterface $adapter)
+    public function __construct(ObjectManager $manager, AdapterInterface $adapter)
     {
+        $this->manager = $manager;
         $this->adapter = $adapter;
         $this->instantiator = new Instantiator();
         $this->hydrator = new Hydrator();
@@ -40,6 +47,10 @@ class ObjectLoader
     {
         $type = $class;
         $array = $this->adapter->load($type, $identifier);
+
+        // todo metadata
+        $dateTimeType = $this->manager->getTypeRegisty()->get('datetime');
+        $array['birthdate'] = $dateTimeType->transformToPhp($array['birthdate']);
 
         $object = $this->instantiator->instantiate($class);
         $this->hydrator->hydrate(

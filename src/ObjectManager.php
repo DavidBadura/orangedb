@@ -3,6 +3,7 @@
 namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
+use DavidBadura\OrangeDb\Type\TypeRegistry;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
@@ -20,12 +21,18 @@ class ObjectManager
     private $loader;
 
     /**
+     * @var TypeRegistry
+     */
+    private $typeRegistry;
+
+    /**
      * @param AdapterInterface $adapter
      */
     public function __construct(AdapterInterface $adapter)
     {
         $this->identityMap = new IdentityMap();
-        $this->loader = new ObjectLoader($adapter);
+        $this->loader = new ObjectLoader($this, $adapter);
+        $this->typeRegistry = new TypeRegistry();
     }
 
     /**
@@ -50,5 +57,13 @@ class ObjectManager
     public function getReference($className, $id)
     {
 
+    }
+
+    /**
+     * @return TypeRegistry
+     */
+    public function getTypeRegisty()
+    {
+        return $this->typeRegistry;
     }
 }

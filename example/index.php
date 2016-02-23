@@ -23,6 +23,11 @@ class User
     private $age;
 
     /**
+     * @var \DateTime
+     */
+    private $birthdate;
+
+    /**
      * @return string
      */
     public function getName()
@@ -36,5 +41,13 @@ class User
     public function getAge()
     {
         return $this->age;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getBirthdate()
+    {
+        return $this->birthdate;
     }
 }
