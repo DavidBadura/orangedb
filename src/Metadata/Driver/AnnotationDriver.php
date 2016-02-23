@@ -2,6 +2,8 @@
 
 namespace DavidBadura\OrangeDb\Metadata\Driver;
 
+use DavidBadura\OrangeDb\Annotation\EmbedMany;
+use DavidBadura\OrangeDb\Annotation\EmbedOne;
 use DavidBadura\OrangeDb\Annotation\Id;
 use DavidBadura\OrangeDb\Annotation\ReferenceMany;
 use DavidBadura\OrangeDb\Annotation\ReferenceOne;
@@ -69,7 +71,7 @@ class AnnotationDriver implements DriverInterface
             }
         }
 
-        throw new \Exception(); // todo
+        return null;
     }
 
     /**
@@ -93,6 +95,18 @@ class AnnotationDriver implements DriverInterface
             if ($propertyAnnotation instanceof ReferenceMany) {
                 $propertyMetadata->reference = PropertyMetadata::REFERENCE_MANY;
                 $propertyMetadata->target = $propertyAnnotation->target;
+            }
+
+            if ($propertyAnnotation instanceof EmbedOne) {
+                $propertyMetadata->embed = PropertyMetadata::EMBED_ONE;
+                $propertyMetadata->target = $propertyAnnotation->target;
+                $propertyMetadata->mapping = $propertyAnnotation->mapping;
+            }
+
+            if ($propertyAnnotation instanceof EmbedMany) {
+                $propertyMetadata->embed = PropertyMetadata::EMBED_MANY;
+                $propertyMetadata->target = $propertyAnnotation->target;
+                $propertyMetadata->mapping = $propertyAnnotation->mapping;
             }
         }
 

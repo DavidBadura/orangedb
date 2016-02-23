@@ -55,6 +55,20 @@ class User
     private $children = [];
 
     /**
+     * @var Pos
+     *
+     * @DB\EmbedOne(target="Pos", mapping={"x", "y"})
+     */
+    private $pos;
+
+    /**
+     * @var Pos
+     *
+     * @DB\EmbedOne(target="Pos")
+     */
+    private $pos2;
+
+    /**
      * @return int
      */
     public function getId()
@@ -101,4 +115,21 @@ class User
     {
         return $this->children;
     }
+}
+
+class Pos
+{
+    /**
+     * @var int
+     *
+     * @DB\Type(name="int")
+     */
+    public $x;
+
+    /**
+     * @var int
+     *
+     * @DB\Type(name="int")
+     */
+    public $y;
 }

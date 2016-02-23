@@ -10,6 +10,9 @@ class PropertyMetadata extends \Metadata\PropertyMetadata
     const REFERENCE_ONE = 'one';
     const REFERENCE_MANY = 'many';
 
+    const EMBED_ONE = 'one';
+    const EMBED_MANY = 'many';
+
     /**
      * @var string
      */
@@ -23,5 +26,15 @@ class PropertyMetadata extends \Metadata\PropertyMetadata
     /**
      * @var string
      */
+    public $embed;
+
+    /**
+     * @var string
+     */
     public $target;
+
+    /**
+     * @var array
+     */
+    public $mapping;
 }

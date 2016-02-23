@@ -45,15 +45,31 @@ class ObjectLoader
      */
     public function load($class, $identifier)
     {
-        $array = $this->adapter->load($class, $identifier);
+        $data = $this->adapter->load($class, $identifier);
+
+        $metadata = $this->manager->getMetadataFor($class);
+
+        if ($metadata->identifier) {
+            $data[$metadata->identifier] = $identifier;
+        }
+
+        return $this->hydrate($class, $data);
+    }
+
+    /**
+     * @param string $class
+     * @param array $data
+     * @return object
+     * @throws \Exception
+     */
+    private function hydrate($class, $data)
+    {
         $object = $this->instantiator->instantiate($class);
         $metadata = $this->manager->getMetadataFor($class);
 
-        $array[$metadata->identifier] = $identifier;
-
         /** @var PropertyMetadata $property */
         foreach ($metadata->propertyMetadata as $property) {
-            $value = isset($array[$property->name]) ? $array[$property->name] : null;
+            $value = isset($data[$property->name]) ? $data[$property->name] : null;
 
             if ($property->type) {
                 $type = $this->manager->getTypeRegisty()->get($property->type);
@@ -78,8 +94,52 @@ class ObjectLoader
                     $property->setValue($object, $result);
                 }
             }
+
+            if ($property->embed == PropertyMetadata::EMBED_ONE) {
+                if ($value) {
+
+                    if ($property->mapping) {
+                        $value = $this->mapping($value, $property->mapping);
+                    }
+
+                    $property->setValue($object, $this->hydrate($property->target, $value));
+                }
+            }
+
+            if ($property->embed == PropertyMetadata::EMBED_MANY) {
+                if ($value) {
+
+                    $result = [];
+
+                    foreach ($value as $k => $v) {
+
+                        if ($property->mapping) {
+                            $v = $this->mapping($v, $property->mapping);
+                        }
+
+                        $result[] = $this->hydrate($property->target, $v);
+                    }
+
+                    $property->setValue($object, $result);
+                }
+            }
         }
 
         return $object;
+    }
+
+    /**
+     * @param array $data
+     * @param array $map
+     * @return array
+     */
+    private function mapping($data, $map) {
+        $result = [];
+
+        foreach ($map as $i => $key) {
+            $result[$key] = $data[$i];
+        }
+
+        return $result;
     }
 }
