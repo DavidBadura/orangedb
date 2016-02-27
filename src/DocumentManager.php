@@ -95,4 +95,12 @@ class DocumentManager
     {
         return $this->typeRegistry;
     }
+
+    /**
+     * @return DocumentLoader
+     */
+    public function getDocumentLoader()
+    {
+        return $this->loader;
+    }
 }

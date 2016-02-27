@@ -1,0 +1,12 @@
+name: John
+age: 30
+birthdate: "1989-01-08"
+parent: foo
+children:
+  - foo
+  - bar
+  - baz
+pos: [15, 12]
+pos2:
+  x: 100
+  y: 200

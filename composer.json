@@ -10,18 +10,26 @@
     }],
     "require": {
         "symfony/yaml": "^2.3|^3.0",
+        "symfony/finder": "^2.3|^3.0",
         "doctrine/instantiator": "^1.0",
         "webmozart/json": "^1.2",
         "webmozart/path-util": "^2.3",
         "jms/metadata": "^1.5",
-        "doctrine/annotations": "^1.2"
+        "doctrine/annotations": "^1.2",
+        "timetoogo/pinq": "^3.3"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^2.3|^3.0",
+        "phpunit/phpunit": "^4.0|^5.0"
     },
     "autoload": {
         "psr-4": {
             "DavidBadura\\OrangeDb\\": "src"
         }
     },
-    "require-dev": {
-        "symfony/var-dumper": "^2.3|^3.0"
+    "autoload-dev": {
+        "psr-4": {
+            "DavidBadura\\OrangeDb\\Test\\": "tests"
+        }
     }
 }

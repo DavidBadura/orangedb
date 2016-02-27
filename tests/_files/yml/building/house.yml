@@ -1,0 +1,5 @@
+name: "House"
+constructionRounds: 5
+constructionCosts:
+  wood: 5
+  stone: 10

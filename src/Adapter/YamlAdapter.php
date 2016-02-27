@@ -11,6 +11,14 @@ use Symfony\Component\Yaml\Yaml;
 class YamlAdapter extends AbstractAdapter
 {
     /**
+     * @param string $directory
+     */
+    public function __construct($directory)
+    {
+        parent::__construct($directory, 'yml');
+    }
+
+    /**
      * @param string $collection
      * @param string $identifier
      *
@@ -18,6 +26,6 @@ class YamlAdapter extends AbstractAdapter
      */
     public function load($collection, $identifier)
     {
-        return Yaml::parse(file_get_contents($this->findFile($collection, $identifier, 'yml')));
+        return Yaml::parse(file_get_contents($this->findFile($collection, $identifier)));
     }
 }

@@ -59,6 +59,24 @@ class DocumentLoader
 
     /**
      * @param string $class
+     * @return object[]
+     */
+    public function loadAll($class)
+    {
+        $metadata = $this->manager->getMetadataFor($class);
+        $identifiers = $this->adapter->findIdentifiers($metadata->collection);
+
+        $result = [];
+
+        foreach ($identifiers as $identifier) {
+            $result[] = $this->manager->find($metadata->name, $identifier);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param string $class
      * @param array $data
      * @return object
      * @throws \Exception

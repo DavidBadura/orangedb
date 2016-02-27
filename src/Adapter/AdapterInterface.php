@@ -15,4 +15,10 @@ interface AdapterInterface
      * @return array
      */
     public function load($collection, $identifier);
+
+    /**
+     * @param string $collection
+     * @return string[]
+     */
+    public function findIdentifiers($collection);
 }

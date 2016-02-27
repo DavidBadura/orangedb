@@ -13,14 +13,23 @@ class UserRepository extends \DavidBadura\OrangeDb\Repository\DocumentRepository
 }
 
 $manager = new DocumentManager(new YamlAdapter(__DIR__ . '/data'));
-$user = $manager->getRepository(User::class)->find('john');
 
+$repo = $manager->getRepository(User::class);
 
-dump($user);
-dump($manager->getRepository(User::class));
+$user = $repo->find('john');
 
+foreach ($repo->findAll() as $user) {
+    dump($user);
+}
 
+$users = $repo->createTraversable()
+    ->where(function (User $user) {
+        return $user->getAge() == 0;
+    })->getIterator();
 
+foreach ($users as $user) {
+    dump($user);
+}
 
 /**
  * @DB\Document(repository="UserRepository")

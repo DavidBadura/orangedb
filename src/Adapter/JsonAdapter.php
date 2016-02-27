@@ -20,7 +20,7 @@ class JsonAdapter extends AbstractAdapter
      */
     public function __construct($directory)
     {
-        parent::__construct($directory);
+        parent::__construct($directory, 'json');
 
         $this->decoder = new JsonDecoder();
         $this->decoder->setObjectDecoding(JsonDecoder::ASSOC_ARRAY);
@@ -34,6 +34,6 @@ class JsonAdapter extends AbstractAdapter
      */
     public function load($collection, $identifier)
     {
-        return $this->decoder->decodeFile($this->findFile($collection, $identifier, 'json'));
+        return $this->decoder->decodeFile($this->findFile($collection, $identifier));
     }
 }
