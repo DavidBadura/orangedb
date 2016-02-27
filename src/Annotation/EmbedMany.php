@@ -13,4 +13,9 @@ class EmbedMany
      * @var string
      */
     public $target;
+
+    /**
+     * @var array
+     */
+    public $mapping;
 }
