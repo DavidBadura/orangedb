@@ -8,6 +8,8 @@ use DavidBadura\OrangeDb\Metadata\Driver\AnnotationDriver;
 use DavidBadura\OrangeDb\Repository\RepositoryFactory;
 use DavidBadura\OrangeDb\Type\TypeRegistry;
 use Metadata\MetadataFactory;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
@@ -40,15 +42,22 @@ class DocumentManager
     private $repositoryFactory;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * @param AdapterInterface $adapter
      */
-    public function __construct(AdapterInterface $adapter)
+    public function __construct(AdapterInterface $adapter, EventDispatcherInterface $eventDispatcher = null)
     {
         $this->identityMap = new IdentityMap();
-        $this->loader = new DocumentLoader($this, $adapter);
+        $this->eventDispatcher = $eventDispatcher ?: new EventDispatcher();
+        $this->loader = new DocumentLoader($this, $adapter, $this->eventDispatcher);
         $this->typeRegistry = new TypeRegistry();
         $this->metadataFactory = new MetadataFactory(new AnnotationDriver());
         $this->repositoryFactory = new RepositoryFactory();
+
     }
 
     /**

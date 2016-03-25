@@ -4,8 +4,10 @@ namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
 use DavidBadura\OrangeDb\Collection\ObjectCollection;
+use DavidBadura\OrangeDb\Event\DocumentEvent;
 use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
 use Doctrine\Instantiator\Instantiator;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
@@ -28,13 +30,20 @@ class DocumentLoader
     private $instantiator;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * @param DocumentManager $manager
      * @param AdapterInterface $adapter
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(DocumentManager $manager, AdapterInterface $adapter)
+    public function __construct(DocumentManager $manager, AdapterInterface $adapter, EventDispatcherInterface $eventDispatcher)
     {
         $this->manager = $manager;
         $this->adapter = $adapter;
+        $this->eventDispatcher = $eventDispatcher;
         $this->instantiator = new Instantiator();
     }
 
@@ -158,6 +167,9 @@ class DocumentLoader
                 }
             }
         }
+
+        $event = new DocumentEvent($this->manager, $metadata, $object);
+        $this->eventDispatcher->dispatch(Events::POST_LOAD, $event);
 
         return $object;
     }
