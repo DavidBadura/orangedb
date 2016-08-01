@@ -78,7 +78,7 @@ class DocumentLoader
         $result = [];
 
         foreach ($identifiers as $identifier) {
-            $result[] = $this->manager->find($metadata->name, $identifier);
+            $result[] = $this->manager->find($class, $identifier);
         }
 
         return $result;
@@ -104,67 +104,56 @@ class DocumentLoader
                 $property->setValue($object, $type->transformToPhp($value));
             }
 
-            if ($property->reference == PropertyMetadata::REFERENCE_ONE) {
-                if ($value) {
-                    $property->setValue($object, $this->manager->find($property->target, $value));
-                }
+            if (!$value) {
+                continue;
             }
 
-            if ($property->reference == PropertyMetadata::REFERENCE_MANY) {
-                if ($value) {
-
-                    $result = [];
-
-                    foreach ($value as $k => $v) {
-                        $result[] = $this->manager->find($property->target, $v);
-                    }
-
-                    $property->setValue($object, $result);
-                }
+            if ($property->reference === PropertyMetadata::REFERENCE_ONE) {
+                $property->setValue($object, $this->manager->find($property->target, $value));
             }
 
-            if ($property->reference == PropertyMetadata::REFERENCE_KEY) {
-                if ($value) {
+            if ($property->reference === PropertyMetadata::REFERENCE_MANY) {
+                $result = [];
 
-                    $result = new ObjectCollection();
-                    $type = $this->manager->getTypeRegisty()->get($property->value['name']);
-
-                    foreach ($value as $k => $v) {
-                        $result[$this->manager->find($property->target, $k)] = $type->transformToPhp($v);
-                    }
-
-                    $property->setValue($object, $result);
+                foreach ($value as $k => $v) {
+                    $result[] = $this->manager->find($property->target, $v);
                 }
+
+                $property->setValue($object, $result);
             }
 
+            if ($property->reference === PropertyMetadata::REFERENCE_KEY) {
+                $result = new ObjectCollection();
+                $type = $this->manager->getTypeRegisty()->get($property->value['name']);
 
-            if ($property->embed == PropertyMetadata::EMBED_ONE) {
-                if ($value) {
+                foreach ($value as $k => $v) {
+                    $result[$this->manager->find($property->target, $k)] = $type->transformToPhp($v);
+                }
+
+                $property->setValue($object, $result);
+            }
+
+            if ($property->embed === PropertyMetadata::EMBED_ONE) {
+                if ($property->mapping) {
+                    $value = $this->mapping($value, $property->mapping);
+                }
+
+                $property->setValue($object, $this->hydrate($property->target, $value));
+            }
+
+            if ($property->embed === PropertyMetadata::EMBED_MANY) {
+                $result = [];
+
+                foreach ($value as $k => $v) {
 
                     if ($property->mapping) {
-                        $value = $this->mapping($value, $property->mapping);
+                        $v = $this->mapping($v, $property->mapping);
                     }
 
-                    $property->setValue($object, $this->hydrate($property->target, $value));
+                    $result[] = $this->hydrate($property->target, $v);
                 }
-            }
 
-            if ($property->embed == PropertyMetadata::EMBED_MANY) {
-                if ($value) {
-
-                    $result = [];
-
-                    foreach ($value as $k => $v) {
-
-                        if ($property->mapping) {
-                            $v = $this->mapping($v, $property->mapping);
-                        }
-
-                        $result[] = $this->hydrate($property->target, $v);
-                    }
-
-                    $property->setValue($object, $result);
-                }
+                $property->setValue($object, $result);
             }
         }
 

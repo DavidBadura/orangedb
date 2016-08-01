@@ -85,7 +85,7 @@ class DocumentManager
      */
     public function getRepository($class)
     {
-        return $this->repositoryFactory->getRepository($this, $class);
+        return $this->repositoryFactory->getRepository($this, $this->loader, $class);
     }
 
     /**
@@ -106,10 +106,10 @@ class DocumentManager
     }
 
     /**
-     * @return DocumentLoader
+     *
      */
-    public function getDocumentLoader()
+    public function clear()
     {
-        return $this->loader;
+        $this->identityMap->clear();
     }
 }

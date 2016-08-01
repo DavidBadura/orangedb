@@ -33,6 +33,15 @@ class IdentityMap
     public function getObject($className, $identity)
     {
         $identityIndex = $className . self::IDENTITY_DELIMITER . $identity;
+
         return isset($this->objectsByIdentityMap[$identityIndex]) ? $this->objectsByIdentityMap[$identityIndex] : null;
+    }
+
+    /**
+     *
+     */
+    public function clear()
+    {
+        $this->objectsByIdentityMap = [];
     }
 }

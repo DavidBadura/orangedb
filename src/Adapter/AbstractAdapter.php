@@ -23,6 +23,11 @@ abstract class AbstractAdapter implements AdapterInterface
     private $extension;
 
     /**
+     * @var array
+     */
+    private $cache;
+
+    /**
      * @param string $directory
      * @param string $extension
      */
@@ -30,14 +35,22 @@ abstract class AbstractAdapter implements AdapterInterface
     {
         $this->directory = $directory;
         $this->extension = $extension;
+        $this->cache = [];
     }
 
     /**
      * @param string $collection
+     *
      * @return string[]
+     *
+     * @throws \InvalidArgumentException
      */
     public function findIdentifiers($collection)
     {
+        if (array_key_exists($collection, $this->cache)) {
+            return $this->cache[$collection];
+        }
+
         $dir = $this->getCollectionDirectory($collection);
 
         $finder = new Finder();
@@ -50,12 +63,13 @@ abstract class AbstractAdapter implements AdapterInterface
             $identifiers[] = $file->getBasename('.' . $this->extension);
         }
 
-        return $identifiers;
+        return $this->cache[$collection] = $identifiers;
     }
 
     /**
      * @param string $collection
      * @param string $identifier
+     *
      * @return string
      * @throws \Exception
      */

@@ -5,7 +5,7 @@ namespace Model;
 use DavidBadura\OrangeDb\Annotation as DB;
 
 /**
- * @DB\Document(collection="material")
+ * @DB\Document()
  */
 class Material
 {

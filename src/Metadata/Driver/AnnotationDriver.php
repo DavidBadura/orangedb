@@ -12,6 +12,7 @@ use DavidBadura\OrangeDb\Annotation\ReferenceOne;
 use DavidBadura\OrangeDb\Annotation\Type;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
 use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
+use DavidBadura\OrangeDb\Repository\DocumentRepository;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Metadata\Driver\DriverInterface;
@@ -51,8 +52,8 @@ class AnnotationDriver implements DriverInterface
 
         foreach ($classAnnotations as $annotation) {
             if ($annotation instanceof Document) {
-                $classMetadata->collection = $annotation->collection ?: $class->getShortName();
-                $classMetadata->repository = $annotation->repository;
+                $classMetadata->collection = $annotation->collection ?: strtolower($class->getShortName());
+                $classMetadata->repository = $annotation->repository ?: DocumentRepository::class;
             }
         }
 

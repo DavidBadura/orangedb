@@ -23,6 +23,8 @@ class YamlAdapter extends AbstractAdapter
      * @param string $identifier
      *
      * @return array
+     *
+     * @throws \Symfony\Component\Yaml\Exception\ParseException
      */
     public function load($collection, $identifier)
     {
