@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\OrangeDb\Metadata;
 
@@ -43,4 +43,9 @@ class PropertyMetadata extends \Metadata\PropertyMetadata
      * @var array
      */
     public $value;
+
+    public function setValue($obj, $value)
+    {
+        $this->reflection->setValue($obj, $value);
+    }
 }

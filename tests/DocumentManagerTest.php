@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\OrangeDb\Test;
 
@@ -13,7 +13,7 @@ use DavidBadura\OrangeDb\Test\Fixture\Unknown;
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
-class DocumentManagerTest extends \PHPUnit_Framework_TestCase
+class DocumentManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var DocumentManager

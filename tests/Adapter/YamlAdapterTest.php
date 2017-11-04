@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\OrangeDb\Test\Adapter;
 
@@ -8,7 +8,7 @@ use DavidBadura\OrangeDb\Exception\FileNotFoundException;
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
-class YamlAdapterTest extends \PHPUnit_Framework_TestCase
+class YamlAdapterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var YamlAdapter
@@ -29,7 +29,7 @@ class YamlAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testNotFound()
     {
-        $this->setExpectedException(FileNotFoundException::class);
+        $this->expectException(FileNotFoundException::class);
 
         $this->adapter->load('building', 'xxx');
     }

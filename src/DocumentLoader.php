@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\OrangeDb;
 
@@ -15,8 +15,9 @@ class DocumentLoader
 {
     private $manager;
     private $adapter;
-    private $hydrator;
     private $eventDispatcher;
+    private $hydrator;
+    private $cache;
 
     public function __construct(
         DocumentManager $manager,

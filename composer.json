@@ -23,7 +23,7 @@
     },
     "require-dev": {
         "symfony/var-dumper": "^3.0",
-        "phpunit/phpunit": "^4.0|^5.0",
+        "phpunit/phpunit": "^5.0",
         "symfony/cache": "^3.3"
     },
     "autoload": {

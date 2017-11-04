@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\OrangeDb\Repository;
 
@@ -14,7 +14,7 @@ class RepositoryFactory
     /**
      * @var DocumentRepository[]
      */
-    private $repositories = array();
+    private $repositories = [];
 
     public function getRepository(
         DocumentManager $objectManager,

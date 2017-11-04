@@ -80,7 +80,6 @@ class DocumentHydrator
                 $result = [];
 
                 foreach ($value as $k => $v) {
-
                     if ($property->mapping) {
                         $v = $this->mapping($v, $property->mapping);
                     }

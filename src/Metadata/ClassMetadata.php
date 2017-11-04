@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\OrangeDb\Metadata;
 
@@ -15,7 +15,7 @@ class ClassMetadata extends MergeableClassMetadata
     public $collection;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $identifier;
 

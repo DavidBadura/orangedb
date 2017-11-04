@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\OrangeDb;
 
@@ -37,7 +37,6 @@ class DocumentManager
         $this->typeRegistry = new TypeRegistry();
         $this->metadataFactory = new MetadataFactory(new AnnotationDriver());
         $this->repositoryFactory = new RepositoryFactory();
-
     }
 
     public function find(string $className, string $identifier)

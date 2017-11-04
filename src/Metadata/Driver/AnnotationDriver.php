@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\OrangeDb\Metadata\Driver;
 
@@ -52,7 +52,7 @@ class AnnotationDriver implements DriverInterface
             $propertyMetadata = $this->loadPropertyMetadata($property);
 
             if ($propertyMetadata) {
-                $classMetadata->addPropertyMetadata($this->loadPropertyMetadata($property));
+                $classMetadata->addPropertyMetadata($propertyMetadata);
             }
         }
 
