@@ -5,6 +5,7 @@ namespace DavidBadura\OrangeDb\Repository;
 use DavidBadura\OrangeDb\DocumentLoader;
 use DavidBadura\OrangeDb\DocumentManager;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
+use Pinq\ITraversable;
 use Pinq\Traversable;
 
 /**
@@ -12,26 +13,10 @@ use Pinq\Traversable;
  */
 class DocumentRepository
 {
-    /**
-     * @var DocumentManager
-     */
     protected $manager;
-
-    /**
-     * @var ClassMetadata
-     */
     private $metadata;
-
-    /**
-     * @var DocumentLoader
-     */
     private $loader;
 
-    /**
-     * @param DocumentManager $manager
-     * @param ClassMetadata $metadata
-     * @param DocumentLoader $loader
-     */
     public function __construct(DocumentManager $manager, ClassMetadata $metadata, DocumentLoader $loader)
     {
         $this->manager = $manager;
@@ -39,35 +24,22 @@ class DocumentRepository
         $this->loader = $loader;
     }
 
-    /**
-     * @param string $identifer
-     * @return object
-     */
-    public function find($identifer)
+    public function find(string $identifer)
     {
         return $this->manager->find($this->metadata->name, $identifer);
     }
 
-    /**
-     * @return object[]
-     */
     public function findAll()
     {
         return $this->loader->loadAll($this->metadata->name);
     }
 
-    /**
-     * @return \Pinq\ITraversable
-     */
-    public function createTraversable()
+    public function createTraversable(): ITraversable
     {
         return Traversable::from($this->findAll());
     }
 
-    /**
-     * @return \Pinq\ITraversable
-     */
-    public function createQuery()
+    public function createQuery(): ITraversable
     {
         return $this->createTraversable();
     }

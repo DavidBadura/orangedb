@@ -3,8 +3,10 @@
 namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
+use DavidBadura\OrangeDb\Exception\DocumentMetadataException;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
 use DavidBadura\OrangeDb\Metadata\Driver\AnnotationDriver;
+use DavidBadura\OrangeDb\Repository\DocumentRepository;
 use DavidBadura\OrangeDb\Repository\RepositoryFactory;
 use DavidBadura\OrangeDb\Type\TypeRegistry;
 use Metadata\MetadataFactory;
@@ -17,41 +19,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class DocumentManager
 {
-    /**
-     * @var IdentityMap
-     */
     private $identityMap;
-
-    /**
-     * @var DocumentLoader
-     */
     private $loader;
-
-    /**
-     * @var TypeRegistry
-     */
     private $typeRegistry;
-
-    /**
-     * @var MetadataFactory
-     */
     private $metadataFactory;
-
-    /**
-     * @var RepositoryFactory
-     */
     private $repositoryFactory;
-
-    /**
-     * @var EventDispatcherInterface
-     */
     private $eventDispatcher;
 
-    /**
-     * @param AdapterInterface $adapter
-     * @param EventDispatcherInterface|null $eventDispatcher
-     * @param CacheItemPoolInterface|null $cache
-     */
     public function __construct(
         AdapterInterface $adapter,
         EventDispatcherInterface $eventDispatcher = null,
@@ -66,13 +40,7 @@ class DocumentManager
 
     }
 
-    /**
-     * @param string $className
-     * @param string $identifier
-     *
-     * @return object
-     */
-    public function find($className, $identifier)
+    public function find(string $className, string $identifier)
     {
         if ($object = $this->identityMap->getObject($className, $identifier)) {
             return $object;
@@ -85,45 +53,34 @@ class DocumentManager
         return $object;
     }
 
-    /**
-     * @param string $class
-     * @return Repository\DocumentRepository
-     */
-    public function getRepository($class)
+    public function getRepository(string $class): DocumentRepository
     {
         return $this->repositoryFactory->getRepository($this, $this->loader, $class);
     }
 
-    /**
-     * @param string $class
-     * @return ClassMetadata|null
-     */
-    public function getMetadataFor($class)
+    public function getMetadataFor($class): ClassMetadata
     {
-        return $this->metadataFactory->getMetadataForClass($class);
+        $metadata = $this->metadataFactory->getMetadataForClass($class);
+
+        if (! $metadata instanceof ClassMetadata) {
+            throw new DocumentMetadataException();
+        }
+
+        return $metadata;
     }
 
-    /**
-     * @return TypeRegistry
-     */
-    public function getTypeRegisty()
+    public function getTypeRegisty(): TypeRegistry
     {
         return $this->typeRegistry;
     }
 
-    /**
-     * @return EventDispatcherInterface
-     */
-    public function getEventDispatcher()
+    public function getEventDispatcher(): EventDispatcherInterface
     {
         return $this->eventDispatcher;
     }
 
-    /**
-     *
-     */
     public function clear()
     {
-        $this->identityMap->clear();
+        $this->identityMap = new IdentityMap();
     }
 }

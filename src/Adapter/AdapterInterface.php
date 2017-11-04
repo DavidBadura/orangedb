@@ -3,22 +3,17 @@
 namespace DavidBadura\OrangeDb\Adapter;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 interface AdapterInterface
 {
     /**
-     * @param string $collection
-     * @param string $identifier
-     *
-     * @return array
+     * @return object[]
      */
-    public function load($collection, $identifier);
+    public function load(string $collection, string $identifier): array;
 
     /**
-     * @param string $collection
      * @return string[]
      */
-    public function findIdentifiers($collection);
+    public function findIdentifiers(string $collection): array;
 }

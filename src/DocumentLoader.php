@@ -13,32 +13,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class DocumentLoader
 {
-    /**
-     * @var DocumentManager
-     */
     private $manager;
-
-    /**
-     * @var AdapterInterface
-     */
     private $adapter;
-
-    /**
-     * @var DocumentHydrator
-     */
     private $hydrator;
-
-    /**
-     * @var EventDispatcherInterface
-     */
     private $eventDispatcher;
 
-    /**
-     * @param DocumentManager $manager
-     * @param AdapterInterface $adapter
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param CacheItemPoolInterface|null $cache
-     */
     public function __construct(
         DocumentManager $manager,
         AdapterInterface $adapter,
@@ -52,13 +31,7 @@ class DocumentLoader
         $this->hydrator = new DocumentHydrator($this->manager);
     }
 
-    /**
-     * @param string $class
-     * @param string $identifier
-     *
-     * @return object
-     */
-    public function load($class, $identifier)
+    public function load(string $class, string $identifier)
     {
         $metadata = $this->manager->getMetadataFor($class);
 
@@ -91,11 +64,7 @@ class DocumentLoader
         return $this->hydrate($class, $data);
     }
 
-    /**
-     * @param string $class
-     * @return object[]
-     */
-    public function loadAll($class)
+    public function loadAll(string $class): array
     {
         $metadata = $this->manager->getMetadataFor($class);
 
@@ -129,12 +98,7 @@ class DocumentLoader
         return $result;
     }
 
-    /**
-     * @param string $class
-     * @param array $data
-     * @return object
-     */
-    private function hydrate($class, $data)
+    private function hydrate(string $class, array $data)
     {
         $object = $this->hydrator->hydrate($class, $data);
 

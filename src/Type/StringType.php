@@ -7,19 +7,12 @@ namespace DavidBadura\OrangeDb\Type;
  */
 class StringType implements TypeInterface
 {
-    /**
-     * @param mixed $value
-     * @return string
-     */
-    public function transformToPhp($value)
+    public function transformToPhp($value): string
     {
         return (string)$value;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'string';
     }

@@ -7,14 +7,8 @@ namespace DavidBadura\OrangeDb\Collection;
  */
 class ObjectCollection implements \ArrayAccess, \Iterator
 {
-    /**
-     * @var \SplObjectStorage
-     */
     private $list;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->list = new \SplObjectStorage;
@@ -24,7 +18,7 @@ class ObjectCollection implements \ArrayAccess, \Iterator
      * @param object $offset
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->list->offsetExists($offset);
     }
@@ -63,9 +57,6 @@ class ObjectCollection implements \ArrayAccess, \Iterator
         return $this->list[$this->list->current()];
     }
 
-    /**
-     *
-     */
     public function next()
     {
         $this->list->next();
@@ -82,14 +73,11 @@ class ObjectCollection implements \ArrayAccess, \Iterator
     /**
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return $this->list->valid();
     }
 
-    /**
-     *
-     */
     public function rewind()
     {
         $this->list->rewind();

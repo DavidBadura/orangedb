@@ -7,19 +7,12 @@ namespace DavidBadura\OrangeDb\Type;
  */
 class BooleanType implements TypeInterface
 {
-    /**
-     * @param mixed $value
-     * @return bool
-     */
-    public function transformToPhp($value)
+    public function transformToPhp($value): bool
     {
         return (bool)$value;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'bool';
     }

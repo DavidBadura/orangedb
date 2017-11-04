@@ -12,40 +12,18 @@ use Webmozart\PathUtil\Path;
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
-    /**
-     * @var string
-     */
     protected $directory;
-
-    /**
-     * @var string
-     */
     private $extension;
-
-    /**
-     * @var array
-     */
     private $cache;
 
-    /**
-     * @param string $directory
-     * @param string $extension
-     */
-    public function __construct($directory, $extension)
+    public function __construct(string $directory, string $extension)
     {
         $this->directory = $directory;
         $this->extension = $extension;
         $this->cache = [];
     }
 
-    /**
-     * @param string $collection
-     *
-     * @return string[]
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function findIdentifiers($collection)
+    public function findIdentifiers(string $collection): array
     {
         if (array_key_exists($collection, $this->cache)) {
             return $this->cache[$collection];
@@ -54,28 +32,21 @@ abstract class AbstractAdapter implements AdapterInterface
         $dir = $this->getCollectionDirectory($collection);
 
         $finder = new Finder();
-        $finder->in($dir)->files()->name('*.' . $this->extension);
+        $finder->in($dir)->files()->name('*.'.$this->extension);
 
         $identifiers = [];
 
         /** @var SplFileInfo $file */
         foreach ($finder as $file) {
-            $identifiers[] = $file->getBasename('.' . $this->extension);
+            $identifiers[] = $file->getBasename('.'.$this->extension);
         }
 
         return $this->cache[$collection] = $identifiers;
     }
 
-    /**
-     * @param string $collection
-     * @param string $identifier
-     *
-     * @return string
-     * @throws \Exception
-     */
-    protected function findFile($collection, $identifier)
+    protected function findFile(string $collection, string $identifier): string
     {
-        $file = Path::join($this->getCollectionDirectory($collection), $identifier . '.' . $this->extension);
+        $file = Path::join($this->getCollectionDirectory($collection), $identifier.'.'.$this->extension);
 
         if (!file_exists($file)) {
             throw new FileNotFoundException($file);
@@ -84,11 +55,7 @@ abstract class AbstractAdapter implements AdapterInterface
         return $file;
     }
 
-    /**
-     * @param string $collection
-     * @return string
-     */
-    protected function getCollectionDirectory($collection)
+    protected function getCollectionDirectory(string $collection): string
     {
         return Path::join($this->directory, strtolower($collection));
     }

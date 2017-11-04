@@ -12,9 +12,6 @@ class TypeRegistry
      */
     protected $types;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->addType(new StringType());
@@ -24,38 +21,25 @@ class TypeRegistry
         $this->addType(new DateTimeType());
     }
 
-    /**
-     * @param TypeInterface $type
-     * @throws \Exception
-     */
     public function addType(TypeInterface $type)
     {
         if (isset($this->types[$type->getName()])) {
-            throw new \Exception(); // todo
+            throw new \RuntimeException(); // todo
         }
 
         $this->types[$type->getName()] = $type;
     }
 
-    /**
-     * @param string $name
-     * @return TypeInterface
-     * @throws \Exception
-     */
-    public function get($name)
+    public function get(string $name): TypeInterface
     {
         if (isset($this->types[$name])) {
             return $this->types[$name];
         }
 
-        throw new \Exception(); // todo
+        throw new \RuntimeException(); // todo
     }
 
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function has($name)
+    public function has(string $name): bool
     {
         return isset($this->types[$name]);
     }

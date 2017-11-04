@@ -7,10 +7,7 @@ namespace DavidBadura\OrangeDb\Exception;
  */
 class FileNotFoundException extends \RuntimeException
 {
-    /**
-     * @param string $file
-     */
-    public function __construct($file)
+    public function __construct(string $file)
     {
         parent::__construct(sprintf('File %s not found', $file));
     }

@@ -11,26 +11,10 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class DocumentEvent extends Event
 {
-    /**
-     * @var DocumentManager
-     */
     private $manager;
-
-    /**
-     * @var object
-     */
     private $document;
-
-    /**
-     * @var ClassMetadata
-     */
     private $metadata;
 
-    /**
-     * @param DocumentManager $manager
-     * @param ClassMetadata $metadata
-     * @param $document
-     */
     public function __construct(DocumentManager $manager, ClassMetadata $metadata, $document)
     {
         $this->metadata = $metadata;
@@ -38,26 +22,17 @@ class DocumentEvent extends Event
         $this->manager = $manager;
     }
 
-    /**
-     * @return DocumentManager
-     */
-    public function getManager()
+    public function getManager(): DocumentManager
     {
         return $this->manager;
     }
 
-    /**
-     * @return object
-     */
     public function getDocument()
     {
         return $this->document;
     }
 
-    /**
-     * @return ClassMetadata
-     */
-    public function getMetadata()
+    public function getMetadata(): ClassMetadata
     {
         return $this->metadata;
     }

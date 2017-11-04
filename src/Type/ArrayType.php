@@ -7,19 +7,12 @@ namespace DavidBadura\OrangeDb\Type;
  */
 class ArrayType implements TypeInterface
 {
-    /**
-     * @param mixed $value
-     * @return array
-     */
-    public function transformToPhp($value)
+    public function transformToPhp($value): array
     {
         return (array)$value;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'array';
     }

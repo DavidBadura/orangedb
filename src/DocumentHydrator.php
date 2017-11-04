@@ -12,32 +12,15 @@ use Doctrine\Instantiator\Instantiator;
  */
 class DocumentHydrator
 {
-    /**
-     * @var DocumentManager
-     */
     private $manager;
-
-    /**
-     * @var Instantiator
-     */
     private $instantiator;
-
-    /**
-     * @param DocumentManager $manager
-     */
     public function __construct(DocumentManager $manager)
     {
         $this->manager = $manager;
         $this->instantiator = new Instantiator();
     }
 
-    /**
-     * @param string $class
-     * @param array $data
-     * @return object
-     * @throws \Exception
-     */
-    public function hydrate($class, $data)
+    public function hydrate(string $class, array $data)
     {
         $object = $this->instantiator->instantiate($class);
         $metadata = $this->manager->getMetadataFor($class);
@@ -118,12 +101,7 @@ class DocumentHydrator
         return $object;
     }
 
-    /**
-     * @param array $data
-     * @param array $map
-     * @return array
-     */
-    private function mapping($data, $map)
+    private function mapping(array $data, array $map): array
     {
         $result = [];
 

@@ -24,14 +24,8 @@ use ReflectionProperty;
  */
 class AnnotationDriver implements DriverInterface
 {
-    /**
-     * @var AnnotationReader
-     */
     private $reader;
 
-    /**
-     *
-     */
     public function __construct()
     {
         AnnotationRegistry::registerLoader('class_exists');
@@ -39,12 +33,7 @@ class AnnotationDriver implements DriverInterface
         $this->reader = new AnnotationReader();
     }
 
-    /**
-     * @param ReflectionClass $class
-     *
-     * @return ClassMetadata
-     */
-    public function loadMetadataForClass(ReflectionClass $class)
+    public function loadMetadataForClass(ReflectionClass $class): ClassMetadata
     {
         $classMetadata = new ClassMetadata($class->getName());
 
@@ -70,12 +59,7 @@ class AnnotationDriver implements DriverInterface
         return $classMetadata;
     }
 
-    /**
-     * @param ReflectionClass $class
-     * @return string
-     * @throws \Exception
-     */
-    private function findIdentifer(ReflectionClass $class)
+    private function findIdentifer(ReflectionClass $class): ?string
     {
         foreach ($class->getProperties() as $property) {
             foreach ($this->reader->getPropertyAnnotations($property) as $propertyAnnotation) {
@@ -88,11 +72,7 @@ class AnnotationDriver implements DriverInterface
         return null;
     }
 
-    /**
-     * @param ReflectionProperty $property
-     * @return PropertyMetadata|null
-     */
-    private function loadPropertyMetadata(ReflectionProperty $property)
+    private function loadPropertyMetadata(ReflectionProperty $property): ?PropertyMetadata
     {
         $propertyMetadata = new PropertyMetadata($property->getDeclaringClass()->getName(), $property->getName());
 

@@ -7,19 +7,12 @@ namespace DavidBadura\OrangeDb\Type;
  */
 class DateTimeType implements TypeInterface
 {
-    /**
-     * @param mixed $value
-     * @return \DateTime
-     */
-    public function transformToPhp($value)
+    public function transformToPhp($value): \DateTime
     {
         return new \DateTime($value);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'datetime';
     }

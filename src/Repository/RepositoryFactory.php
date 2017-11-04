@@ -2,9 +2,9 @@
 
 namespace DavidBadura\OrangeDb\Repository;
 
-use DavidBadura\OrangeDb\Metadata\ClassMetadata;
-use DavidBadura\OrangeDb\DocumentManager;
 use DavidBadura\OrangeDb\DocumentLoader;
+use DavidBadura\OrangeDb\DocumentManager;
+use DavidBadura\OrangeDb\Metadata\ClassMetadata;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
@@ -16,15 +16,12 @@ class RepositoryFactory
      */
     private $repositories = array();
 
-    /**
-     * @param DocumentManager $objectManager
-     * @param DocumentLoader $loader
-     * @param string $class
-     * @return DocumentRepository
-     */
-    public function getRepository(DocumentManager $objectManager, DocumentLoader $loader, $class)
-    {
-        $repositoryHash = $objectManager->getMetadataFor($class)->name . spl_object_hash($objectManager);
+    public function getRepository(
+        DocumentManager $objectManager,
+        DocumentLoader $loader,
+        string $class
+    ): DocumentRepository {
+        $repositoryHash = $objectManager->getMetadataFor($class)->name.spl_object_hash($objectManager);
 
         if (isset($this->repositories[$repositoryHash])) {
             return $this->repositories[$repositoryHash];
@@ -33,14 +30,11 @@ class RepositoryFactory
         return $this->repositories[$repositoryHash] = $this->createRepository($objectManager, $loader, $class);
     }
 
-    /**
-     * @param DocumentManager $objectManager
-     * @param DocumentLoader $loader
-     * @param string $class
-     * @return DocumentRepository
-     */
-    private function createRepository(DocumentManager $objectManager, DocumentLoader $loader, $class)
-    {
+    private function createRepository(
+        DocumentManager $objectManager,
+        DocumentLoader $loader,
+        string $class
+    ): DocumentRepository {
         /* @var $metadata ClassMetadata */
         $metadata = $objectManager->getMetadataFor($class);
 
