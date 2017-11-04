@@ -20,9 +20,17 @@ matrix:
   allow_failures:
       - php: 7.2
 
+install:
+  - 'composer self-update'
+  - 'wget https://github.com/phpstan/phpstan/releases/download/0.8.4/phpstan.phar'
+  - 'php phpstan.phar --version'
+  - 'wget http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar && mv php-cs-fixer-v2.phar php-cs-fixer.phar'
+  - 'php php-cs-fixer.phar --version'
+
 before_script:
-    - composer self-update
     - composer update $PREFER_LOWEST
 
 script:
-  - vendor/bin/phpunit
+  - 'php ./vendor/bin/phpunit'
+  - 'php phpstan.phar analyse -l max src'
+  - 'PHP_CS_FIXER_FUTURE_MODE=1 php php-cs-fixer.phar fix --allow-risky=yes --diff --dry-run'
