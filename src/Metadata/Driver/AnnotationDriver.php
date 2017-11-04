@@ -60,7 +60,11 @@ class AnnotationDriver implements DriverInterface
         $classMetadata->identifier = $this->findIdentifer($class);
 
         foreach ($class->getProperties() as $property) {
-            $classMetadata->addPropertyMetadata($this->loadPropertyMetadata($property));
+            $propertyMetadata = $this->loadPropertyMetadata($property);
+
+            if ($propertyMetadata) {
+                $classMetadata->addPropertyMetadata($this->loadPropertyMetadata($property));
+            }
         }
 
         return $classMetadata;
@@ -86,7 +90,7 @@ class AnnotationDriver implements DriverInterface
 
     /**
      * @param ReflectionProperty $property
-     * @return PropertyMetadata
+     * @return PropertyMetadata|null
      */
     private function loadPropertyMetadata(ReflectionProperty $property)
     {
@@ -95,16 +99,22 @@ class AnnotationDriver implements DriverInterface
         foreach ($this->reader->getPropertyAnnotations($property) as $propertyAnnotation) {
             if ($propertyAnnotation instanceof Type) {
                 $propertyMetadata->type = $propertyAnnotation->name;
+
+                return $propertyMetadata;
             }
 
             if ($propertyAnnotation instanceof ReferenceOne) {
                 $propertyMetadata->reference = PropertyMetadata::REFERENCE_ONE;
                 $propertyMetadata->target = $propertyAnnotation->target;
+
+                return $propertyMetadata;
             }
 
             if ($propertyAnnotation instanceof ReferenceMany) {
                 $propertyMetadata->reference = PropertyMetadata::REFERENCE_MANY;
                 $propertyMetadata->target = $propertyAnnotation->target;
+
+                return $propertyMetadata;
             }
 
             if ($propertyAnnotation instanceof ReferenceKey) {
@@ -114,24 +124,30 @@ class AnnotationDriver implements DriverInterface
                 if ($propertyAnnotation->value instanceof Type) {
                     $propertyMetadata->value = [
                         'type' => 'type',
-                        'name' => $propertyAnnotation->value->name
+                        'name' => $propertyAnnotation->value->name,
                     ];
                 }
+
+                return $propertyMetadata;
             }
 
             if ($propertyAnnotation instanceof EmbedOne) {
                 $propertyMetadata->embed = PropertyMetadata::EMBED_ONE;
                 $propertyMetadata->target = $propertyAnnotation->target;
                 $propertyMetadata->mapping = $propertyAnnotation->mapping;
+
+                return $propertyMetadata;
             }
 
             if ($propertyAnnotation instanceof EmbedMany) {
                 $propertyMetadata->embed = PropertyMetadata::EMBED_MANY;
                 $propertyMetadata->target = $propertyAnnotation->target;
                 $propertyMetadata->mapping = $propertyAnnotation->mapping;
+
+                return $propertyMetadata;
             }
         }
 
-        return $propertyMetadata;
+        return null;
     }
 }

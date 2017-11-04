@@ -3,10 +3,9 @@
 namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
-use DavidBadura\OrangeDb\Collection\ObjectCollection;
 use DavidBadura\OrangeDb\Event\DocumentEvent;
-use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
-use Doctrine\Instantiator\Instantiator;
+use DavidBadura\OrangeDb\Exception\DocumentMetadataException;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -25,9 +24,9 @@ class DocumentLoader
     private $adapter;
 
     /**
-     * @var Instantiator
+     * @var DocumentHydrator
      */
-    private $instantiator;
+    private $hydrator;
 
     /**
      * @var EventDispatcherInterface
@@ -38,13 +37,19 @@ class DocumentLoader
      * @param DocumentManager $manager
      * @param AdapterInterface $adapter
      * @param EventDispatcherInterface $eventDispatcher
+     * @param CacheItemPoolInterface|null $cache
      */
-    public function __construct(DocumentManager $manager, AdapterInterface $adapter, EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        DocumentManager $manager,
+        AdapterInterface $adapter,
+        EventDispatcherInterface $eventDispatcher,
+        CacheItemPoolInterface $cache = null
+    ) {
         $this->manager = $manager;
         $this->adapter = $adapter;
         $this->eventDispatcher = $eventDispatcher;
-        $this->instantiator = new Instantiator();
+        $this->cache = $cache;
+        $this->hydrator = new DocumentHydrator($this->manager);
     }
 
     /**
@@ -57,10 +62,30 @@ class DocumentLoader
     {
         $metadata = $this->manager->getMetadataFor($class);
 
+        if (!$metadata->collection) {
+            throw new DocumentMetadataException('not a document');
+        }
+
+        $cacheItem = null;
+
+        if ($this->cache) {
+            $cacheKey = $metadata->collection.'.'.$identifier;
+            $cacheItem = $this->cache->getItem($cacheKey);
+
+            if ($cacheItem->isHit()) {
+                return $this->hydrate($class, $cacheItem->get());
+            }
+        }
+
         $data = $this->adapter->load($metadata->collection, $identifier);
 
         if ($metadata->identifier) {
             $data[$metadata->identifier] = $identifier;
+        }
+
+        if ($cacheItem) {
+            $cacheItem->set($data);
+            $this->cache->save($cacheItem);
         }
 
         return $this->hydrate($class, $data);
@@ -73,7 +98,27 @@ class DocumentLoader
     public function loadAll($class)
     {
         $metadata = $this->manager->getMetadataFor($class);
-        $identifiers = $this->adapter->findIdentifiers($metadata->collection);
+
+        if (!$metadata->collection) {
+            throw new DocumentMetadataException('not a document');
+        }
+
+        $identifiers = null;
+        $cacheItem = null;
+
+        if ($this->cache) {
+            $cacheItem = $this->cache->getItem($metadata->collection);
+
+            if ($cacheItem->isHit()) {
+                $identifiers = $cacheItem->get();
+            }
+        }
+
+        if (!$identifiers) {
+            $identifiers = $this->adapter->findIdentifiers($metadata->collection);
+            $cacheItem->set($identifiers);
+            $this->cache->save($cacheItem);
+        }
 
         $result = [];
 
@@ -88,94 +133,16 @@ class DocumentLoader
      * @param string $class
      * @param array $data
      * @return object
-     * @throws \Exception
      */
     private function hydrate($class, $data)
     {
-        $object = $this->instantiator->instantiate($class);
+        $object = $this->hydrator->hydrate($class, $data);
+
         $metadata = $this->manager->getMetadataFor($class);
-
-        /** @var PropertyMetadata $property */
-        foreach ($metadata->propertyMetadata as $property) {
-            $value = isset($data[$property->name]) ? $data[$property->name] : null;
-
-            if ($property->type) {
-                $type = $this->manager->getTypeRegisty()->get($property->type);
-                $property->setValue($object, $type->transformToPhp($value));
-            }
-
-            if (!$value) {
-                continue;
-            }
-
-            if ($property->reference === PropertyMetadata::REFERENCE_ONE) {
-                $property->setValue($object, $this->manager->find($property->target, $value));
-            }
-
-            if ($property->reference === PropertyMetadata::REFERENCE_MANY) {
-                $result = [];
-
-                foreach ($value as $k => $v) {
-                    $result[] = $this->manager->find($property->target, $v);
-                }
-
-                $property->setValue($object, $result);
-            }
-
-            if ($property->reference === PropertyMetadata::REFERENCE_KEY) {
-                $result = new ObjectCollection();
-                $type = $this->manager->getTypeRegisty()->get($property->value['name']);
-
-                foreach ($value as $k => $v) {
-                    $result[$this->manager->find($property->target, $k)] = $type->transformToPhp($v);
-                }
-
-                $property->setValue($object, $result);
-            }
-
-            if ($property->embed === PropertyMetadata::EMBED_ONE) {
-                if ($property->mapping) {
-                    $value = $this->mapping($value, $property->mapping);
-                }
-
-                $property->setValue($object, $this->hydrate($property->target, $value));
-            }
-
-            if ($property->embed === PropertyMetadata::EMBED_MANY) {
-                $result = [];
-
-                foreach ($value as $k => $v) {
-
-                    if ($property->mapping) {
-                        $v = $this->mapping($v, $property->mapping);
-                    }
-
-                    $result[] = $this->hydrate($property->target, $v);
-                }
-
-                $property->setValue($object, $result);
-            }
-        }
 
         $event = new DocumentEvent($this->manager, $metadata, $object);
         $this->eventDispatcher->dispatch(Events::POST_LOAD, $event);
 
         return $object;
-    }
-
-    /**
-     * @param array $data
-     * @param array $map
-     * @return array
-     */
-    private function mapping($data, $map)
-    {
-        $result = [];
-
-        foreach ($map as $i => $key) {
-            $result[$key] = $data[$i];
-        }
-
-        return $result;
     }
 }

@@ -8,6 +8,7 @@ use DavidBadura\OrangeDb\Metadata\Driver\AnnotationDriver;
 use DavidBadura\OrangeDb\Repository\RepositoryFactory;
 use DavidBadura\OrangeDb\Type\TypeRegistry;
 use Metadata\MetadataFactory;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -48,12 +49,17 @@ class DocumentManager
 
     /**
      * @param AdapterInterface $adapter
+     * @param EventDispatcherInterface|null $eventDispatcher
+     * @param CacheItemPoolInterface|null $cache
      */
-    public function __construct(AdapterInterface $adapter, EventDispatcherInterface $eventDispatcher = null)
-    {
+    public function __construct(
+        AdapterInterface $adapter,
+        EventDispatcherInterface $eventDispatcher = null,
+        CacheItemPoolInterface $cache = null
+    ) {
         $this->identityMap = new IdentityMap();
         $this->eventDispatcher = $eventDispatcher ?: new EventDispatcher();
-        $this->loader = new DocumentLoader($this, $adapter, $this->eventDispatcher);
+        $this->loader = new DocumentLoader($this, $adapter, $this->eventDispatcher, $cache);
         $this->typeRegistry = new TypeRegistry();
         $this->metadataFactory = new MetadataFactory(new AnnotationDriver());
         $this->repositoryFactory = new RepositoryFactory();
@@ -103,6 +109,14 @@ class DocumentManager
     public function getTypeRegisty()
     {
         return $this->typeRegistry;
+    }
+
+    /**
+     * @return EventDispatcherInterface
+     */
+    public function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
     }
 
     /**

@@ -9,7 +9,7 @@ class ArrayType implements TypeInterface
 {
     /**
      * @param mixed $value
-     * @return int
+     * @return array
      */
     public function transformToPhp($value)
     {

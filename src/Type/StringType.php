@@ -9,7 +9,7 @@ class StringType implements TypeInterface
 {
     /**
      * @param mixed $value
-     * @return int
+     * @return string
      */
     public function transformToPhp($value)
     {

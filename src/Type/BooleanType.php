@@ -9,7 +9,7 @@ class BooleanType implements TypeInterface
 {
     /**
      * @param mixed $value
-     * @return int
+     * @return bool
      */
     public function transformToPhp($value)
     {
