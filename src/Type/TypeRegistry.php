@@ -14,7 +14,7 @@ class TypeRegistry
 
     public function __construct(array $types = [])
     {
-        foreach($types as $type) {
+        foreach ($types as $type) {
             $this->addType($type);
         }
     }
