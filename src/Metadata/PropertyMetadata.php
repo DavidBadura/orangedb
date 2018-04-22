@@ -7,12 +7,12 @@ namespace DavidBadura\OrangeDb\Metadata;
  */
 class PropertyMetadata extends \Metadata\PropertyMetadata
 {
-    const REFERENCE_ONE = 'one';
-    const REFERENCE_MANY = 'many';
-    const REFERENCE_KEY = 'key';
+    public const REFERENCE_ONE = 'one';
+    public const REFERENCE_MANY = 'many';
+    public const REFERENCE_KEY = 'key';
 
-    const EMBED_ONE = 'one';
-    const EMBED_MANY = 'many';
+    public const EMBED_ONE = 'one';
+    public const EMBED_MANY = 'many';
 
     /**
      * @var string

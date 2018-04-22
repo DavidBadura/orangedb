@@ -4,7 +4,6 @@ namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
 use DavidBadura\OrangeDb\Event\DocumentEvent;
-use DavidBadura\OrangeDb\Exception\DocumentMetadataException;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

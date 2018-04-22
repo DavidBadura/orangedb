@@ -7,5 +7,5 @@ namespace DavidBadura\OrangeDb;
  */
 final class Events
 {
-    const POST_LOAD = 'post_load';
+    public const POST_LOAD = 'post_load';
 }

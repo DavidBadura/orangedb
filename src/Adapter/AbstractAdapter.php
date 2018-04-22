@@ -2,7 +2,6 @@
 
 namespace DavidBadura\OrangeDb\Adapter;
 
-use DavidBadura\OrangeDb\Exception\FileNotFoundException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Webmozart\PathUtil\Path;

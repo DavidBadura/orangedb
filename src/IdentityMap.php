@@ -7,7 +7,7 @@ namespace DavidBadura\OrangeDb;
  */
 class IdentityMap
 {
-    const IDENTITY_DELIMITER = '#';
+    private const IDENTITY_DELIMITER = '#';
 
     private $objectsByIdentityMap = [];
 

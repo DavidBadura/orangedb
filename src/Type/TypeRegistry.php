@@ -12,19 +12,17 @@ class TypeRegistry
      */
     protected $types;
 
-    public function __construct()
+    public function __construct(array $types = [])
     {
-        $this->addType(new StringType());
-        $this->addType(new IntegerType());
-        $this->addType(new BooleanType());
-        $this->addType(new ArrayType());
-        $this->addType(new DateTimeType());
+        foreach($types as $type) {
+            $this->addType($type);
+        }
     }
 
     public function addType(TypeInterface $type)
     {
         if (isset($this->types[$type->getName()])) {
-            throw new \RuntimeException(); // todo
+            throw new TypeException(sprintf('type with the name "%s" exists already', $type->getName()));
         }
 
         $this->types[$type->getName()] = $type;
@@ -36,11 +34,22 @@ class TypeRegistry
             return $this->types[$name];
         }
 
-        throw new \RuntimeException(); // todo
+        throw new TypeException(sprintf('type "%s" is not registered', $name));
     }
 
     public function has(string $name): bool
     {
         return isset($this->types[$name]);
+    }
+
+    public static function createWithBuiltinTypes()
+    {
+        return new self([
+            new StringType(),
+            new IntegerType(),
+            new BooleanType(),
+            new ArrayType(),
+            new DateTimeType()
+        ]);
     }
 }

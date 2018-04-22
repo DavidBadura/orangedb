@@ -3,7 +3,6 @@
 namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
-use DavidBadura\OrangeDb\Exception\DocumentMetadataException;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
 use DavidBadura\OrangeDb\Metadata\Driver\AnnotationDriver;
 use DavidBadura\OrangeDb\Repository\DocumentRepository;
@@ -34,7 +33,7 @@ class DocumentManager
         $this->identityMap = new IdentityMap();
         $this->eventDispatcher = $eventDispatcher ?: new EventDispatcher();
         $this->loader = new DocumentLoader($this, $adapter, $this->eventDispatcher, $cache);
-        $this->typeRegistry = new TypeRegistry();
+        $this->typeRegistry = TypeRegistry::createWithBuiltinTypes();
         $this->metadataFactory = new MetadataFactory(new AnnotationDriver());
         $this->repositoryFactory = new RepositoryFactory();
     }

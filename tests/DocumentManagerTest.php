@@ -4,7 +4,7 @@ namespace DavidBadura\OrangeDb\Test;
 
 use DavidBadura\OrangeDb\Adapter\YamlAdapter;
 use DavidBadura\OrangeDb\DocumentManager;
-use DavidBadura\OrangeDb\Exception\DocumentMetadataException;
+use DavidBadura\OrangeDb\DocumentMetadataException;
 use DavidBadura\OrangeDb\Test\Fixture\Building;
 use DavidBadura\OrangeDb\Test\Fixture\MissingMapping;
 use DavidBadura\OrangeDb\Test\Fixture\MissingProperties;

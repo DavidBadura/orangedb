@@ -3,7 +3,6 @@
 namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Collection\ObjectCollection;
-use DavidBadura\OrangeDb\Exception\DocumentMetadataException;
 use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
 use Doctrine\Instantiator\Instantiator;
 
@@ -14,6 +13,7 @@ class DocumentHydrator
 {
     private $manager;
     private $instantiator;
+
     public function __construct(DocumentManager $manager)
     {
         $this->manager = $manager;

@@ -2,8 +2,8 @@
 
 namespace DavidBadura\OrangeDb\Test\Adapter;
 
+use DavidBadura\OrangeDb\Adapter\FileNotFoundException;
 use DavidBadura\OrangeDb\Adapter\YamlAdapter;
-use DavidBadura\OrangeDb\Exception\FileNotFoundException;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
