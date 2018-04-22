@@ -23,7 +23,7 @@ class DocumentManagerTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->manager = new DocumentManager(
-            new YamlAdapter(__DIR__.'/_files/yml')
+            new YamlAdapter(__DIR__.'/_files/yaml')
         );
     }
 

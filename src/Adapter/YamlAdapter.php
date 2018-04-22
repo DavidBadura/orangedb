@@ -11,7 +11,7 @@ class YamlAdapter extends AbstractAdapter
 {
     public function __construct(string $directory)
     {
-        parent::__construct($directory, 'yml');
+        parent::__construct($directory, 'yaml');
     }
 
     public function load(string $collection, string $identifier): array

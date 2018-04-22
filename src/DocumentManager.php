@@ -3,12 +3,13 @@
 namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
-use DavidBadura\OrangeDb\Loader\StandardLoader;
 use DavidBadura\OrangeDb\Loader\PhpCachedLoader;
+use DavidBadura\OrangeDb\Loader\StandardLoader;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
 use DavidBadura\OrangeDb\Metadata\Driver\AnnotationDriver;
 use DavidBadura\OrangeDb\Repository\DocumentRepository;
 use DavidBadura\OrangeDb\Repository\RepositoryFactory;
+use DavidBadura\OrangeDb\Type\TypeInterface;
 use DavidBadura\OrangeDb\Type\TypeRegistry;
 use Metadata\MetadataFactory;
 
@@ -71,6 +72,11 @@ class DocumentManager
     public function getTypeRegisty(): TypeRegistry
     {
         return $this->typeRegistry;
+    }
+
+    public function addType(TypeInterface $type): void
+    {
+        $this->typeRegistry->addType($type);
     }
 
     public function clear(): void

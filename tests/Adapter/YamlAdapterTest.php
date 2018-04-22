@@ -17,7 +17,7 @@ class YamlAdapterTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
-        $this->adapter = new YamlAdapter(__DIR__ . '/../_files/yml');
+        $this->adapter = new YamlAdapter(__DIR__ . '/../_files/yaml');
     }
 
     public function testLoad()
