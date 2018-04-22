@@ -87,7 +87,7 @@ CONTENT;
             if ($property->type) {
                 $type = $this->manager->getTypeRegisty()->get($property->type);
 
-                $properties[$property->name] = $type->transformToDump($value);
+                $properties[$property->name] = $type->transformToDump($value, $property->options);
 
                 continue;
             }
