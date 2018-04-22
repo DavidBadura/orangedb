@@ -10,7 +10,7 @@ use DavidBadura\OrangeDb\DocumentMetadataException;
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
-class AdapterLoader implements LoaderInterface
+class StandardLoader implements LoaderInterface
 {
     private $manager;
     private $adapter;

@@ -3,8 +3,8 @@
 namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
-use DavidBadura\OrangeDb\Loader\AdapterLoader;
-use DavidBadura\OrangeDb\Loader\OpcacheLoader;
+use DavidBadura\OrangeDb\Loader\StandardLoader;
+use DavidBadura\OrangeDb\Loader\PhpCachedLoader;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
 use DavidBadura\OrangeDb\Metadata\Driver\AnnotationDriver;
 use DavidBadura\OrangeDb\Repository\DocumentRepository;
@@ -33,9 +33,9 @@ class DocumentManager
         $this->repositoryFactory = new RepositoryFactory();
 
         if ($cachePath) {
-            $this->loader = new OpcacheLoader($this, new AdapterLoader($this, $adapter), $cachePath);
+            $this->loader = new PhpCachedLoader($this, $adapter, $cachePath);
         } else {
-            $this->loader = new AdapterLoader($this, $adapter);
+            $this->loader = new StandardLoader($this, $adapter);
         }
     }
 
