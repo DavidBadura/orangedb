@@ -3,3 +3,5 @@ composer.lock
 php-cs-fixer.phar
 phpstan.phar
 .php_cs.cache
+/cache/
+example/cache/

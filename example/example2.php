@@ -9,7 +9,7 @@ use DavidBadura\OrangeDb\Adapter\YamlAdapter;
 use DavidBadura\OrangeDb\DocumentManager;
 use Model\Building;
 
-$manager = new DocumentManager(new YamlAdapter(__DIR__ . '/data'));
+$manager = new DocumentManager(new YamlAdapter(__DIR__ . '/data'), __DIR__ . '/cache');
 
 /** @var Building $house */
 $house = $manager->getRepository(Building::class)->find('house');

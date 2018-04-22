@@ -2,8 +2,8 @@
 
 namespace DavidBadura\OrangeDb\Repository;
 
-use DavidBadura\OrangeDb\DocumentLoader;
 use DavidBadura\OrangeDb\DocumentManager;
+use DavidBadura\OrangeDb\Loader\LoaderInterface;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
 use Pinq\ITraversable;
 use Pinq\Traversable;
@@ -17,19 +17,19 @@ class DocumentRepository
     private $metadata;
     private $loader;
 
-    public function __construct(DocumentManager $manager, ClassMetadata $metadata, DocumentLoader $loader)
+    public function __construct(DocumentManager $manager, ClassMetadata $metadata, LoaderInterface $loader)
     {
         $this->manager = $manager;
         $this->metadata = $metadata;
         $this->loader = $loader;
     }
 
-    public function find(string $identifer)
+    public function find(string $identifer): object
     {
         return $this->manager->find($this->metadata->name, $identifer);
     }
 
-    public function findAll()
+    public function findAll(): array
     {
         return $this->loader->loadAll($this->metadata->name);
     }

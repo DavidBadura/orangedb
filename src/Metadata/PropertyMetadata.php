@@ -9,7 +9,6 @@ class PropertyMetadata extends \Metadata\PropertyMetadata
 {
     public const REFERENCE_ONE = 'one';
     public const REFERENCE_MANY = 'many';
-    public const REFERENCE_KEY = 'key';
 
     public const EMBED_ONE = 'one';
     public const EMBED_MANY = 'many';
@@ -44,7 +43,7 @@ class PropertyMetadata extends \Metadata\PropertyMetadata
      */
     public $value;
 
-    public function setValue($obj, $value)
+    public function setValue($obj, $value): void
     {
         $this->reflection->setValue($obj, $value);
     }

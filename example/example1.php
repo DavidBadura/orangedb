@@ -12,7 +12,7 @@ class UserRepository extends \DavidBadura\OrangeDb\Repository\DocumentRepository
 
 }
 
-$manager = new DocumentManager(new YamlAdapter(__DIR__ . '/data'));
+$manager = new DocumentManager(new YamlAdapter(__DIR__ . '/data'), __DIR__ . '/cache');
 
 $repo = $manager->getRepository(User::class);
 
@@ -27,7 +27,9 @@ $users = $repo->createTraversable()
         return $user->getAge() == 0;
     })->getIterator();
 
+/** @var User $user */
 foreach ($users as $user) {
+    dump($user->getName());
     dump($user);
 }
 
@@ -90,6 +92,14 @@ class User
      * @DB\EmbedOne(target="Pos")
      */
     private $pos2;
+
+
+    /**
+     * @var Pos
+     *
+     * @DB\EmbedMany(target="Pos", mapping={"x", "y"})
+     */
+    private $positions;
 
     /**
      * @return int

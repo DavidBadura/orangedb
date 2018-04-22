@@ -12,6 +12,11 @@ class IntegerType implements TypeInterface
         return (int)$value;
     }
 
+    public function transformToDump($value): string
+    {
+        return (string)$value;
+    }
+
     public function getName(): string
     {
         return 'int';

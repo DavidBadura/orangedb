@@ -12,6 +12,11 @@ class StringType implements TypeInterface
         return (string)$value;
     }
 
+    public function transformToDump($value): string
+    {
+        return "'$value'";
+    }
+
     public function getName(): string
     {
         return 'string';

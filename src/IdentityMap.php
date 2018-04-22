@@ -11,12 +11,12 @@ class IdentityMap
 
     private $objectsByIdentityMap = [];
 
-    public function add(string $className, string $identity, $object)
+    public function add(string $className, string $identity, object $object): void
     {
         $this->objectsByIdentityMap[$className . self::IDENTITY_DELIMITER . $identity] = $object;
     }
 
-    public function getObject(string $className, string $identity)
+    public function getObject(string $className, string $identity): ?object
     {
         $identityIndex = $className . self::IDENTITY_DELIMITER . $identity;
 

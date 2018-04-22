@@ -2,8 +2,8 @@
 
 namespace DavidBadura\OrangeDb\Repository;
 
-use DavidBadura\OrangeDb\DocumentLoader;
 use DavidBadura\OrangeDb\DocumentManager;
+use DavidBadura\OrangeDb\Loader\LoaderInterface;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
 
 /**
@@ -18,7 +18,7 @@ class RepositoryFactory
 
     public function getRepository(
         DocumentManager $objectManager,
-        DocumentLoader $loader,
+        LoaderInterface $loader,
         string $class
     ): DocumentRepository {
         $repositoryHash = $objectManager->getMetadataFor($class)->name.spl_object_hash($objectManager);
@@ -32,7 +32,7 @@ class RepositoryFactory
 
     private function createRepository(
         DocumentManager $objectManager,
-        DocumentLoader $loader,
+        LoaderInterface $loader,
         string $class
     ): DocumentRepository {
         /* @var $metadata ClassMetadata */
