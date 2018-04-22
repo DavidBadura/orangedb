@@ -31,18 +31,11 @@ class Building
     protected $constructionRounds;
 
     /**
-     * @var array
-     * @DB\ReferenceKey(target="DavidBadura\OrangeDb\Test\Fixture\Material", value=@DB\Type(name="int"))
-     */
-    protected $constructionCosts;
-
-    /**
      *
      */
     public function __construct()
     {
         $this->constructionRounds = 1;
-        $this->constructionCosts = [];
     }
 
     /**
@@ -67,14 +60,6 @@ class Building
     public function getConstructionRounds()
     {
         return $this->constructionRounds;
-    }
-
-    /**
-     * @return array
-     */
-    public function getConstructionCosts()
-    {
-        return $this->constructionCosts;
     }
 
     /**

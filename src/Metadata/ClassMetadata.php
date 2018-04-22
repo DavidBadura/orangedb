@@ -23,4 +23,9 @@ class ClassMetadata extends MergeableClassMetadata
      * @var string
      */
     public $repository;
+
+    public function getIdentifier(object $object)
+    {
+        return $this->propertyMetadata[$this->identifier]->getValue($object);
+    }
 }

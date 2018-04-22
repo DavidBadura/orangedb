@@ -12,6 +12,11 @@ class BooleanType implements TypeInterface
         return (bool)$value;
     }
 
+    public function transformToDump($value): string
+    {
+        return $value ? 'true' : 'false';
+    }
+
     public function getName(): string
     {
         return 'bool';

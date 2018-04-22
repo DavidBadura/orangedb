@@ -2,7 +2,6 @@
 
 namespace DavidBadura\OrangeDb;
 
-use DavidBadura\OrangeDb\Collection\ObjectCollection;
 use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
 use Doctrine\Instantiator\Instantiator;
 
@@ -20,10 +19,10 @@ class DocumentHydrator
         $this->instantiator = new Instantiator();
     }
 
-    public function hydrate(string $class, array $data)
+    public function hydrate(string $class, array $data): object
     {
-        $object = $this->instantiator->instantiate($class);
         $metadata = $this->manager->getMetadataFor($class);
+        $object = $metadata->reflection->newInstanceWithoutConstructor();
 
         /** @var PropertyMetadata $property */
         foreach ($metadata->propertyMetadata as $property) {
@@ -52,17 +51,6 @@ class DocumentHydrator
 
                 foreach ($value as $k => $v) {
                     $result[] = $this->manager->find($property->target, $v);
-                }
-
-                $property->setValue($object, $result);
-            }
-
-            if ($property->reference === PropertyMetadata::REFERENCE_KEY) {
-                $result = new ObjectCollection();
-                $type = $this->manager->getTypeRegisty()->get($property->value['name']);
-
-                foreach ($value as $k => $v) {
-                    $result[$this->manager->find($property->target, $k)] = $type->transformToPhp($v);
                 }
 
                 $property->setValue($object, $result);

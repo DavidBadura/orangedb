@@ -12,6 +12,11 @@ class ArrayType implements TypeInterface
         return (array)$value;
     }
 
+    public function transformToDump($value): string
+    {
+        return var_export($value, true);
+    }
+
     public function getName(): string
     {
         return 'array';

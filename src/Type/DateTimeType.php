@@ -9,7 +9,14 @@ class DateTimeType implements TypeInterface
 {
     public function transformToPhp($value): \DateTime
     {
-        return new \DateTime($value);
+        return new \DateTime((string)$value);
+    }
+
+    public function transformToDump($value): string
+    {
+        $string = $value->format(\DateTime::ISO8601);
+
+        return "new \DateTime('$string')";
     }
 
     public function getName(): string
