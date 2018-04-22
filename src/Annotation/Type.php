@@ -13,4 +13,9 @@ class Type
      * @var string
      */
     public $name;
+
+    /**
+     * @var array
+     */
+    public $options = [];
 }

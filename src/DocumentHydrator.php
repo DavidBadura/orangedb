@@ -35,7 +35,7 @@ class DocumentHydrator
 
             if ($property->type) {
                 $type = $this->manager->getTypeRegisty()->get($property->type);
-                $property->setValue($object, $type->transformToPhp($value));
+                $property->setValue($object, $type->transformToPhp($value, $property->options));
             }
 
             if (!$value) {

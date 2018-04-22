@@ -7,12 +7,12 @@ namespace DavidBadura\OrangeDb\Type;
  */
 class DateTimeType implements TypeInterface
 {
-    public function transformToPhp($value): \DateTime
+    public function transformToPhp($value, array $options): \DateTime
     {
         return new \DateTime((string)$value);
     }
 
-    public function transformToDump($value): string
+    public function transformToDump($value, array $options): string
     {
         $string = $value->format(\DateTime::ISO8601);
 

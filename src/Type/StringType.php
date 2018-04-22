@@ -7,12 +7,12 @@ namespace DavidBadura\OrangeDb\Type;
  */
 class StringType implements TypeInterface
 {
-    public function transformToPhp($value): string
+    public function transformToPhp($value, array $options): string
     {
         return (string)$value;
     }
 
-    public function transformToDump($value): string
+    public function transformToDump($value, array $options): string
     {
         return "'$value'";
     }

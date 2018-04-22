@@ -7,12 +7,12 @@ namespace DavidBadura\OrangeDb\Type;
  */
 class ArrayType implements TypeInterface
 {
-    public function transformToPhp($value): array
+    public function transformToPhp($value, array $options): array
     {
         return (array)$value;
     }
 
-    public function transformToDump($value): string
+    public function transformToDump($value, array $options): string
     {
         return var_export($value, true);
     }

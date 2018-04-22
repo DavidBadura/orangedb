@@ -41,7 +41,7 @@ class PropertyMetadata extends \Metadata\PropertyMetadata
     /**
      * @var array
      */
-    public $value;
+    public $options = [];
 
     public function setValue($obj, $value): void
     {

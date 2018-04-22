@@ -7,12 +7,12 @@ namespace DavidBadura\OrangeDb\Type;
  */
 class IntegerType implements TypeInterface
 {
-    public function transformToPhp($value): int
+    public function transformToPhp($value, array $options): int
     {
         return (int)$value;
     }
 
-    public function transformToDump($value): string
+    public function transformToDump($value, array $options): string
     {
         return (string)$value;
     }

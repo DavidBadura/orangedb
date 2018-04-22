@@ -7,7 +7,7 @@ namespace DavidBadura\OrangeDb\Type;
  */
 interface TypeInterface
 {
-    public function transformToPhp($value);
-    public function transformToDump($value): string;
+    public function transformToPhp($value, array $options);
+    public function transformToDump($value, array $options): string;
     public function getName(): string;
 }
