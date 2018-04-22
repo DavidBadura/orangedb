@@ -26,6 +26,20 @@ class Dumper
         $this->write($path, $content);
     }
 
+    public function dumpIndex(string $path, string $class, array $identifiers): void
+    {
+        $content = "<?php\n\n";
+        $content .= "return [\n";
+
+        foreach ($identifiers as $id) {
+            $content .= "    \$manager->find('$class', '$id'),\n";
+        }
+
+        $content .= '];';
+
+        $this->write($path, $content);
+    }
+
     private function create(string $class, object $object): string
     {
         $body = $this->createBody($class, $object);
