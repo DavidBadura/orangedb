@@ -16,12 +16,8 @@ class Dumper
 
     public function dump(string $path, object $object): void
     {
-        $ref = new \ReflectionClass($object);
-
-        $class = $ref->getName();
-
         $content = "<?php\n\n";
-        $content .= 'return '.$this->create($class, $object).";\n";
+        $content .= 'return '.$this->create(get_class($object), $object).";\n";
 
         $this->write($path, $content);
     }

@@ -9,11 +9,12 @@ use DavidBadura\OrangeDb\Test\Fixture\Building;
 use DavidBadura\OrangeDb\Test\Fixture\MissingMapping;
 use DavidBadura\OrangeDb\Test\Fixture\MissingProperties;
 use DavidBadura\OrangeDb\Test\Fixture\Unknown;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
-class DocumentManagerTest extends \PHPUnit\Framework\TestCase
+class DocumentManagerTest extends TestCase
 {
     /**
      * @var DocumentManager

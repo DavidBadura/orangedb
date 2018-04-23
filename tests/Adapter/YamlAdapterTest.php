@@ -4,11 +4,12 @@ namespace DavidBadura\OrangeDb\Test\Adapter;
 
 use DavidBadura\OrangeDb\Adapter\FileNotFoundException;
 use DavidBadura\OrangeDb\Adapter\YamlAdapter;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
-class YamlAdapterTest extends \PHPUnit\Framework\TestCase
+class YamlAdapterTest extends TestCase
 {
     /**
      * @var YamlAdapter
@@ -17,7 +18,7 @@ class YamlAdapterTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
-        $this->adapter = new YamlAdapter(__DIR__ . '/../_files/yaml');
+        $this->adapter = new YamlAdapter(__DIR__.'/../_files/yaml');
     }
 
     public function testLoad()

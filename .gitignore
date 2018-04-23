@@ -5,3 +5,5 @@ phpstan.phar
 .php_cs.cache
 /cache/
 example/cache/
+clover.xml
+coverage
