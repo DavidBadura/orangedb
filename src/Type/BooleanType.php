@@ -14,6 +14,10 @@ class BooleanType implements TypeInterface
 
     public function transformToDump($value, array $options): string
     {
+        if ($value === null) {
+            return 'null';
+        }
+
         return $value ? 'true' : 'false';
     }
 

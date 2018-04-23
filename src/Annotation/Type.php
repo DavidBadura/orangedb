@@ -15,6 +15,11 @@ class Type
     public $name;
 
     /**
+     * @var bool
+     */
+    public $nullable = false;
+
+    /**
      * @var array
      */
     public $options = [];

@@ -43,6 +43,11 @@ class PropertyMetadata extends \Metadata\PropertyMetadata
      */
     public $options = [];
 
+    /**
+     * @var bool
+     */
+    public $nullable;
+
     public function setValue($obj, $value): void
     {
         $this->reflection->setValue($obj, $value);

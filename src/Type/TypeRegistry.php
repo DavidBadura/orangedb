@@ -10,7 +10,7 @@ class TypeRegistry
     /**
      * @var TypeInterface[]
      */
-    protected $types;
+    protected $types = [];
 
     public function __construct(array $types = [])
     {
@@ -42,6 +42,11 @@ class TypeRegistry
         return isset($this->types[$name]);
     }
 
+    public function all(): array
+    {
+        return array_values($this->types);
+    }
+
     public static function createWithBuiltinTypes()
     {
         return new self([
@@ -49,7 +54,7 @@ class TypeRegistry
             new IntegerType(),
             new BooleanType(),
             new ArrayType(),
-            new DateTimeType()
+            new DateTimeType(),
         ]);
     }
 }

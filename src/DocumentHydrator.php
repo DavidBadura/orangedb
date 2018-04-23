@@ -34,8 +34,18 @@ class DocumentHydrator
             }
 
             if ($property->type) {
-                $type = $this->manager->getTypeRegisty()->get($property->type);
-                $property->setValue($object, $type->transformToPhp($value, $property->options));
+                if ($value === null && !$property->nullable) {
+                    throw new DocumentMetadataException(
+                        sprintf('field "%s" in class "%s" is not nullable', $property->name, $class)
+                    );
+                }
+
+                if ($value !== null) {
+                    $type = $this->manager->getTypeRegisty()->get($property->type);
+                    $value = $type->transformToPhp($value, $property->options);
+                }
+
+                $property->setValue($object, $value);
             }
 
             if (!$value) {

@@ -78,6 +78,7 @@ class AnnotationDriver implements DriverInterface
         foreach ($this->reader->getPropertyAnnotations($property) as $propertyAnnotation) {
             if ($propertyAnnotation instanceof Type) {
                 $propertyMetadata->type = $propertyAnnotation->name;
+                $propertyMetadata->nullable = $propertyAnnotation->nullable;
                 $propertyMetadata->options = $propertyAnnotation->options;
 
                 return $propertyMetadata;

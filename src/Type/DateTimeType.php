@@ -14,6 +14,10 @@ class DateTimeType implements TypeInterface
 
     public function transformToDump($value, array $options): string
     {
+        if ($value === null) {
+            return 'null';
+        }
+
         $string = $value->format(\DateTime::ISO8601);
 
         return "new \DateTime('$string')";
