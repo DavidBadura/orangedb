@@ -3,7 +3,6 @@ composer.lock
 php-cs-fixer.phar
 phpstan.phar
 .php_cs.cache
-/cache/
-example/cache/
+/tests/_cache/
 clover.xml
-coverage
+/coverage/

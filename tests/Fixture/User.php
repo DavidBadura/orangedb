@@ -1,40 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
-require_once __DIR__ . '/../vendor/autoload.php';
+namespace DavidBadura\OrangeDb\Test\Fixture;
 
-use DavidBadura\OrangeDb\Adapter\YamlAdapter;
 use DavidBadura\OrangeDb\Annotation as DB;
-use DavidBadura\OrangeDb\DocumentManager;
-
-
-class UserRepository extends \DavidBadura\OrangeDb\Repository\DocumentRepository
-{
-
-}
-
-$manager = new DocumentManager(new YamlAdapter(__DIR__ . '/data'), __DIR__ . '/cache');
-
-$repo = $manager->getRepository(User::class);
-
-$user = $repo->find('john');
-
-foreach ($repo->findAll() as $user) {
-    dump($user);
-}
-
-$users = $repo->createTraversable()
-    ->where(function (User $user) {
-        return $user->getAge() == 0;
-    })->getIterator();
-
-/** @var User $user */
-foreach ($users as $user) {
-    dump($user->getName());
-    dump($user);
-}
 
 /**
- * @DB\Document(repository="UserRepository")
+ * @DB\Document(repository="DavidBadura\OrangeDb\Test\Fixture\UserRepository")
  */
 class User
 {
@@ -56,40 +27,40 @@ class User
     /**
      * @var int
      *
-     * @DB\Type(name="int")
+     * @DB\Type(name="int", nullable=true)
      */
     private $age;
 
     /**
-     * @DB\Type(name="datetime")
+     * @DB\Type(name="datetime", nullable=true)
      */
     private $birthdate;
 
     /**
      * @var User
      *
-     * @DB\ReferenceOne(target="User")
+     * @DB\ReferenceOne(target="DavidBadura\OrangeDb\Test\Fixture\User")
      */
     private $parent;
 
     /**
      * @var User[]
      *
-     * @DB\ReferenceMany(target="User")
+     * @DB\ReferenceMany(target="DavidBadura\OrangeDb\Test\Fixture\User")
      */
     private $children = [];
 
     /**
      * @var Pos
      *
-     * @DB\EmbedOne(target="Pos", mapping={"x", "y"})
+     * @DB\EmbedOne(target="DavidBadura\OrangeDb\Test\Fixture\Pos", mapping={"x", "y"})
      */
     private $pos;
 
     /**
      * @var Pos
      *
-     * @DB\EmbedOne(target="Pos")
+     * @DB\EmbedOne(target="DavidBadura\OrangeDb\Test\Fixture\Pos")
      */
     private $pos2;
 
@@ -97,7 +68,7 @@ class User
     /**
      * @var Pos
      *
-     * @DB\EmbedMany(target="Pos", mapping={"x", "y"})
+     * @DB\EmbedMany(target="DavidBadura\OrangeDb\Test\Fixture\Pos", mapping={"x", "y"})
      */
     private $positions;
 
@@ -148,21 +119,4 @@ class User
     {
         return $this->children;
     }
-}
-
-class Pos
-{
-    /**
-     * @var int
-     *
-     * @DB\Type(name="int")
-     */
-    public $x;
-
-    /**
-     * @var int
-     *
-     * @DB\Type(name="int")
-     */
-    public $y;
 }
