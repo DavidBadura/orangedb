@@ -3,15 +3,15 @@
 namespace DavidBadura\OrangeDb\Test\Adapter;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
-use DavidBadura\OrangeDb\Adapter\YamlAdapter;
+use DavidBadura\OrangeDb\Adapter\JsonAdapter;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
-class YamlAdapterTest extends AbstractAdapterTest
+class JsonAdapterTest extends AbstractAdapterTest
 {
     public function createAdapter(): AdapterInterface
     {
-        return new YamlAdapter(__DIR__.'/../_files/yaml');
+        return new JsonAdapter(__DIR__.'/../_files/json');
     }
 }
