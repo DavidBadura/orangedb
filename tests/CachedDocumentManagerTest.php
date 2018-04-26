@@ -16,6 +16,11 @@ class CachedDocumentManagerTest extends AbstractDocumentManagerTest
         (new Filesystem())->remove(__DIR__.'/_cache');
     }
 
+    public function tearDown()
+    {
+        (new Filesystem())->remove(__DIR__.'/_cache');
+    }
+
     protected function createDocumentManager(): DocumentManager
     {
         return new DocumentManager(
