@@ -9,6 +9,9 @@ use DavidBadura\OrangeDb\Test\Fixture\Building;
 use DavidBadura\OrangeDb\Test\Fixture\Material;
 use DavidBadura\OrangeDb\Test\Fixture\MissingMapping;
 use DavidBadura\OrangeDb\Test\Fixture\MissingProperties;
+use DavidBadura\OrangeDb\Test\Fixture\Middle;
+use DavidBadura\OrangeDb\Test\Fixture\Super;
+use DavidBadura\OrangeDb\Test\Fixture\TraitFixture;
 use DavidBadura\OrangeDb\Test\Fixture\Unknown;
 use DavidBadura\OrangeDb\Test\Fixture\User;
 use PHPUnit\Framework\TestCase;
@@ -145,5 +148,49 @@ abstract class AbstractDocumentManagerTest extends TestCase
         self::assertEquals('john', $john->getId());
         self::assertEquals('John', $john->getName());
         self::assertEquals(new \DateTime('1989-01-08'), $john->getBirthdate());
+    }
+
+    public function testExtends()
+    {
+        $manager = $this->createDocumentManager();
+        $repository = $manager->getRepository(Super::class);
+
+        /** @var Super $object */
+        $object = $repository->find('wood');
+
+        self::assertEquals('wood', $object->getId());
+        self::assertEquals('Wood', $object->getName());
+        self::assertEquals(12, $object->age);
+        self::assertEquals(42, $object->getTest());
+
+        $manager->clear();
+
+        /** @var Super $object */
+        $object = $repository->find('wood');
+
+        self::assertEquals('wood', $object->getId());
+        self::assertEquals('Wood', $object->getName());
+        self::assertEquals(12, $object->age);
+        self::assertEquals(42, $object->getTest());
+    }
+
+    public function testTrait()
+    {
+        $manager = $this->createDocumentManager();
+        $repository = $manager->getRepository(TraitFixture::class);
+
+        /** @var TraitFixture $object */
+        $object = $repository->find('test');
+
+        self::assertEquals('Foo', $object->name);
+        self::assertEquals(42, $object->age);
+
+        $manager->clear();
+
+        /** @var TraitFixture $object */
+        $object = $repository->find('test');
+
+        self::assertEquals('Foo', $object->name);
+        self::assertEquals(42, $object->age);
     }
 }

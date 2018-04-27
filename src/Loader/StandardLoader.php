@@ -30,7 +30,7 @@ class StandardLoader implements LoaderInterface
         $metadata = $this->manager->getMetadataFor($class);
 
         if (!$metadata->collection) {
-            throw new DocumentMetadataException('not a document');
+            throw new DocumentMetadataException(sprintf('"%s" is not a document', $class));
         }
 
         $data = $this->adapter->load($metadata->collection, $identifier);
