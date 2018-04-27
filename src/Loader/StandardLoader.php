@@ -39,6 +39,12 @@ class StandardLoader implements LoaderInterface
             $data[$metadata->identifier] = $identifier;
         }
 
+        if ($metadata->discriminatorColumn) {
+            $type = $data[$metadata->discriminatorColumn];
+            $class = $metadata->discriminatorMap[$type];
+            unset($data[$metadata->discriminatorColumn]);
+        }
+
         return $this->hydrator->hydrate($class, $data);
     }
 
@@ -54,7 +60,7 @@ class StandardLoader implements LoaderInterface
         $result = [];
 
         foreach ($identifiers as $identifier) {
-            $result[] = $this->manager->find($class, $identifier);
+            $result[$identifier] = $this->manager->find($class, $identifier);
         }
 
         return $result;

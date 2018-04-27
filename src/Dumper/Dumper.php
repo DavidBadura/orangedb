@@ -28,7 +28,7 @@ class Dumper
         $content .= "return [\n";
 
         foreach ($identifiers as $id) {
-            $content .= "    \$manager->find('$class', '$id'),\n";
+            $content .= "    '$id' => \$manager->find('$class', '$id'),\n";
         }
 
         $content .= '];';

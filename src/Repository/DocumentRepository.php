@@ -31,7 +31,7 @@ class DocumentRepository
 
     public function findAll(): array
     {
-        return $this->loader->loadAll($this->metadata->name);
+        return array_values($this->loader->loadAll($this->metadata->name));
     }
 
     public function createTraversable(): ITraversable

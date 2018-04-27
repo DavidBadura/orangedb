@@ -32,11 +32,10 @@ class DocumentManager
         $this->typeRegistry = TypeRegistry::createWithBuiltinTypes();
         $this->metadataFactory = new MetadataFactory(new AnnotationDriver());
         $this->repositoryFactory = new RepositoryFactory();
+        $this->loader = new StandardLoader($this, $adapter);
 
         if ($cachePath) {
-            $this->loader = new PhpCachedLoader($this, $adapter, $cachePath);
-        } else {
-            $this->loader = new StandardLoader($this, $adapter);
+            $this->loader = new PhpCachedLoader($this->loader, $this, $cachePath);
         }
     }
 

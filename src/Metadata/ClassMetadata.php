@@ -25,6 +25,16 @@ class ClassMetadata extends MergeableClassMetadata
      */
     public $repository;
 
+    /**
+     * @var string
+     */
+    public $discriminatorColumn;
+
+    /**
+     * @var string
+     */
+    public $discriminatorMap;
+
     public function getIdentifier(object $object)
     {
         return $this->propertyMetadata[$this->identifier]->getValue($object);
@@ -37,8 +47,19 @@ class ClassMetadata extends MergeableClassMetadata
     {
         parent::merge($object);
 
-        $this->collection = $object->collection;
+        if ($object->collection) {
+            $this->collection = $object->collection;
+        }
+
         $this->identifier = $object->identifier;
         $this->repository = $object->repository;
+
+        if ($object->discriminatorMap) {
+            $this->discriminatorMap = $object->discriminatorMap;
+        }
+
+        if ($object->discriminatorColumn) {
+            $this->discriminatorColumn = $object->discriminatorColumn;
+        }
     }
 }

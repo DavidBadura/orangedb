@@ -6,10 +6,12 @@ use DavidBadura\OrangeDb\DocumentManager;
 use DavidBadura\OrangeDb\DocumentMetadataException;
 use DavidBadura\OrangeDb\Repository\DocumentRepository;
 use DavidBadura\OrangeDb\Test\Fixture\Building;
+use DavidBadura\OrangeDb\Test\Fixture\InheritanceBar;
+use DavidBadura\OrangeDb\Test\Fixture\InheritanceBase;
+use DavidBadura\OrangeDb\Test\Fixture\InheritanceFoo;
 use DavidBadura\OrangeDb\Test\Fixture\Material;
 use DavidBadura\OrangeDb\Test\Fixture\MissingMapping;
 use DavidBadura\OrangeDb\Test\Fixture\MissingProperties;
-use DavidBadura\OrangeDb\Test\Fixture\Middle;
 use DavidBadura\OrangeDb\Test\Fixture\Super;
 use DavidBadura\OrangeDb\Test\Fixture\TraitFixture;
 use DavidBadura\OrangeDb\Test\Fixture\Unknown;
@@ -162,16 +164,6 @@ abstract class AbstractDocumentManagerTest extends TestCase
         self::assertEquals('Wood', $object->getName());
         self::assertEquals(12, $object->age);
         self::assertEquals(42, $object->getTest());
-
-        $manager->clear();
-
-        /** @var Super $object */
-        $object = $repository->find('wood');
-
-        self::assertEquals('wood', $object->getId());
-        self::assertEquals('Wood', $object->getName());
-        self::assertEquals(12, $object->age);
-        self::assertEquals(42, $object->getTest());
     }
 
     public function testTrait()
@@ -184,13 +176,45 @@ abstract class AbstractDocumentManagerTest extends TestCase
 
         self::assertEquals('Foo', $object->name);
         self::assertEquals(42, $object->age);
+    }
 
-        $manager->clear();
+    public function testInheritanceBase()
+    {
+        $manager = $this->createDocumentManager();
+        $repository = $manager->getRepository(InheritanceBase::class);
 
-        /** @var TraitFixture $object */
-        $object = $repository->find('test');
+        /** @var InheritanceBase|InheritanceFoo $test1 */
+        $test1 = $repository->find('test');
 
-        self::assertEquals('Foo', $object->name);
-        self::assertEquals(42, $object->age);
+        self::assertEquals('Foo', $test1->name);
+        self::assertEquals(42, $test1->age);
+
+        /** @var InheritanceBase|InheritanceBar $test2 */
+        $test2 = $repository->find('test2');
+
+        self::assertEquals('BAR', $test2->name);
+        self::assertEquals('hello', $test2->baz);
+
+        self::assertCount(2, $repository->findAll());
+
+        $repository = $manager->getRepository(InheritanceFoo::class);
+
+        /** @var InheritanceBase|InheritanceFoo $test1 */
+        $test1 = $repository->find('test');
+
+        self::assertEquals('Foo', $test1->name);
+        self::assertEquals(42, $test1->age);
+
+        //self::assertCount(1, $repository->findAll());
+
+        $repository = $manager->getRepository(InheritanceBar::class);
+
+        /** @var InheritanceBase|InheritanceBar $test2 */
+        $test2 = $repository->find('test2');
+
+        self::assertEquals('BAR', $test2->name);
+        self::assertEquals('hello', $test2->baz);
+
+        //self::assertCount(1, $repository->findAll());
     }
 }

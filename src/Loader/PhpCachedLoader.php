@@ -2,10 +2,7 @@
 
 namespace DavidBadura\OrangeDb\Loader;
 
-use DavidBadura\OrangeDb\Adapter\AdapterInterface;
-use DavidBadura\OrangeDb\DocumentHydrator;
 use DavidBadura\OrangeDb\DocumentManager;
-use DavidBadura\OrangeDb\DocumentMetadataException;
 use DavidBadura\OrangeDb\Dumper\Dumper;
 
 /**
@@ -14,21 +11,19 @@ use DavidBadura\OrangeDb\Dumper\Dumper;
 class PhpCachedLoader implements LoaderInterface
 {
     private $manager;
-    private $adapter;
     private $path;
     private $dumper;
-    private $hydrator;
+    private $loader;
 
     public function __construct(
+        StandardLoader $loader,
         DocumentManager $documentManager,
-        AdapterInterface $adapter,
         string $path
     ) {
+        $this->loader = $loader;
         $this->manager = $documentManager;
-        $this->adapter = $adapter;
         $this->path = $path;
         $this->dumper = new Dumper($documentManager);
-        $this->hydrator = new DocumentHydrator($this->manager);
     }
 
     public function load(string $class, string $identifier): object
@@ -41,19 +36,7 @@ class PhpCachedLoader implements LoaderInterface
             return require $path;
         }
 
-        $metadata = $this->manager->getMetadataFor($class);
-
-        if (!$metadata->collection) {
-            throw new DocumentMetadataException('not a document');
-        }
-
-        $data = $this->adapter->load($metadata->collection, $identifier);
-
-        if ($metadata->identifier) {
-            $data[$metadata->identifier] = $identifier;
-        }
-
-        $object = $this->hydrator->hydrate($class, $data);
+        $object = $this->loader->load($class, $identifier);
 
         $this->dumper->dump($path, $object);
 
@@ -70,20 +53,9 @@ class PhpCachedLoader implements LoaderInterface
             return require $path;
         }
 
-        $metadata = $this->manager->getMetadataFor($class);
+        $result = $this->loader->loadAll($class);
 
-        if (!$metadata->collection) {
-            throw new DocumentMetadataException('not a document');
-        }
-
-        $identifiers = $this->adapter->findIdentifiers($metadata->collection);
-        $result = [];
-
-        foreach ($identifiers as $identifier) {
-            $result[] = $this->manager->find($class, $identifier);
-        }
-
-        $this->dumper->dumpIndex($path, $class, $identifiers);
+        $this->dumper->dumpIndex($path, $class, array_keys($result));
 
         return $result;
     }

@@ -2,6 +2,8 @@
 
 namespace DavidBadura\OrangeDb\Metadata\Driver;
 
+use DavidBadura\OrangeDb\Annotation\DiscriminatorColumn;
+use DavidBadura\OrangeDb\Annotation\DiscriminatorMap;
 use DavidBadura\OrangeDb\Annotation\Document;
 use DavidBadura\OrangeDb\Annotation\EmbedMany;
 use DavidBadura\OrangeDb\Annotation\EmbedOne;
@@ -42,6 +44,14 @@ class AnnotationDriver implements DriverInterface
             if ($annotation instanceof Document) {
                 $classMetadata->collection = $annotation->collection ?: strtolower($class->getShortName());
                 $classMetadata->repository = $annotation->repository ?: DocumentRepository::class;
+            }
+
+            if ($annotation instanceof DiscriminatorColumn) {
+                $classMetadata->discriminatorColumn = $annotation->name;
+            }
+
+            if ($annotation instanceof DiscriminatorMap) {
+                $classMetadata->discriminatorMap = $annotation->map;
             }
         }
 
