@@ -31,7 +31,7 @@ class ClassMetadata extends MergeableClassMetadata
     public $discriminatorColumn;
 
     /**
-     * @var string
+     * @var array
      */
     public $discriminatorMap;
 
@@ -40,11 +40,12 @@ class ClassMetadata extends MergeableClassMetadata
         return $this->propertyMetadata[$this->identifier]->getValue($object);
     }
 
-    /**
-     * @param MergeableInterface|ClassMetadata $object
-     */
     public function merge(MergeableInterface $object)
     {
+        if (!$object instanceof self) {
+            throw new \RuntimeException();
+        }
+
         parent::merge($object);
 
         if ($object->collection) {
