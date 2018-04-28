@@ -13,12 +13,12 @@ class CachedDocumentManagerTest extends AbstractDocumentManagerTest
 {
     public function setUp()
     {
-        //(new Filesystem())->remove(__DIR__.'/_cache');
+        (new Filesystem())->remove(__DIR__.'/_cache');
     }
 
     public function tearDown()
     {
-        //(new Filesystem())->remove(__DIR__.'/_cache');
+        (new Filesystem())->remove(__DIR__.'/_cache');
     }
 
     public function testExtends()

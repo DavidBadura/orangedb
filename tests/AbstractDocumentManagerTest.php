@@ -205,7 +205,7 @@ abstract class AbstractDocumentManagerTest extends TestCase
         self::assertEquals('Foo', $test1->name);
         self::assertEquals(42, $test1->age);
 
-        //self::assertCount(1, $repository->findAll());
+        self::assertCount(1, $repository->findAll());
 
         $repository = $manager->getRepository(InheritanceBar::class);
 
@@ -215,6 +215,6 @@ abstract class AbstractDocumentManagerTest extends TestCase
         self::assertEquals('BAR', $test2->name);
         self::assertEquals('hello', $test2->baz);
 
-        //self::assertCount(1, $repository->findAll());
+        self::assertCount(1, $repository->findAll());
     }
 }

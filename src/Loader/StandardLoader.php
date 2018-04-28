@@ -60,7 +60,11 @@ class StandardLoader implements LoaderInterface
         $result = [];
 
         foreach ($identifiers as $identifier) {
-            $result[$identifier] = $this->manager->find($class, $identifier);
+            $object = $this->manager->find($class, $identifier);
+
+            if (is_a($object, $class)) {
+                $result[$identifier] = $this->manager->find($class, $identifier);
+            }
         }
 
         return $result;
