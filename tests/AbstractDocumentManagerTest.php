@@ -4,6 +4,7 @@ namespace DavidBadura\OrangeDb\Test;
 
 use DavidBadura\OrangeDb\DocumentManager;
 use DavidBadura\OrangeDb\DocumentMetadataException;
+use DavidBadura\OrangeDb\Loader\WrongTypeException;
 use DavidBadura\OrangeDb\Repository\DocumentRepository;
 use DavidBadura\OrangeDb\Test\Fixture\Building;
 use DavidBadura\OrangeDb\Test\Fixture\InheritanceBar;
@@ -216,5 +217,17 @@ abstract class AbstractDocumentManagerTest extends TestCase
         self::assertEquals('hello', $test2->baz);
 
         self::assertCount(1, $repository->findAll());
+    }
+
+    public function testInheritanceNotFound()
+    {
+        self::expectException(WrongTypeException::class);
+
+        $manager = $this->createDocumentManager();
+
+        $repository = $manager->getRepository(InheritanceFoo::class);
+
+        /** @var InheritanceBase|InheritanceFoo $test1 */
+        $object = $repository->find('test2');
     }
 }

@@ -41,8 +41,15 @@ class StandardLoader implements LoaderInterface
 
         if ($metadata->discriminatorColumn) {
             $type = $data[$metadata->discriminatorColumn];
-            $class = $metadata->discriminatorMap[$type];
             unset($data[$metadata->discriminatorColumn]);
+
+            $discriminatorClass = $metadata->discriminatorMap[$type];
+
+            if ($discriminatorClass !== $class && !in_array($class, class_parents($discriminatorClass))) {
+                throw new WrongTypeException($class, $discriminatorClass);
+            }
+
+            $class = $discriminatorClass;
         }
 
         return $this->hydrator->hydrate($class, $data);
@@ -60,10 +67,10 @@ class StandardLoader implements LoaderInterface
         $result = [];
 
         foreach ($identifiers as $identifier) {
-            $object = $this->manager->find($class, $identifier);
-
-            if (is_a($object, $class)) {
+            try {
                 $result[$identifier] = $this->manager->find($class, $identifier);
+            } catch (WrongTypeException $e) {
+                // skip
             }
         }
 
