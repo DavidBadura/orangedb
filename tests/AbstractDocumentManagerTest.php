@@ -7,6 +7,7 @@ use DavidBadura\OrangeDb\DocumentMetadataException;
 use DavidBadura\OrangeDb\Loader\WrongTypeException;
 use DavidBadura\OrangeDb\Repository\DocumentRepository;
 use DavidBadura\OrangeDb\Test\Fixture\Building;
+use DavidBadura\OrangeDb\Test\Fixture\EmbeddedInheritance;
 use DavidBadura\OrangeDb\Test\Fixture\InheritanceBar;
 use DavidBadura\OrangeDb\Test\Fixture\InheritanceBase;
 use DavidBadura\OrangeDb\Test\Fixture\InheritanceFoo;
@@ -226,8 +227,20 @@ abstract class AbstractDocumentManagerTest extends TestCase
         $manager = $this->createDocumentManager();
 
         $repository = $manager->getRepository(InheritanceFoo::class);
+        $repository->find('test2');
+    }
 
-        /** @var InheritanceBase|InheritanceFoo $test1 */
-        $object = $repository->find('test2');
+    public function testEmbeddedInheritance()
+    {
+        $manager = $this->createDocumentManager();
+
+        $repository = $manager->getRepository(EmbeddedInheritance::class);
+
+        /** @var EmbeddedInheritance $object */
+        $object = $repository->find('test');
+
+        self::assertInstanceOf(InheritanceFoo::class, $object->test);
+        self::assertEquals('BAR!', $object->test->name);
+        self::assertEquals(42, $object->test->age);
     }
 }

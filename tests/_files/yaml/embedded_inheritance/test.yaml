@@ -1,0 +1,4 @@
+test:
+  type: "foo"
+  name: "BAR!"
+  age: 42

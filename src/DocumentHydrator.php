@@ -2,6 +2,7 @@
 
 namespace DavidBadura\OrangeDb;
 
+use DavidBadura\OrangeDb\Loader\WrongTypeException;
 use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
 use Doctrine\Instantiator\Instantiator;
 
@@ -22,6 +23,21 @@ class DocumentHydrator
     public function hydrate(string $class, array $data): object
     {
         $metadata = $this->manager->getMetadataFor($class);
+
+        if ($metadata->discriminatorColumn) {
+            $type = $data[$metadata->discriminatorColumn];
+            unset($data[$metadata->discriminatorColumn]);
+
+            $discriminatorClass = $metadata->discriminatorMap[$type];
+
+            if ($discriminatorClass !== $class && !in_array($class, class_parents($discriminatorClass))) {
+                throw new WrongTypeException($class, $discriminatorClass);
+            }
+
+            $class = $discriminatorClass;
+            $metadata = $this->manager->getMetadataFor($class);
+        }
+
         $object = $metadata->reflection->newInstanceWithoutConstructor();
 
         /** @var PropertyMetadata $property */
