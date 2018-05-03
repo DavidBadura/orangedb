@@ -10,6 +10,9 @@ use DavidBadura\OrangeDb\Test\Fixture\Building;
 use DavidBadura\OrangeDb\Test\Fixture\EmbeddedInheritance;
 use DavidBadura\OrangeDb\Test\Fixture\InheritanceBar;
 use DavidBadura\OrangeDb\Test\Fixture\InheritanceBase;
+use DavidBadura\OrangeDb\Test\Fixture\InheritanceCallbackBar;
+use DavidBadura\OrangeDb\Test\Fixture\InheritanceCallbackBase;
+use DavidBadura\OrangeDb\Test\Fixture\InheritanceCallbackFoo;
 use DavidBadura\OrangeDb\Test\Fixture\InheritanceFoo;
 use DavidBadura\OrangeDb\Test\Fixture\Material;
 use DavidBadura\OrangeDb\Test\Fixture\MissingMapping;
@@ -257,5 +260,45 @@ abstract class AbstractDocumentManagerTest extends TestCase
 
         self::assertInstanceOf(ValueObject::class, $object->type);
         self::assertEquals('foo', $object->type->name);
+    }
+
+    public function testInheritanceCallback()
+    {
+        $manager = $this->createDocumentManager();
+        $repository = $manager->getRepository(InheritanceCallbackBase::class);
+
+        /** @var InheritanceBase|InheritanceCallbackFoo $test1 */
+        $test1 = $repository->find('test');
+
+        self::assertEquals('Foo', $test1->name);
+        self::assertEquals(42, $test1->age);
+
+        /** @var InheritanceBase|InheritanceCallbackBar $test2 */
+        $test2 = $repository->find('test2');
+
+        self::assertEquals('BAR', $test2->name);
+        self::assertEquals('hello', $test2->baz);
+
+        self::assertCount(2, $repository->findAll());
+
+        $repository = $manager->getRepository(InheritanceCallbackFoo::class);
+
+        /** @var InheritanceBase|InheritanceCallbackFoo $test1 */
+        $test1 = $repository->find('test');
+
+        self::assertEquals('Foo', $test1->name);
+        self::assertEquals(42, $test1->age);
+
+        self::assertCount(1, $repository->findAll());
+
+        $repository = $manager->getRepository(InheritanceCallbackBar::class);
+
+        /** @var InheritanceBase|InheritanceCallbackBar $test2 */
+        $test2 = $repository->find('test2');
+
+        self::assertEquals('BAR', $test2->name);
+        self::assertEquals('hello', $test2->baz);
+
+        self::assertCount(1, $repository->findAll());
     }
 }

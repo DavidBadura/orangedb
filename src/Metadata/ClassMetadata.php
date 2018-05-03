@@ -35,6 +35,11 @@ class ClassMetadata extends MergeableClassMetadata
      */
     public $discriminatorMap;
 
+    /**
+     * @var callable
+     */
+    public $discriminatorMapCallback;
+
     public function getIdentifier(object $object)
     {
         return $this->propertyMetadata[$this->identifier]->getValue($object);

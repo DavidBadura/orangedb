@@ -52,6 +52,7 @@ class AnnotationDriver implements DriverInterface
 
             if ($annotation instanceof DiscriminatorMap) {
                 $classMetadata->discriminatorMap = $annotation->map;
+                $classMetadata->discriminatorMapCallback = $annotation->callback;
             }
         }
 

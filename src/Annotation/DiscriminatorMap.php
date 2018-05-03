@@ -16,9 +16,15 @@ class DiscriminatorMap
      */
     public $map;
 
+    /**
+     * @var string
+     */
+    public $callback;
+
     public function __construct(array $data)
     {
         $this->map = $data['map'] ?? null;
+        $this->callback = $data['callback'] ?? null;
 
         if (isset($data['value'])) {
             $this->map = $data['value'];
