@@ -18,6 +18,8 @@ class DiscriminatorMap
 
     public function __construct(array $data)
     {
+        $this->map = $data['map'] ?? null;
+
         if (isset($data['value'])) {
             $this->map = $data['value'];
         }

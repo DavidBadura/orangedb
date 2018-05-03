@@ -18,4 +18,14 @@ class Document
      * @var string
      */
     public $repository;
+
+    public function __construct(array $data)
+    {
+        $this->collection = $data['collection'] ?? null;
+        $this->repository = $data['repository'] ?? null;
+
+        if (isset($data['value'])) {
+            $this->collection = $data['value'];
+        }
+    }
 }

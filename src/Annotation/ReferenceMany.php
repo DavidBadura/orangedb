@@ -13,4 +13,13 @@ class ReferenceMany
      * @var string
      */
     public $target;
+
+    public function __construct(array $data)
+    {
+        $this->target = $data['target'] ?? null;
+
+        if (isset($data['value'])) {
+            $this->target = $data['value'];
+        }
+    }
 }

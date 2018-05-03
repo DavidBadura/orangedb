@@ -17,10 +17,21 @@ class Type
     /**
      * @var bool
      */
-    public $nullable = false;
+    public $nullable;
 
     /**
      * @var array
      */
-    public $options = [];
+    public $options;
+
+    public function __construct(array $data)
+    {
+        $this->name = $data['name'] ?? null;
+        $this->nullable = $data['nullable'] ?? false;
+        $this->options = $data['options'] ?? [];
+
+        if (isset($data['value'])) {
+            $this->name = $data['value'];
+        }
+    }
 }

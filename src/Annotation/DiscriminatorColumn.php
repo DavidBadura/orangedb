@@ -13,4 +13,13 @@ class DiscriminatorColumn
      * @var string
      */
     public $name;
+
+    public function __construct(array $data)
+    {
+        $this->name = $data['name'] ?? null;
+
+        if (isset($data['value'])) {
+            $this->name = $data['value'];
+        }
+    }
 }

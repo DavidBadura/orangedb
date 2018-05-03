@@ -18,4 +18,14 @@ class EmbedOne
      * @var array
      */
     public $mapping;
+
+    public function __construct(array $data)
+    {
+        $this->target = $data['target'] ?? null;
+        $this->mapping = $data['mapping'] ?? null;
+
+        if (isset($data['value'])) {
+            $this->target = $data['value'];
+        }
+    }
 }
