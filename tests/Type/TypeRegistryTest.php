@@ -15,7 +15,7 @@ class TypeRegistryTest extends TestCase
     {
         $registry = TypeRegistry::createWithBuiltinTypes();
 
-        self::assertCount(5, $registry->all());
+        self::assertCount(6, $registry->all());
         self::assertTrue($registry->has('int'));
     }
 

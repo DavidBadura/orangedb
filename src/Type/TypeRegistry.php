@@ -52,6 +52,7 @@ class TypeRegistry
         return new self([
             new StringType(),
             new IntegerType(),
+            new FloatType(),
             new BooleanType(),
             new ArrayType(),
             new DateTimeType(),
