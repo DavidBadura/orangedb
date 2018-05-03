@@ -114,8 +114,12 @@ class DocumentHydrator
         return $object;
     }
 
-    private function mapping(array $data, array $map): array
+    private function mapping($data, $map): array
     {
+        if (!is_array($map)) {
+            return [$map => $data];
+        }
+
         $result = [];
 
         foreach ($map as $i => $key) {

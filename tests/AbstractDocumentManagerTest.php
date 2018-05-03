@@ -18,6 +18,8 @@ use DavidBadura\OrangeDb\Test\Fixture\Super;
 use DavidBadura\OrangeDb\Test\Fixture\TraitFixture;
 use DavidBadura\OrangeDb\Test\Fixture\Unknown;
 use DavidBadura\OrangeDb\Test\Fixture\User;
+use DavidBadura\OrangeDb\Test\Fixture\ValueObject;
+use DavidBadura\OrangeDb\Test\Fixture\ValueObjectOwner;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -243,4 +245,18 @@ abstract class AbstractDocumentManagerTest extends TestCase
         self::assertEquals('BAR!', $object->test->name);
         self::assertEquals(42, $object->test->age);
     }
+
+    public function testValueObjectMapping()
+    {
+        $manager = $this->createDocumentManager();
+
+        $repository = $manager->getRepository(ValueObjectOwner::class);
+
+        /** @var ValueObjectOwner $object */
+        $object = $repository->find('test');
+
+        self::assertInstanceOf(ValueObject::class, $object->type);
+        self::assertEquals('foo', $object->type->name);
+    }
+
 }

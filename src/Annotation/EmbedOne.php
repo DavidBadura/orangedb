@@ -15,7 +15,7 @@ class EmbedOne
     public $target;
 
     /**
-     * @var array
+     * @var array|string
      */
     public $mapping;
 

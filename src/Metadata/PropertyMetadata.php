@@ -34,7 +34,7 @@ class PropertyMetadata extends \Metadata\PropertyMetadata
     public $target;
 
     /**
-     * @var array
+     * @var array|string
      */
     public $mapping;
 
