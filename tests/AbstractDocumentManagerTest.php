@@ -258,5 +258,4 @@ abstract class AbstractDocumentManagerTest extends TestCase
         self::assertInstanceOf(ValueObject::class, $object->type);
         self::assertEquals('foo', $object->type->name);
     }
-
 }
