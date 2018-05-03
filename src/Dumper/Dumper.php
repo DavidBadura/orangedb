@@ -17,7 +17,7 @@ class Dumper
     public function dump(string $path, object $object): void
     {
         $content = "<?php\n\n";
-        $content .= 'return '.$this->create(get_class($object), $object).";\n";
+        $content .= 'return '.$this->create($object).";\n";
 
         $this->write($path, $content);
     }
@@ -36,8 +36,9 @@ class Dumper
         $this->write($path, $content);
     }
 
-    private function create(string $class, object $object): string
+    private function create(object $object): string
     {
+        $class = get_class($object);
         $body = $this->createBody($class, $object);
 
         $content = <<<CONTENT
@@ -120,14 +121,14 @@ CONTENT;
             }
 
             if ($property->embed === PropertyMetadata::EMBED_ONE) {
-                $properties[$property->name] = $this->create($property->target, $value);
+                $properties[$property->name] = $this->create($value);
             }
 
             if ($property->embed === PropertyMetadata::EMBED_MANY) {
                 $content = "[\n";
 
                 foreach ($value as $v) {
-                    $content .= '        '.$this->create($property->target, $v).",\n";
+                    $content .= '        '.$this->create($v).",\n";
                 }
 
                 $properties[$property->name] = $content.'    ]';

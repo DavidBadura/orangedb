@@ -39,6 +39,12 @@ class CachedDocumentManagerTest extends AbstractDocumentManagerTest
         parent::testInheritanceBase();
     }
 
+    public function testEmbeddedInheritance()
+    {
+        parent::testEmbeddedInheritance();
+        parent::testEmbeddedInheritance();
+    }
+
     protected function createDocumentManager(): DocumentManager
     {
         return new DocumentManager(
