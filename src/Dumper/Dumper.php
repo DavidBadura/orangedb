@@ -75,67 +75,66 @@ CONTENT;
         foreach ($metadata->propertyMetadata as $property) {
             $value = $property->getValue($object);
 
-            if ($value === null) {
-                $properties[$property->name] = "null";
-
-                continue;
-            }
-
-            if ($property->type) {
-                $type = $this->manager->getTypeRegisty()->get($property->type);
-
-                $properties[$property->name] = $type->transformToDump($value, $property->options);
-
-                continue;
-            }
-
-            if ($property->reference === PropertyMetadata::REFERENCE_ONE) {
-                $target = $property->target;
-                $identifier = $this->manager->getMetadataFor($target)->getIdentifier($value);
-
-                $properties[$property->name] = "\$manager->find('$target', '$identifier')";
-
-                continue;
-            }
-
-            if ($property->reference === PropertyMetadata::REFERENCE_MANY) {
-                if (count($value) === 0) {
-                    $properties[$property->name] = '[]';
-
-                    continue;
-                }
-
-                $content = "[\n";
-
-                $target = $property->target;
-                $targetMetadata = $this->manager->getMetadataFor($target);
-
-                foreach ($value as $k => $v) {
-                    $identifier = $targetMetadata->getIdentifier($v);
-                    $content .= "        \$manager->find('$target', '$identifier'),\n";
-                }
-
-                $properties[$property->name] = $content.'    ]';
-
-                continue;
-            }
-
-            if ($property->embed === PropertyMetadata::EMBED_ONE) {
-                $properties[$property->name] = $this->create($value);
-            }
-
-            if ($property->embed === PropertyMetadata::EMBED_MANY) {
-                $content = "[\n";
-
-                foreach ($value as $v) {
-                    $content .= '        '.$this->create($v).",\n";
-                }
-
-                $properties[$property->name] = $content.'    ]';
+            if ($string = $this->prepareProperty($value, $property)) {
+                $properties[$property->name] = $string;
             }
         }
 
         return $properties;
+    }
+
+    private function prepareProperty($value, PropertyMetadata $property): ?string
+    {
+        if ($value === null) {
+            return 'null';
+        }
+
+        if ($property->type) {
+            $type = $this->manager->getTypeRegisty()->get($property->type);
+
+            return $type->transformToDump($value, $property->options);
+        }
+
+        if ($property->reference === PropertyMetadata::REFERENCE_ONE) {
+            $target = $property->target;
+            $identifier = $this->manager->getMetadataFor($target)->getIdentifier($value);
+
+            return "\$manager->find('$target', '$identifier')";
+        }
+
+        if ($property->reference === PropertyMetadata::REFERENCE_MANY) {
+            if (count($value) === 0) {
+                return '[]';
+            }
+
+            $content = "[\n";
+
+            $target = $property->target;
+            $targetMetadata = $this->manager->getMetadataFor($target);
+
+            foreach ($value as $k => $v) {
+                $identifier = $targetMetadata->getIdentifier($v);
+                $content .= "        \$manager->find('$target', '$identifier'),\n";
+            }
+
+            return $content.'    ]';
+        }
+
+        if ($property->embed === PropertyMetadata::EMBED_ONE) {
+            return $this->create($value);
+        }
+
+        if ($property->embed === PropertyMetadata::EMBED_MANY) {
+            $content = "[\n";
+
+            foreach ($value as $v) {
+                $content .= '        '.$this->create($v).",\n";
+            }
+
+            return $content.'    ]';
+        }
+
+        return null;
     }
 
     private function write(string $path, $content)

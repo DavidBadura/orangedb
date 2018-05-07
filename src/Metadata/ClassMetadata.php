@@ -36,7 +36,7 @@ class ClassMetadata extends MergeableClassMetadata
     public $discriminatorMap;
 
     /**
-     * @var callable
+     * @var string
      */
     public $discriminatorMapCallback;
 

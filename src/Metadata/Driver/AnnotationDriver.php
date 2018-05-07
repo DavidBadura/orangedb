@@ -44,10 +44,14 @@ class AnnotationDriver implements DriverInterface
             if ($annotation instanceof Document) {
                 $classMetadata->collection = $annotation->collection ?: strtolower($class->getShortName());
                 $classMetadata->repository = $annotation->repository ?: DocumentRepository::class;
+
+                continue;
             }
 
             if ($annotation instanceof DiscriminatorColumn) {
                 $classMetadata->discriminatorColumn = $annotation->name;
+
+                continue;
             }
 
             if ($annotation instanceof DiscriminatorMap) {
