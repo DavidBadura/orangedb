@@ -3,27 +3,27 @@
 namespace DavidBadura\OrangeDb\Loader;
 
 use DavidBadura\OrangeDb\DocumentManager;
-use DavidBadura\OrangeDb\Dumper\Dumper;
+use DavidBadura\OrangeDb\Generator\Generator;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
 class PhpCachedLoader implements LoaderInterface
 {
+    private $loader;
     private $manager;
     private $path;
-    private $dumper;
-    private $loader;
+    private $generator;
 
     public function __construct(
-        StandardLoader $loader,
+        LoaderInterface $loader,
         DocumentManager $documentManager,
         string $path
     ) {
         $this->loader = $loader;
         $this->manager = $documentManager;
         $this->path = $path;
-        $this->dumper = new Dumper($documentManager);
+        $this->generator = new Generator($documentManager);
     }
 
     public function load(string $class, string $identifier): object
@@ -38,7 +38,7 @@ class PhpCachedLoader implements LoaderInterface
 
         $object = $this->loader->load($class, $identifier);
 
-        $this->dumper->dump($path, $object);
+        $this->dump($path, $object);
 
         return $object;
     }
@@ -55,7 +55,7 @@ class PhpCachedLoader implements LoaderInterface
 
         $result = $this->loader->loadAll($class);
 
-        $this->dumper->dumpIndex($path, $class, array_keys($result));
+        $this->dumpIndex($path, $class, array_keys($result));
 
         return $result;
     }
@@ -68,5 +68,40 @@ class PhpCachedLoader implements LoaderInterface
     private function indexPath(string $class): string
     {
         return $this->path.'/'.str_replace('\\', '/', $class).'/_index.php';
+    }
+
+    private function dump(string $path, object $object): void
+    {
+        $content = "<?php\n\n";
+        $content .= 'return '.$this->generator->generate($object).";\n";
+
+        $this->write($path, $content);
+    }
+
+    private function dumpIndex(string $path, string $class, array $identifiers): void
+    {
+        $content = "<?php\n\n";
+        $content .= "return [\n";
+
+        foreach ($identifiers as $id) {
+            $content .= "    '$id' => \$manager->find('$class', '$id'),\n";
+        }
+
+        $content .= '];';
+
+        $this->write($path, $content);
+    }
+
+    private function write(string $path, $content)
+    {
+        $dir = dirname($path);
+
+        if (!is_dir($dir)) {
+            if (!mkdir($dir, 0777, true) && !is_dir($dir)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
+            }
+        }
+
+        file_put_contents($path, $content);
     }
 }

@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace DavidBadura\OrangeDb\Dumper;
+namespace DavidBadura\OrangeDb\Generator;
 
 use DavidBadura\OrangeDb\DocumentManager;
 use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
 
-class Dumper
+class Generator
 {
     private $manager;
 
@@ -14,29 +14,7 @@ class Dumper
         $this->manager = $documentManager;
     }
 
-    public function dump(string $path, object $object): void
-    {
-        $content = "<?php\n\n";
-        $content .= 'return '.$this->create($object).";\n";
-
-        $this->write($path, $content);
-    }
-
-    public function dumpIndex(string $path, string $class, array $identifiers): void
-    {
-        $content = "<?php\n\n";
-        $content .= "return [\n";
-
-        foreach ($identifiers as $id) {
-            $content .= "    '$id' => \$manager->find('$class', '$id'),\n";
-        }
-
-        $content .= '];';
-
-        $this->write($path, $content);
-    }
-
-    private function create(object $object): string
+    public function generate(object $object): string
     {
         $class = get_class($object);
         $body = $this->createBody($class, $object);
@@ -121,32 +99,19 @@ CONTENT;
         }
 
         if ($property->embed === PropertyMetadata::EMBED_ONE) {
-            return $this->create($value);
+            return $this->generate($value);
         }
 
         if ($property->embed === PropertyMetadata::EMBED_MANY) {
             $content = "[\n";
 
             foreach ($value as $v) {
-                $content .= '        '.$this->create($v).",\n";
+                $content .= '        '.$this->generate($v).",\n";
             }
 
             return $content.'    ]';
         }
 
         return null;
-    }
-
-    private function write(string $path, $content)
-    {
-        $dir = dirname($path);
-
-        if (!is_dir($dir)) {
-            if (!mkdir($dir, 0777, true) && !is_dir($dir)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
-            }
-        }
-
-        file_put_contents($path, $content);
     }
 }

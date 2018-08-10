@@ -3,6 +3,7 @@
 namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
+use DavidBadura\OrangeDb\Loader\OnePhpCachedLoader;
 use DavidBadura\OrangeDb\Loader\PhpCachedLoader;
 use DavidBadura\OrangeDb\Loader\StandardLoader;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
@@ -36,6 +37,7 @@ class DocumentManager
 
         if ($cachePath) {
             $this->loader = new PhpCachedLoader($this->loader, $this, $cachePath);
+            //$this->loader = new OnePhpCachedLoader($adapter, $this, $cachePath);
         }
     }
 
@@ -59,6 +61,10 @@ class DocumentManager
 
     public function getMetadataFor($class): ClassMetadata
     {
+        if (!class_exists($class)) {
+            throw new DocumentMetadataException(sprintf('"%s" not found', $class));
+        }
+
         $metadata = $this->metadataFactory->getMetadataForClass($class);
 
         if (!$metadata instanceof ClassMetadata) {
