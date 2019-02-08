@@ -2,6 +2,7 @@
 
 namespace DavidBadura\OrangeDb\Metadata;
 
+use DavidBadura\OrangeDb\DocumentMetadataException;
 use Metadata\MergeableClassMetadata;
 use Metadata\MergeableInterface;
 
@@ -42,10 +43,24 @@ class ClassMetadata extends MergeableClassMetadata
 
     public function getIdentifier(object $object)
     {
+        if (!$this->identifier) {
+            throw new DocumentMetadataException(sprintf('missing identifier on class %s', $this->name));
+        }
+
+        if (!isset($this->propertyMetadata[$this->identifier])) {
+            throw new DocumentMetadataException(
+                sprintf(
+                    'property "%s" as identifier on class %s not existis.',
+                    $this->identifier,
+                    $this->name
+                )
+            );
+        }
+
         return $this->propertyMetadata[$this->identifier]->getValue($object);
     }
 
-    public function merge(MergeableInterface $object)
+    public function merge(MergeableInterface $object): void
     {
         if (!$object instanceof self) {
             throw new \RuntimeException();
