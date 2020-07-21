@@ -1,0 +1,39 @@
+---
+- name: add php7.4 repository
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    state: present
+
+- name: Install php packages.
+  apt:
+    name:
+      - acl
+      - php7.4
+      - php7.4-cli
+      - php7.4-intl
+      - php7.4-pdo
+      - php7.4-zip
+      - php7.4-xdebug
+      - php7.4-xml
+      - php7.4-gd
+      - php7.4-json
+      - php7.4-mysqlnd
+      - php7.4-mbstring
+      - php7.4-apcu
+      - php7.4-curl
+      - php7.4-pcov
+    state: latest
+    update_cache: true
+
+- name: ensure php.ini cli settings.
+  lineinfile:
+      dest: '/etc/php/7.4/cli/php.ini'
+      line: "{{ item.key }}='{{ item.value }}'"
+      regexp: "^{{ item.key }}.*$"
+  with_dict: "{{ php_ini }}"
+
+- name: set memory limit in cli settings.
+  lineinfile:
+      dest: '/etc/php/7.4/cli/php.ini'
+      line: "memory_limit='-1'"
+      regexp: "^memory_limit=.*$"

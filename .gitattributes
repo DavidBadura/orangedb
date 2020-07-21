@@ -1,0 +1,4 @@
+/.vagrant export-ignore
+/ansible export-ignore
+/Vagrantfile export-ignore
+/benchmark export-ignore

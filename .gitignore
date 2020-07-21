@@ -1,8 +1,12 @@
+.vagrant
+*.log
+
 /vendor/
 composer.lock
-php-cs-fixer.phar
-phpstan.phar
+
 .php_cs.cache
+
 /tests/_cache/
+
 clover.xml
 /coverage/
