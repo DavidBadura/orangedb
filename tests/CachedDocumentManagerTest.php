@@ -11,12 +11,12 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class CachedDocumentManagerTest extends AbstractDocumentManagerTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         (new Filesystem())->remove(__DIR__.'/_cache');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         (new Filesystem())->remove(__DIR__.'/_cache');
     }

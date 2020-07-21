@@ -9,15 +9,8 @@ namespace DavidBadura\OrangeDb\Annotation;
  */
 class Document
 {
-    /**
-     * @var string
-     */
-    public $collection;
-
-    /**
-     * @var string
-     */
-    public $repository;
+    public ?string $collection;
+    public ?string $repository;
 
     public function __construct(array $data)
     {

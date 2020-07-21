@@ -11,9 +11,9 @@ use Webmozart\PathUtil\Path;
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
-    protected $directory;
-    private $extension;
-    private $cache;
+    protected string $directory;
+    private string $extension;
+    private array $cache;
 
     public function __construct(string $directory, string $extension)
     {

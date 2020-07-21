@@ -3,6 +3,7 @@
 namespace DavidBadura\OrangeDb;
 
 use DavidBadura\OrangeDb\Adapter\AdapterInterface;
+use DavidBadura\OrangeDb\Loader\LoaderInterface;
 use DavidBadura\OrangeDb\Loader\OnePhpCachedLoader;
 use DavidBadura\OrangeDb\Loader\PhpCachedLoader;
 use DavidBadura\OrangeDb\Loader\StandardLoader;
@@ -19,11 +20,11 @@ use Metadata\MetadataFactory;
  */
 class DocumentManager
 {
-    private $identityMap;
-    private $loader;
-    private $typeRegistry;
-    private $metadataFactory;
-    private $repositoryFactory;
+    private IdentityMap $identityMap;
+    private LoaderInterface $loader;
+    private TypeRegistry $typeRegistry;
+    private MetadataFactory $metadataFactory;
+    private RepositoryFactory $repositoryFactory;
 
     public function __construct(
         AdapterInterface $adapter,

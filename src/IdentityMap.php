@@ -9,7 +9,7 @@ class IdentityMap
 {
     private const IDENTITY_DELIMITER = '#';
 
-    private $objectsByIdentityMap = [];
+    private array $objectsByIdentityMap = [];
 
     public function add(string $className, string $identity, object $object): void
     {

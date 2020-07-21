@@ -10,7 +10,7 @@ class TypeRegistry
     /**
      * @var TypeInterface[]
      */
-    protected $types = [];
+    protected array $types = [];
 
     public function __construct(array $types = [])
     {

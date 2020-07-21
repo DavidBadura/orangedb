@@ -25,7 +25,7 @@ use ReflectionProperty;
  */
 class AnnotationDriver implements DriverInterface
 {
-    private $reader;
+    private AnnotationReader $reader;
 
     public function __construct()
     {

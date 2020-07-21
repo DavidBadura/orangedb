@@ -7,7 +7,7 @@ use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
 
 class Generator
 {
-    private $manager;
+    private DocumentManager $manager;
 
     public function __construct(DocumentManager $documentManager)
     {

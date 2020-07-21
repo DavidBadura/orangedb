@@ -12,9 +12,9 @@ use DavidBadura\OrangeDb\DocumentMetadataException;
  */
 class StandardLoader implements LoaderInterface
 {
-    private $manager;
-    private $adapter;
-    private $hydrator;
+    private DocumentManager $manager;
+    private AdapterInterface $adapter;
+    private DocumentHydrator $hydrator;
 
     public function __construct(
         DocumentManager $manager,

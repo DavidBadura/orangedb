@@ -9,20 +9,9 @@ namespace DavidBadura\OrangeDb\Annotation;
  */
 class Type
 {
-    /**
-     * @var string
-     */
-    public $name;
-
-    /**
-     * @var bool
-     */
-    public $nullable;
-
-    /**
-     * @var array
-     */
-    public $options;
+    public ?string $name;
+    public bool $nullable;
+    public array $options;
 
     public function __construct(array $data)
     {

@@ -9,10 +9,7 @@ namespace DavidBadura\OrangeDb\Annotation;
  */
 class EmbedOne
 {
-    /**
-     * @var string
-     */
-    public $target;
+    public ?string $target;
 
     /**
      * @var array|string

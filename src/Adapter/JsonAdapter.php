@@ -9,7 +9,7 @@ use Webmozart\Json\JsonDecoder;
  */
 class JsonAdapter extends AbstractAdapter
 {
-    private $decoder;
+    private JsonDecoder $decoder;
 
     public function __construct(string $directory)
     {

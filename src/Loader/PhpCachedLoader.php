@@ -10,10 +10,10 @@ use DavidBadura\OrangeDb\Generator\Generator;
  */
 class PhpCachedLoader implements LoaderInterface
 {
-    private $loader;
-    private $manager;
-    private $path;
-    private $generator;
+    private LoaderInterface $loader;
+    private DocumentManager $manager;
+    private string $path;
+    private Generator $generator;
 
     public function __construct(
         LoaderInterface $loader,

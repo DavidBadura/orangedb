@@ -9,10 +9,7 @@ namespace DavidBadura\OrangeDb\Annotation;
  */
 class ReferenceOne
 {
-    /**
-     * @var string
-     */
-    public $target;
+    public ?string $target;
 
     public function __construct(array $data)
     {

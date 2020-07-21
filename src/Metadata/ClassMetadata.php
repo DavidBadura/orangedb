@@ -11,35 +11,12 @@ use Metadata\MergeableInterface;
  */
 class ClassMetadata extends MergeableClassMetadata
 {
-    /**
-     * @var string
-     */
-    public $collection;
-
-    /**
-     * @var string|null
-     */
-    public $identifier;
-
-    /**
-     * @var string
-     */
-    public $repository;
-
-    /**
-     * @var string
-     */
-    public $discriminatorColumn;
-
-    /**
-     * @var array
-     */
-    public $discriminatorMap;
-
-    /**
-     * @var string
-     */
-    public $discriminatorMapCallback;
+    public ?string $collection = null;
+    public ?string $identifier = null;
+    public ?string $repository = null;
+    public ?string $discriminatorColumn = null;
+    public ?array $discriminatorMap = null;
+    public ?string $discriminatorMapCallback = null;
 
     public function getIdentifier(object $object)
     {

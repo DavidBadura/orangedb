@@ -11,7 +11,7 @@ use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
  */
 class DocumentHydrator
 {
-    private $manager;
+    private DocumentManager $manager;
 
     public function __construct(DocumentManager $manager)
     {
