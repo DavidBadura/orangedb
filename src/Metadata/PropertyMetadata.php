@@ -26,6 +26,10 @@ class PropertyMetadata extends \Metadata\PropertyMetadata
     public array $options = [];
     public bool $nullable = false;
 
+    /**
+     * @param object $obj
+     * @param mixed $value
+     */
     public function setValue($obj, $value): void
     {
         $this->reflection->setValue($obj, $value);

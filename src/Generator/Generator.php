@@ -61,6 +61,9 @@ CONTENT;
         return $properties;
     }
 
+    /**
+     * @param mixed $value
+     */
     private function prepareProperty($value, PropertyMetadata $property): ?string
     {
         if ($value === null) {
@@ -73,14 +76,14 @@ CONTENT;
             return $type->transformToDump($value, $property->options);
         }
 
-        if ($property->reference === PropertyMetadata::REFERENCE_ONE) {
+        if ($property->reference === PropertyMetadata::REFERENCE_ONE && $property->target) {
             $target = $property->target;
             $identifier = $this->manager->getMetadataFor($target)->getIdentifier($value);
 
             return "\$manager->find('$target', '$identifier')";
         }
 
-        if ($property->reference === PropertyMetadata::REFERENCE_MANY) {
+        if ($property->reference === PropertyMetadata::REFERENCE_MANY && $property->target) {
             if (count($value) === 0) {
                 return '[]';
             }

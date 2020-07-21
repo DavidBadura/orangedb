@@ -18,7 +18,7 @@ class ClassMetadata extends MergeableClassMetadata
     public ?array $discriminatorMap = null;
     public ?string $discriminatorMapCallback = null;
 
-    public function getIdentifier(object $object)
+    public function getIdentifier(object $object): string
     {
         if (!$this->identifier) {
             throw new DocumentMetadataException(sprintf('missing identifier on class %s', $this->name));

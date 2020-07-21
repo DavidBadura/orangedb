@@ -60,7 +60,7 @@ class DocumentManager
         return $this->repositoryFactory->getRepository($this, $this->loader, $class);
     }
 
-    public function getMetadataFor($class): ClassMetadata
+    public function getMetadataFor(string $class): ClassMetadata
     {
         if (!class_exists($class)) {
             throw new DocumentMetadataException(sprintf('"%s" not found', $class));

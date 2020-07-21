@@ -51,6 +51,9 @@ class DocumentHydrator
         return $object;
     }
 
+    /**
+     * @param mixed $value
+     */
     private function populateValue(object $object, $value, PropertyMetadata $property): void
     {
         if ($property->type) {
@@ -74,13 +77,13 @@ class DocumentHydrator
             return;
         }
 
-        if ($property->reference === PropertyMetadata::REFERENCE_ONE) {
+        if ($property->reference === PropertyMetadata::REFERENCE_ONE && $property->target) {
             $property->setValue($object, $this->manager->find($property->target, $value));
 
             return;
         }
 
-        if ($property->reference === PropertyMetadata::REFERENCE_MANY) {
+        if ($property->reference === PropertyMetadata::REFERENCE_MANY && $property->target) {
             $result = [];
 
             foreach ($value as $k => $v) {
@@ -92,7 +95,7 @@ class DocumentHydrator
             return;
         }
 
-        if ($property->embed === PropertyMetadata::EMBED_ONE) {
+        if ($property->embed === PropertyMetadata::EMBED_ONE && $property->target) {
             if ($property->mapping) {
                 $value = $this->mapping($value, $property->mapping);
             }
@@ -102,7 +105,7 @@ class DocumentHydrator
             return;
         }
 
-        if ($property->embed === PropertyMetadata::EMBED_MANY) {
+        if ($property->embed === PropertyMetadata::EMBED_MANY && $property->target) {
             $result = [];
 
             foreach ($value as $k => $v) {
@@ -126,7 +129,15 @@ class DocumentHydrator
             $callback = $metadata->discriminatorMapCallback;
             $discriminatorClass = $class::$callback($type);
         } else {
+            if (!is_array($metadata->discriminatorMap) || !array_key_exists($type, $metadata->discriminatorMap)) {
+                throw new \RuntimeException();
+            }
+
             $discriminatorClass = $metadata->discriminatorMap[$type];
+        }
+
+        if (!is_string($discriminatorClass)) {
+            throw new \RuntimeException();
         }
 
         if ($discriminatorClass !== $class && !in_array($class, class_parents($discriminatorClass))) {
@@ -136,6 +147,10 @@ class DocumentHydrator
         return $discriminatorClass;
     }
 
+    /**
+     * @param mixed $data
+     * @param mixed $map
+     */
     private function mapping($data, $map): array
     {
         if (!is_array($map)) {

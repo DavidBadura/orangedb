@@ -92,7 +92,7 @@ class PhpCachedLoader implements LoaderInterface
         $this->write($path, $content);
     }
 
-    private function write(string $path, $content)
+    private function write(string $path, string $content): void
     {
         $dir = dirname($path);
 

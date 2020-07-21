@@ -16,6 +16,12 @@ class YamlAdapter extends AbstractAdapter
 
     public function load(string $collection, string $identifier): array
     {
-        return Yaml::parse(file_get_contents($this->findFile($collection, $identifier)));
+        $content = file_get_contents($this->findFile($collection, $identifier));
+
+        if ($content === false) {
+            throw new \RuntimeException();
+        }
+
+        return Yaml::parse($content);
     }
 }
