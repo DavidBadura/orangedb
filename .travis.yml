@@ -8,7 +8,7 @@ cache:
     - vendor
 
 php:
-  - 7.2
+  - 7.4
 
 env:
     matrix:
@@ -17,7 +17,7 @@ env:
 
 install:
   - 'composer self-update'
-  - 'wget https://github.com/phpstan/phpstan/releases/download/0.9.2/phpstan.phar'
+  - 'wget https://github.com/phpstan/phpstan/releases/download/0.12.33/phpstan.phar'
   - 'php phpstan.phar --version'
   - 'wget http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar && mv php-cs-fixer-v2.phar php-cs-fixer.phar'
   - 'php php-cs-fixer.phar --version'

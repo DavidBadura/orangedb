@@ -13,41 +13,23 @@ class PropertyMetadata extends \Metadata\PropertyMetadata
     public const EMBED_ONE = 'one';
     public const EMBED_MANY = 'many';
 
-    /**
-     * @var string
-     */
-    public $type;
-
-    /**
-     * @var string
-     */
-    public $reference;
-
-    /**
-     * @var string
-     */
-    public $embed;
-
-    /**
-     * @var string
-     */
-    public $target;
+    public ?string $type = null;
+    public ?string $reference = null;
+    public ?string $embed = null;
+    public ?string $target = null;
 
     /**
      * @var array|string
      */
     public $mapping;
 
-    /**
-     * @var array
-     */
-    public $options = [];
+    public array $options = [];
+    public bool $nullable = false;
 
     /**
-     * @var bool
+     * @param object $obj
+     * @param mixed $value
      */
-    public $nullable;
-
     public function setValue($obj, $value): void
     {
         $this->reflection->setValue($obj, $value);

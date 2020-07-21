@@ -11,37 +11,14 @@ use Metadata\MergeableInterface;
  */
 class ClassMetadata extends MergeableClassMetadata
 {
-    /**
-     * @var string
-     */
-    public $collection;
+    public ?string $collection = null;
+    public ?string $identifier = null;
+    public ?string $repository = null;
+    public ?string $discriminatorColumn = null;
+    public ?array $discriminatorMap = null;
+    public ?string $discriminatorMapCallback = null;
 
-    /**
-     * @var string|null
-     */
-    public $identifier;
-
-    /**
-     * @var string
-     */
-    public $repository;
-
-    /**
-     * @var string
-     */
-    public $discriminatorColumn;
-
-    /**
-     * @var array
-     */
-    public $discriminatorMap;
-
-    /**
-     * @var string
-     */
-    public $discriminatorMapCallback;
-
-    public function getIdentifier(object $object)
+    public function getIdentifier(object $object): string
     {
         if (!$this->identifier) {
             throw new DocumentMetadataException(sprintf('missing identifier on class %s', $this->name));

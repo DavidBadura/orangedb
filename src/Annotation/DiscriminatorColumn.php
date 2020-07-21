@@ -9,10 +9,7 @@ namespace DavidBadura\OrangeDb\Annotation;
  */
 class DiscriminatorColumn
 {
-    /**
-     * @var string
-     */
-    public $name;
+    public ?string $name;
 
     public function __construct(array $data)
     {

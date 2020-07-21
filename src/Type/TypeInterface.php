@@ -7,7 +7,15 @@ namespace DavidBadura\OrangeDb\Type;
  */
 interface TypeInterface
 {
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
     public function transformToPhp($value, array $options);
+
+    /**
+     * @param mixed $value
+     */
     public function transformToDump($value, array $options): string;
     public function getName(): string;
 }

@@ -11,15 +11,8 @@ use Doctrine\Common\Annotations\Annotation;
  */
 class DiscriminatorMap
 {
-    /**
-     * @var array
-     */
-    public $map;
-
-    /**
-     * @var string
-     */
-    public $callback;
+    public ?array $map;
+    public ?string $callback;
 
     public function __construct(array $data)
     {

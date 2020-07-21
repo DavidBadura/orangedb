@@ -18,7 +18,7 @@ class DateTimeType implements TypeInterface
             return 'null';
         }
 
-        $string = $value->format(\DateTime::ISO8601);
+        $string = $value->format(\DateTime::ATOM);
 
         return "new \DateTime('$string')";
     }

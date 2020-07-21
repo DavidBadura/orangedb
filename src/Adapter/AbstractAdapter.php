@@ -2,18 +2,22 @@
 
 namespace DavidBadura\OrangeDb\Adapter;
 
+use DavidBadura\OrangeDb\PathUtil;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use Webmozart\PathUtil\Path;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
-    protected $directory;
-    private $extension;
-    private $cache;
+    protected string $directory;
+    private string $extension;
+
+    /**
+     * @var array<string, string[]>
+     */
+    private array $cache;
 
     public function __construct(string $directory, string $extension)
     {
@@ -45,7 +49,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
     protected function findFile(string $collection, string $identifier): string
     {
-        $file = Path::join($this->getCollectionDirectory($collection), $identifier.'.'.$this->extension);
+        $file = PathUtil::join($this->getCollectionDirectory($collection), $identifier.'.'.$this->extension);
 
         if (!file_exists($file)) {
             throw new FileNotFoundException($file);
@@ -56,6 +60,6 @@ abstract class AbstractAdapter implements AdapterInterface
 
     protected function getCollectionDirectory(string $collection): string
     {
-        return Path::join($this->directory, strtolower($collection));
+        return PathUtil::join($this->directory, strtolower($collection));
     }
 }

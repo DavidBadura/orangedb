@@ -13,9 +13,9 @@ use Pinq\Traversable;
  */
 class DocumentRepository
 {
-    protected $manager;
-    private $metadata;
-    private $loader;
+    protected DocumentManager $manager;
+    private ClassMetadata $metadata;
+    private LoaderInterface $loader;
 
     public function __construct(DocumentManager $manager, ClassMetadata $metadata, LoaderInterface $loader)
     {

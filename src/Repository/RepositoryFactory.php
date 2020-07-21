@@ -14,7 +14,7 @@ class RepositoryFactory
     /**
      * @var DocumentRepository[]
      */
-    private $repositories = [];
+    private array $repositories = [];
 
     public function getRepository(
         DocumentManager $objectManager,

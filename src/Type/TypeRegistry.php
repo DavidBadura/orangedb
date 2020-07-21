@@ -10,7 +10,7 @@ class TypeRegistry
     /**
      * @var TypeInterface[]
      */
-    protected $types = [];
+    protected array $types = [];
 
     public function __construct(array $types = [])
     {
@@ -19,7 +19,7 @@ class TypeRegistry
         }
     }
 
-    public function addType(TypeInterface $type)
+    public function addType(TypeInterface $type): void
     {
         if (isset($this->types[$type->getName()])) {
             throw new TypeException(sprintf('type with the name "%s" exists already', $type->getName()));
@@ -47,7 +47,7 @@ class TypeRegistry
         return array_values($this->types);
     }
 
-    public static function createWithBuiltinTypes()
+    public static function createWithBuiltinTypes(): self
     {
         return new self([
             new StringType(),
