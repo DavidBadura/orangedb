@@ -38,6 +38,7 @@ class RepositoryFactory
         /* @var $metadata ClassMetadata */
         $metadata = $objectManager->getMetadataFor($class);
 
+        /** @var class-string $repositoryClassName */
         $repositoryClassName = $metadata->repository ?: DocumentRepository::class;
         $documentRepository = new $repositoryClassName($objectManager, $metadata, $loader);
 
