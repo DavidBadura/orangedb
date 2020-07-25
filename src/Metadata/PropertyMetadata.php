@@ -19,9 +19,9 @@ class PropertyMetadata extends \Metadata\PropertyMetadata
     public ?string $target = null;
 
     /**
-     * @var array|string
+     * @var mixed|array|string|null
      */
-    public $mapping;
+    public $mapping = null;
 
     public array $options = [];
     public bool $nullable = false;

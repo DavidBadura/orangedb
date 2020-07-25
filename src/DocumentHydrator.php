@@ -21,11 +21,12 @@ class DocumentHydrator
     public function hydrate(string $class, array $data): object
     {
         $metadata = $this->manager->getMetadataFor($class);
+        $discriminatorColumn = $metadata->discriminatorColumn;
 
-        if ($metadata->discriminatorColumn) {
+        if ($discriminatorColumn !== null) {
             $class = $this->findRealClass($metadata, $data);
             $metadata = $this->manager->getMetadataFor($class);
-            unset($data[$metadata->discriminatorColumn]);
+            unset($data[$discriminatorColumn]);
         }
 
         $object = $metadata->reflection->newInstanceWithoutConstructor();
@@ -123,7 +124,13 @@ class DocumentHydrator
     private function findRealClass(ClassMetadata $metadata, array $data): string
     {
         $class = $metadata->name;
-        $type = $data[$metadata->discriminatorColumn];
+        $discriminatorColumn = $metadata->discriminatorColumn;
+
+        if ($discriminatorColumn === null) {
+            throw new \RuntimeException();
+        }
+
+        $type = $data[$discriminatorColumn];
 
         if ($metadata->discriminatorMapCallback) {
             $callback = $metadata->discriminatorMapCallback;
