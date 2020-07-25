@@ -39,7 +39,12 @@ class RepositoryFactory
         $metadata = $objectManager->getMetadataFor($class);
 
         $repositoryClassName = $metadata->repository ?: DocumentRepository::class;
+        $documentRepository = new $repositoryClassName($objectManager, $metadata, $loader);
 
-        return new $repositoryClassName($objectManager, $metadata, $loader);
+        if (!$documentRepository instanceof DocumentRepository) {
+            throw new \RuntimeException();
+        }
+
+        return $documentRepository;
     }
 }
