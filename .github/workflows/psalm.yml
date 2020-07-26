@@ -45,4 +45,4 @@ jobs:
         run: "composer install --no-interaction --no-progress --no-suggest"
 
       - name: "psalm"
-        run: "vendor/bin/psalm --shepherd --stats"
+        run: "vendor/bin/psalm.phar --shepherd --stats"
