@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="user">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="name" type="xs:string"/>
+        <xs:element name="age" type="xs:integer"/>
+        <xs:element name="birthdate" type="xs:date"/>
+        <xs:element name="parent" type="xs:string"/>
+        <xs:element name="children" maxOccurs="unbounded" type="xs:string"/>
+        <xs:element name="pos">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="x" type="xs:integer"/>
+              <xs:element name="y" type="xs:integer"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="pos2">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="x" type="xs:integer"/>
+              <xs:element name="y" type="xs:integer"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="positions" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="x" type="xs:integer"/>
+              <xs:element name="y" type="xs:integer"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

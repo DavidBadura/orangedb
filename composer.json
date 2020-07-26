@@ -1,7 +1,7 @@
 {
     "name": "davidbadura/orangedb",
-    "description": "Readonly Filesystem Database | Object-File Mapping",
-    "keywords": ["database", "filesystem", "yaml", "json", "annotation"],
+    "description": "Readonly XML Filesystem Database | Object-File Mapping",
+    "keywords": ["database", "filesystem", "xml", "annotation"],
     "type": "library",
     "license": "MIT",
     "authors": [{
@@ -10,16 +10,18 @@
     }],
     "require": {
         "php": ">=7.4",
-        "symfony/yaml": "^3.4|^4.4|^5.0",
+        "ext-dom": "*",
         "symfony/finder": "^3.4|^4.4|^5.0",
-        "webmozart/json": "^1.2",
         "jms/metadata": "^1.5",
         "doctrine/annotations": "^1.7",
-        "timetoogo/pinq": "^3.3"
+        "timetoogo/pinq": "^3.3",
+        "symfony/string": "^5.1",
+        "davidbadura/xsd-builder": "dev-master"
     },
     "require-dev": {
         "symfony/var-dumper": "^3.4|^4.4|^5.0",
         "phpunit/phpunit": "^9.2.6",
+        "spatie/phpunit-snapshot-assertions": "^4.2",
         "symfony/filesystem": "^4.4|^5.0",
         "phpstan/phpstan": "^0.12.33",
         "psalm/phar": "^3.12"

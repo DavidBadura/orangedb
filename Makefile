@@ -10,6 +10,9 @@ phpunit:                                                                        
 coverage:                                                                       ## run phpunit tests with coverage
 	xdebug vendor/bin/phpunit --testdox -v --coverage-html coverage/ $(OPTIONS)
 
+snapshots:                                                                      ## update snapshots
+	vendor/bin/phpunit --testdox -v -d --update-snapshots $(OPTIONS)
+
 phpstan:                                                                        ## run phpstan static code analyser
 	vendor/bin/phpstan analyse
 

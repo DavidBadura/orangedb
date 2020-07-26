@@ -13,6 +13,7 @@ class PropertyMetadata extends \Metadata\PropertyMetadata
     public const EMBED_ONE = 'one';
     public const EMBED_MANY = 'many';
 
+    public ?string $fieldName = null;
     public ?string $type = null;
     public ?string $reference = null;
     public ?string $embed = null;

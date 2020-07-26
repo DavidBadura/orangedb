@@ -5,7 +5,7 @@ namespace DavidBadura\OrangeDb\Test\Fixture;
 use DavidBadura\OrangeDb\Annotation as DB;
 
 /**
- * @DB\Document(collection="building")
+ * @DB\Document(name="building", collection="buildings")
  */
 class Building
 {

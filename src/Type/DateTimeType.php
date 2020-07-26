@@ -27,4 +27,9 @@ class DateTimeType implements TypeInterface
     {
         return 'datetime';
     }
+
+    public function getXsdType(): string
+    {
+        return 'xs:date';
+    }
 }

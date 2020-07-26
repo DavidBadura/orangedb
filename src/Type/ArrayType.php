@@ -21,4 +21,9 @@ class ArrayType implements TypeInterface
     {
         return 'array';
     }
+
+    public function getXsdType(): string
+    {
+        return 'xs:string';
+    }
 }

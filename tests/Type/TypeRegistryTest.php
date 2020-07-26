@@ -40,6 +40,11 @@ class TypeRegistryTest extends TestCase
             {
                 return 'test';
             }
+
+            public function getXsdType(): string
+            {
+                return 'xs:string';
+            }
         };
 
         $registry->addType($type);

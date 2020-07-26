@@ -25,4 +25,9 @@ class StringType implements TypeInterface
     {
         return 'string';
     }
+
+    public function getXsdType(): string
+    {
+        return 'xs:string';
+    }
 }

@@ -13,12 +13,12 @@ class CachedDocumentManagerTest extends AbstractDocumentManagerTest
 {
     public function setUp(): void
     {
-        (new Filesystem())->remove(__DIR__.'/_cache');
+        (new Filesystem())->remove(__DIR__ . '/_cache');
     }
 
     public function tearDown(): void
     {
-        (new Filesystem())->remove(__DIR__.'/_cache');
+        (new Filesystem())->remove(__DIR__ . '/_cache');
     }
 
     public function testExtends()
@@ -54,8 +54,9 @@ class CachedDocumentManagerTest extends AbstractDocumentManagerTest
     protected function createDocumentManager(): DocumentManager
     {
         return new DocumentManager(
-            new YamlAdapter(__DIR__.'/_files/yaml'),
-            __DIR__.'/_cache'
+            __DIR__ . '/_files/demo.xml',
+            __DIR__ . '/Fixture',
+            __DIR__ . '/_cache'
         );
     }
 }
