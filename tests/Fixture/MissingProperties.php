@@ -5,7 +5,7 @@ namespace DavidBadura\OrangeDb\Test\Fixture;
 use DavidBadura\OrangeDb\Annotation\Document;
 
 /**
- * @Document(collection="building")
+ * @Document()
  */
 class MissingProperties
 {

@@ -25,4 +25,9 @@ class IntegerType implements TypeInterface
     {
         return 'int';
     }
+
+    public function getXsdType(): string
+    {
+        return 'xs:integer';
+    }
 }

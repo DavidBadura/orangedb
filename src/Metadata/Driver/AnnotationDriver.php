@@ -8,6 +8,7 @@ use DavidBadura\OrangeDb\Annotation\Document;
 use DavidBadura\OrangeDb\Annotation\EmbedMany;
 use DavidBadura\OrangeDb\Annotation\EmbedOne;
 use DavidBadura\OrangeDb\Annotation\Id;
+use DavidBadura\OrangeDb\Annotation\Name;
 use DavidBadura\OrangeDb\Annotation\ReferenceMany;
 use DavidBadura\OrangeDb\Annotation\ReferenceOne;
 use DavidBadura\OrangeDb\Annotation\Type;
@@ -16,22 +17,28 @@ use DavidBadura\OrangeDb\Metadata\PropertyMetadata;
 use DavidBadura\OrangeDb\Repository\DocumentRepository;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Metadata\Driver\DriverInterface;
+use Metadata\Driver\AdvancedDriverInterface;
 use ReflectionClass;
 use ReflectionProperty;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\String\Inflector\EnglishInflector;
 
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
-class AnnotationDriver implements DriverInterface
+class AnnotationDriver implements AdvancedDriverInterface
 {
+    private string $directory;
     private AnnotationReader $reader;
+    private EnglishInflector $inflector;
 
-    public function __construct()
+    public function __construct(string $directory)
     {
         AnnotationRegistry::registerLoader('class_exists');
 
+        $this->directory = $directory;
         $this->reader = new AnnotationReader();
+        $this->inflector = new EnglishInflector();
     }
 
     public function loadMetadataForClass(ReflectionClass $class): ClassMetadata
@@ -42,7 +49,8 @@ class AnnotationDriver implements DriverInterface
 
         foreach ($classAnnotations as $annotation) {
             if ($annotation instanceof Document) {
-                $classMetadata->collection = $annotation->collection ?: strtolower($class->getShortName());
+                $classMetadata->name = $annotation->name ?: strtolower($class->getShortName());
+                $classMetadata->collection = $annotation->collection ?: $this->inflector->pluralize($classMetadata->name)[0];
                 $classMetadata->repository = $annotation->repository ?: DocumentRepository::class;
 
                 continue;
@@ -89,6 +97,7 @@ class AnnotationDriver implements DriverInterface
     private function loadPropertyMetadata(ReflectionProperty $property): ?PropertyMetadata
     {
         $propertyMetadata = new PropertyMetadata($property->getDeclaringClass()->getName(), $property->getName());
+        $mapped = false;
 
         foreach ($this->reader->getPropertyAnnotations($property) as $propertyAnnotation) {
             if ($propertyAnnotation instanceof Type) {
@@ -96,21 +105,27 @@ class AnnotationDriver implements DriverInterface
                 $propertyMetadata->nullable = $propertyAnnotation->nullable;
                 $propertyMetadata->options = $propertyAnnotation->options;
 
-                return $propertyMetadata;
+                $mapped = true;
+
+                continue;
             }
 
             if ($propertyAnnotation instanceof ReferenceOne) {
                 $propertyMetadata->reference = PropertyMetadata::REFERENCE_ONE;
                 $propertyMetadata->target = $propertyAnnotation->target;
 
-                return $propertyMetadata;
+                $mapped = true;
+
+                continue;
             }
 
             if ($propertyAnnotation instanceof ReferenceMany) {
                 $propertyMetadata->reference = PropertyMetadata::REFERENCE_MANY;
                 $propertyMetadata->target = $propertyAnnotation->target;
 
-                return $propertyMetadata;
+                $mapped = true;
+
+                continue;
             }
 
             if ($propertyAnnotation instanceof EmbedOne) {
@@ -118,7 +133,9 @@ class AnnotationDriver implements DriverInterface
                 $propertyMetadata->target = $propertyAnnotation->target;
                 $propertyMetadata->mapping = $propertyAnnotation->mapping;
 
-                return $propertyMetadata;
+                $mapped = true;
+
+                continue;
             }
 
             if ($propertyAnnotation instanceof EmbedMany) {
@@ -126,10 +143,54 @@ class AnnotationDriver implements DriverInterface
                 $propertyMetadata->target = $propertyAnnotation->target;
                 $propertyMetadata->mapping = $propertyAnnotation->mapping;
 
-                return $propertyMetadata;
+                $mapped = true;
+
+                continue;
+            }
+
+            if ($propertyAnnotation instanceof Name) {
+                $propertyMetadata->fieldName = $propertyAnnotation->name;
+
+                $mapped = true;
+
+                continue;
             }
         }
 
-        return null;
+        return $mapped ? $propertyMetadata : null;
+    }
+
+    public function getAllClassNames(): array
+    {
+        $finder = new Finder();
+        $files = $finder->in($this->directory)->files()->name('*.php')->getIterator();
+
+        foreach ($files as $file) {
+            require_once $file->getPathname();
+        }
+
+        $declared = get_declared_classes();
+        $classes = [];
+
+        foreach ($declared as $className) {
+            $reflection = new ReflectionClass($className);
+            $sourceFile = $reflection->getFileName();
+
+            if (!$sourceFile || !str_starts_with($sourceFile, $this->directory)) {
+                continue;
+            }
+
+            $classAnnotations = $this->reader->getClassAnnotations($reflection);
+
+            foreach ($classAnnotations as $annotation) {
+                if ($annotation instanceof Document) {
+                    $classes[] = $className;
+
+                    continue 2;
+                }
+            }
+        }
+
+        return $classes;
     }
 }

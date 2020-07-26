@@ -13,7 +13,8 @@ class DocumentManagerTest extends AbstractDocumentManagerTest
     protected function createDocumentManager(): DocumentManager
     {
         return new DocumentManager(
-            new YamlAdapter(__DIR__.'/_files/yaml')
+            __DIR__ . '/_files/demo.xml',
+            __DIR__ . '/Fixture'
         );
     }
 }

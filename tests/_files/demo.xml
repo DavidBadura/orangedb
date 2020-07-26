@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<library>
+    <book id="1314">
+        <title>Test</title>
+        <author>Sina</author>
+        <author>David</author>
+        <genre>action</genre>
+    </book>
+
+    <author id="sina">
+        <name>Sina</name>
+    </author>
+
+    <author id="sina">
+        <name>David</name>
+    </author>
+
+    <genre id="action">
+        <name>Action</name>
+    </genre>
+</library>
+

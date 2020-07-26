@@ -2,9 +2,7 @@
 
 namespace DavidBadura\OrangeDb;
 
-use DavidBadura\OrangeDb\Adapter\AdapterInterface;
 use DavidBadura\OrangeDb\Loader\LoaderInterface;
-use DavidBadura\OrangeDb\Loader\OnePhpCachedLoader;
 use DavidBadura\OrangeDb\Loader\PhpCachedLoader;
 use DavidBadura\OrangeDb\Loader\StandardLoader;
 use DavidBadura\OrangeDb\Metadata\ClassMetadata;
@@ -27,14 +25,15 @@ class DocumentManager
     private RepositoryFactory $repositoryFactory;
 
     public function __construct(
-        AdapterInterface $adapter,
-        string $cachePath = null
+        string $xmlPath,
+        string $objectDirectory,
+        ?string $cachePath = null
     ) {
         $this->identityMap = new IdentityMap();
         $this->typeRegistry = TypeRegistry::createWithBuiltinTypes();
-        $this->metadataFactory = new MetadataFactory(new AnnotationDriver());
+        $this->metadataFactory = new MetadataFactory(new AnnotationDriver($objectDirectory));
         $this->repositoryFactory = new RepositoryFactory();
-        $this->loader = new StandardLoader($this, $adapter);
+        $this->loader = new StandardLoader($this);
 
         if ($cachePath) {
             $this->loader = new PhpCachedLoader($this->loader, $this, $cachePath);
@@ -73,6 +72,11 @@ class DocumentManager
         }
 
         return $metadata;
+    }
+
+    public function getAllClasses(): array
+    {
+        return $this->metadataFactory->getAllClassNames();
     }
 
     public function getTypeRegisty(): TypeRegistry

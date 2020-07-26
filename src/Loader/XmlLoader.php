@@ -2,6 +2,7 @@
 
 namespace DavidBadura\OrangeDb\Loader;
 
+use DavidBadura\OrangeDb\Adapter\AdapterInterface;
 use DavidBadura\OrangeDb\DocumentHydrator;
 use DavidBadura\OrangeDb\DocumentManager;
 use DavidBadura\OrangeDb\DocumentMetadataException;
@@ -9,15 +10,18 @@ use DavidBadura\OrangeDb\DocumentMetadataException;
 /**
  * @author David Badura <d.a.badura@gmail.com>
  */
-class StandardLoader implements LoaderInterface
+class XmlLoader implements LoaderInterface
 {
     private DocumentManager $manager;
+    private string $path;
     private DocumentHydrator $hydrator;
 
     public function __construct(
-        DocumentManager $manager
+        DocumentManager $manager,
+        AdapterInterface $adapter
     ) {
         $this->manager = $manager;
+        $this->adapter = $adapter;
         $this->hydrator = new DocumentHydrator($this->manager);
     }
 
@@ -29,7 +33,7 @@ class StandardLoader implements LoaderInterface
             throw new DocumentMetadataException(sprintf('"%s" is not a document', $class));
         }
 
-        // todo
+        $data = $this->adapter->load($metadata->collection, $identifier);
 
         if ($metadata->identifier) {
             $data[$metadata->identifier] = $identifier;
@@ -46,8 +50,7 @@ class StandardLoader implements LoaderInterface
             throw new DocumentMetadataException('not a document');
         }
 
-        // todo
-
+        $identifiers = $this->adapter->findIdentifiers($metadata->collection);
         $result = [];
 
         foreach ($identifiers as $identifier) {

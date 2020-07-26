@@ -25,4 +25,9 @@ class FloatType implements TypeInterface
     {
         return 'float';
     }
+
+    public function getXsdType(): string
+    {
+        return 'xs:decimal';
+    }
 }

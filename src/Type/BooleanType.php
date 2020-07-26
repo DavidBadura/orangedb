@@ -25,4 +25,9 @@ class BooleanType implements TypeInterface
     {
         return 'bool';
     }
+
+    public function getXsdType(): string
+    {
+        return 'xs:boolean';
+    }
 }

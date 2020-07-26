@@ -18,4 +18,5 @@ interface TypeInterface
      */
     public function transformToDump($value, array $options): string;
     public function getName(): string;
+    public function getXsdType(): string;
 }

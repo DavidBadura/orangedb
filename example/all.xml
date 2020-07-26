@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="all.xsd">
+
+    <materials>
+        <material id="test">
+            <name>Foo</name>
+            <food>true</food>
+        </material>
+        <material id="test">
+            <name>Foo</name>
+            <food>true</food>
+        </material>
+    </materials>
+
+    <buildings>
+        <building id="foo">
+            <name>Test</name>
+            <constructionRounds>2</constructionRounds>
+        </building>
+    </buildings>
+
+
+
+</root>

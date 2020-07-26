@@ -1,7 +1,7 @@
 OrangeDb
 ========
 
-OrangeDB is a library about high performance transition of master data from yaml/json to objects.
+OrangeDB is a library about high performance transition of master data from xml to objects.
 
 [![Build Status](https://travis-ci.org/DavidBadura/orangedb.svg?branch=master)](https://travis-ci.org/DavidBadura/orangedb)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/DavidBadura/orangedb/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/DavidBadura/orangedb/?branch=master)
@@ -44,6 +44,7 @@ class Character {
     
     /**
      * @OD\ReferenceMany("Character")
+     * @OD\XmlName("child")
      */
     private $children;
     
@@ -66,18 +67,25 @@ class Character {
 
 ### Data
 
-```yaml
-# /var/cache/orangedb/character/sarah.yaml
+character/sarah.xml: 
 
-name: Sarah Connor
-age: 32
-children: ['john']
+```xml
+<?xml ?>
+<character>
+    <name>Sarah Connor</name>
+    <age>32</age>
+    <child>john</child>
+</character>
+```
 
-# /var/cache/orangedb/character/john.yaml
+character/john.xml: 
 
-name: John Connor
-age: 8
-children: []
+```xml
+<?xml ?>
+<character>
+    <name>John Connor</name>
+    <age>8</age>
+</character>
 ```
 
 ### Usage

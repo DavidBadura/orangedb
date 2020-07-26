@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="root">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="materials" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="material" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="name" type="xs:string"/>
+                    <xs:element name="food" type="xs:boolean"/>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+                <xs:key name="material-id">
+                  <xs:selector xpath="material"/>
+                  <xs:field xpath="@id"/>
+                </xs:key>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="missingpropertiess" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="missingproperties" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+                <xs:key name="missingproperties-id">
+                  <xs:selector xpath="missingproperties"/>
+                  <xs:field xpath="@id"/>
+                </xs:key>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="inheritance" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="inheritancecallbackbase" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="name" type="xs:string"/>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+                <xs:key name="inheritancecallbackbase-id">
+                  <xs:selector xpath="inheritancecallbackbase"/>
+                  <xs:field xpath="@id"/>
+                </xs:key>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="trait" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="traitfixture" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="name" type="xs:string"/>
+                    <xs:element name="age" type="xs:integer"/>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+                <xs:key name="traitfixture-id">
+                  <xs:selector xpath="traitfixture"/>
+                  <xs:field xpath="@id"/>
+                </xs:key>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="value_objects" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="value_object" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+                <xs:key name="value_object-id">
+                  <xs:selector xpath="value_object"/>
+                  <xs:field xpath="@id"/>
+                </xs:key>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="supers" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="super" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="name" type="xs:string"/>
+                    <xs:element name="test" type="xs:integer"/>
+                    <xs:element name="age" type="xs:integer"/>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+                <xs:key name="super-id">
+                  <xs:selector xpath="super"/>
+                  <xs:field xpath="@id"/>
+                </xs:key>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="middles" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="middle" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="name" type="xs:string"/>
+                    <xs:element name="test" type="xs:integer"/>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+                <xs:key name="middle-id">
+                  <xs:selector xpath="middle"/>
+                  <xs:field xpath="@id"/>
+                </xs:key>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="users" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="user" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="name" type="xs:string"/>
+                    <xs:element name="age" type="xs:integer"/>
+                    <xs:element name="birthdate" type="xs:date"/>
+                    <xs:element name="parent" type="xs:string"/>
+                    <xs:element name="children" maxOccurs="unbounded" type="xs:string"/>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+                <xs:key name="user-id">
+                  <xs:selector xpath="user"/>
+                  <xs:field xpath="@id"/>
+                </xs:key>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="buildings" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="building" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="name" type="xs:string"/>
+                    <xs:element name="constructionRounds" type="xs:integer"/>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+                <xs:key name="building-id">
+                  <xs:selector xpath="building"/>
+                  <xs:field xpath="@id"/>
+                </xs:key>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="inheritance" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="inheritancebase" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="name" type="xs:string"/>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+                <xs:key name="inheritancebase-id">
+                  <xs:selector xpath="inheritancebase"/>
+                  <xs:field xpath="@id"/>
+                </xs:key>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="embedded_inheritances" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="embedded_inheritance" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+                <xs:key name="embedded_inheritance-id">
+                  <xs:selector xpath="embedded_inheritance"/>
+                  <xs:field xpath="@id"/>
+                </xs:key>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="missingmappings" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="missingmapping" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+                <xs:key name="missingmapping-id">
+                  <xs:selector xpath="missingmapping"/>
+                  <xs:field xpath="@id"/>
+                </xs:key>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
