@@ -11,10 +11,10 @@ coverage:                                                                       
 	xdebug vendor/bin/phpunit --testdox -v --coverage-html coverage/ $(OPTIONS)
 
 phpstan:                                                                        ## run phpstan static code analyser
-	phpstan analyse -l max src
+	vendor/bin/phpstan analyse
 
 psalm:                                                                          ## run psalm static code analyser
-	psalm $(OPTIONS) --show-info=false
+	vendor/bin/psalm.phar $(OPTIONS) --show-info=false
 
 psalm-info:                                                                     ## run psalm static code analyser with info
 	psalm $(OPTIONS)

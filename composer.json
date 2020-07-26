@@ -20,7 +20,9 @@
     "require-dev": {
         "symfony/var-dumper": "^3.4|^4.4|^5.0",
         "phpunit/phpunit": "^9.2.6",
-        "symfony/filesystem": "^4.4|^5.0"
+        "symfony/filesystem": "^4.4|^5.0",
+        "phpstan/phpstan": "^0.12.33",
+        "psalm/phar": "^3.12"
     },
     "autoload": {
         "psr-4": {
