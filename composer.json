@@ -13,7 +13,7 @@
         "symfony/yaml": "^3.4|^4.4|^5.0",
         "symfony/finder": "^3.4|^4.4|^5.0",
         "webmozart/json": "^1.2",
-        "jms/metadata": "^1.5",
+        "jms/metadata": "^2.0",
         "doctrine/annotations": "^1.7",
         "timetoogo/pinq": "^3.3"
     },
